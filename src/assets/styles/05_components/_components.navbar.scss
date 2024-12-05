@@ -1,0 +1,74 @@
+.c-navbar {
+  grid-area: navbar;
+  position: relative;
+  padding: $space-24;
+  background-color: var(--navbar-bg);
+  color: white;
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  @include max-width(md) {
+      position: fixed;
+      padding: 2rem;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      transition: left var(--transition-bezier);
+      
+      &--open {
+        left: 0;
+      }
+  }
+}
+
+.c-navbar__title {
+  @include text('h-xl', var(--text-white), 600, var(--font-tertiary));
+  margin-bottom: $space-16;
+}
+
+.c-navbar__links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.c-navbar__link {
+  color: gray;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.c-navbar__link--active {
+  color: white;
+}
+
+.c-navbar__open-navbar {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  border-radius: var(--radius-full);
+
+  @include min-width(md) {
+    display: none;
+  }
+}
+
+.c-navbar__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: white;
+
+  @include min-width(md) {
+    display: none;
+  }
+}

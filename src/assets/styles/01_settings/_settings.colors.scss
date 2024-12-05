@@ -1,0 +1,45 @@
+:root {
+  // Definition (color)
+  --color-primary-0: rgba(0, 0, 0, 1);
+
+  --color-neutral-0: rgba(255, 255, 255, 1);
+  --color-neutral-1: rgb(17 20 25);
+  --color-neutral-2: #ededed;
+  --color-neutral-3: #dbdbdb;
+
+  --color-secondary: rgba(42, 192, 204, 1);
+  --color-secondary-2: rgb(39, 177, 187);
+
+  --color-tertiary: rgba(250, 187, 58, 1);
+  --color-tertiary-2: rgb(233, 174, 56);
+
+  // Assignation (components)
+
+  --home-card-bg: var(--color-neutral-0);
+
+  --navbar-bg: var(--color-neutral-1);
+
+  --footer-bg: var(--color-neutral-3);
+
+  --text-default: var(--color-primary-0);
+  --text-white: var(--color-neutral-0);
+
+  --input-border: var(--color-neutral-3);
+  --input-border-focus: var(--color-neutral-1);
+
+  --table-col-border: var(--color-neutral-3);
+  --table-card-bg: var(--color-neutral-2);
+
+  --button-text: var(--color-neutral-1);
+  --button-text-hover: var(--color-neutral-1);
+
+  .c-button--primary {
+    --button-bg: var(--color-tertiary);
+    --button-bg-hover: var(--color-tertiary-2);
+  }
+
+  .c-button--secondary {
+    --button-bg: var(--color-secondary);
+    --button-bg-hover: var(--color-secondary-2);
+  }
+}

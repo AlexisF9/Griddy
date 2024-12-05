@@ -1,0 +1,13 @@
+.c-button {
+  border: 0;
+  padding: .5rem 1rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  transition: background-color var(--transition-in-out), color var(--transition-in-out);
+
+  &:hover {
+    background-color: var(--button-bg-hover);
+    color: var(--button-text-hover); 
+  }
+}

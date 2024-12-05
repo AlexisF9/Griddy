@@ -1,0 +1,36 @@
+.c-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--color-neutral-2);
+  padding: 0 $space-16;
+
+  h1 {
+    position: absolute;
+    top: $space-24;
+    @include text('h-xl', var(--text-default), 600, var(--font-tertiary));
+  } 
+}
+
+.c-home__card {
+  background-color: var(--home-card-bg);
+  border: 1px solid var(--color-neutral-3);
+  padding: $space-24;
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+
+  @include max-width(md) {
+    padding: $space-16;
+  }
+}
+
+.c-home__card-content {
+  position: relative;
+}
+
+.c-home__form {
+  display: flex;
+  flex-direction: column;
+}

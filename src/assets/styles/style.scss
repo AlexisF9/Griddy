@@ -1,0 +1,55 @@
+// Settings
+@import
+"./01_settings/settings.breakpoints",
+"./01_settings/settings.colors",
+"./01_settings/settings.media-queries",
+"./01_settings/settings.spacing",
+"./01_settings/settings.fonts",
+"./01_settings/settings.transition",
+"./01_settings/settings.typography",
+"./01_settings/settings.radius"
+;
+
+// Generics
+@import
+"./02_generics/generics.box-sizing",
+"./02_generics/generics.reduced-motion",
+"./02_generics/generics.reset"
+;
+
+// Components
+@import
+"./05_components/components.navbar",
+"./05_components/components.button",
+"./05_components/components.footer",
+"./05_components/components.layout",
+"./05_components/components.home",
+"./05_components/components.dashboard",
+"./05_components/components.input",
+"./05_components/components.heading",
+"./05_components/components.text",
+"./05_components/components.table",
+"./05_components/components.tasks"
+;
+
+// Utilities
+@import
+"./06_utilities/utilities.colors",
+"./06_utilities/utilities.font-weight",
+"./06_utilities/utilities.hidden",
+"./06_utilities/utilities.margin",
+"./06_utilities/utilities.overflow",
+"./06_utilities/utilities.sr",
+"./06_utilities/utilities.transform",
+"./06_utilities/utilities.alignment"
+;
+
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+html, body, * {
+  margin: 0;
+  box-sizing: border-box;
+}

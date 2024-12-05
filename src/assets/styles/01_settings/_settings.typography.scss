@@ -1,0 +1,19 @@
+@mixin text($level: 'text-m', $color: var(--text-dark), $font-weight: 400, $font-family: var(--font-primary)) {
+  font-family: $font-family;
+  font-weight: $font-weight;
+  color: $color;
+
+  @if $level == 'h-xl' {
+    font-size: 2rem;
+  } @else if $level == 'h-l' {
+    font-size: 1.5rem;
+  } @else if $level == 'text-l' {
+    font-size: 1.2rem;
+  } @else if $level == 'text-m' {
+    font-size: 1rem;
+  } @else if $level == 'text-s' {
+    font-size: 0.8rem;
+  } @else {
+    @error "Unknown level #{$level}.";
+  }
+}

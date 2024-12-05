@@ -1,0 +1,12 @@
+.c-input {
+  border: 0;
+  padding: .5rem 1rem;
+  border-radius: var(--radius-sm);
+  outline: 0;
+  box-shadow: inset 0 0 0 1px var(--input-border);
+  transition: box-shadow var(--transition-in-out);
+
+  &:focus {
+    box-shadow: inset 0 0 0 1px var(--input-border-focus);
+  }
+}

@@ -1,0 +1,25 @@
+.c-table {
+  display: flex;
+  gap: $space-8;
+  overflow-x: auto;
+  margin: 0 calc($space-24 * -1);
+  padding: 0 $space-24;
+
+  @include max-width(md) {
+    margin: 0 calc($space-16 * -1);
+    padding: 0 $space-16;
+  }
+}
+
+.c-table__col {
+  border: 1px solid var(--table-col-border);
+  padding: $space-16;
+  border-radius: var(--radius-md);
+  min-width: 15rem;
+}
+
+.c-table__card {
+  padding: $space-8;
+  background-color: var(--table-card-bg);
+  border-radius: var(--radius-sm);
+}

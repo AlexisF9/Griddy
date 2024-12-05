@@ -1,0 +1,7 @@
+.c-h-xl {
+  @include text('h-xl', $font-weight: 600, $font-family: var(--font-secondary));
+}
+
+.c-h-l {
+  @include text('h-l', $font-weight: 600, $font-family: var(--font-secondary));
+}
