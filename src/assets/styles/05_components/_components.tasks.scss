@@ -1,3 +1,15 @@
 .c-tasks__intro {
   margin-bottom: $space-24;
 }
+
+.c-tasks__new-col form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-8;
+  margin-bottom: $space-8;
+  
+  div {
+    display: flex;
+    gap: $space-8;
+  }
+}
