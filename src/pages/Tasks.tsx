@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import TasksCol from "../components/TasksCol";
+import Sortable from "sortablejs";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
@@ -8,6 +10,26 @@ function Tasks() {
   useEffect(() => {
     getTasksList();
   }, []);
+
+  const table: HTMLUListElement | any = document.querySelector("#table");
+
+  if (table) {
+    new Sortable(table, {
+      animation: 150,
+      onSort: (e) => {
+        const arr = localStorage.getItem("tasks")
+          ? JSON.parse(localStorage.getItem("tasks") ?? "")
+          : [];
+        let numberOfDeletedElm = 1;
+        const elm = arr.splice(e.oldIndex, numberOfDeletedElm)[0];
+        numberOfDeletedElm = 0;
+        arr.splice(e.newIndex, numberOfDeletedElm, elm);
+
+        localStorage.setItem("tasks", JSON.stringify(arr));
+        getTasksList();
+      },
+    });
+  }
 
   const getTasksList = () => {
     setTasks(
@@ -59,6 +81,7 @@ function Tasks() {
     <div className="c-tasks">
       <div className="c-tasks__intro">
         <h2 className="c-h-l u-mb-16">Mes taches</h2>
+
         {newColumn ? (
           <div className="c-tasks__new-col">
             <form onSubmit={(e) => createColumn(e)}>
@@ -85,28 +108,23 @@ function Tasks() {
         )}
       </div>
 
-      <div className="c-table">
+      <ul className="c-table" id="table">
         {tasks && tasks.length > 0 ? (
-          tasks.map((el: any) => (
-            <div className="c-table__col" key={el.id}>
-              <p className="c-text-l u-mb-12">{el.name}</p>
-              <Button onClick={() => removeColumn(el.id)} label="Supprimer" />
-              <div>
-                {el.cards.length > 0 &&
-                  el.cards.map((card: any) => (
-                    <div className="c-table__card" key={card.id}>
-                      {card.label}
-                    </div>
-                  ))}
-              </div>
-            </div>
+          tasks.map((col: any) => (
+            <TasksCol
+              key={col.id}
+              id={col.id}
+              name={col.name}
+              cards={col.cards}
+              removeColumn={removeColumn}
+            />
           ))
         ) : (
           <p>
             Vous n'avez aucune tache. Crée une colonne pour ajouter une tâche.
           </p>
         )}
-      </div>
+      </ul>
     </div>
   );
 }

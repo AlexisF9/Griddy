@@ -18,6 +18,16 @@
   min-width: 15rem;
 }
 
+.c-table__col-remove {
+  color: var(--table-col-remove);
+}
+
+.c-table__new-task {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
 .c-table__card {
   padding: $space-8;
   background-color: var(--table-card-bg);
