@@ -60,7 +60,7 @@ function Tasks() {
         cards: [],
       };
 
-      const newTasks = [...oldTasks, createCol];
+      const newTasks = [createCol, ...oldTasks];
       localStorage.setItem("tasks", JSON.stringify(newTasks));
       setNewColumn(false);
       getTasksList();
@@ -112,8 +112,7 @@ function Tasks() {
       </div>
 
       <div className="c-table" id="table">
-        {tasks &&
-          tasks.length > 0 &&
+        {tasks && tasks.length > 0 ? (
           tasks.map((col: any) => (
             <TasksCol
               key={col.id}
@@ -123,7 +122,13 @@ function Tasks() {
               cards={col.cards}
               removeColumn={removeColumn}
             />
-          ))}
+          ))
+        ) : (
+          <p>
+            Vous n'avez pas de tâches. Crée une colonne pour ajouter une
+            nouvelle tâche.
+          </p>
+        )}
       </div>
     </div>
   );

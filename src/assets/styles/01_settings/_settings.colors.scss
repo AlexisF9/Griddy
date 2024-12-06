@@ -1,6 +1,7 @@
 :root {
   // Definition (color)
   --color-primary-0: rgba(0, 0, 0, 1);
+  --color-primary-0-30: rgba(0, 0, 0, .3);
 
   --color-neutral-0: rgba(255, 255, 255, 1);
   --color-neutral-1: rgb(17 20 25);
@@ -30,6 +31,9 @@
   --table-col-border: var(--color-neutral-3);
   --table-col-remove: var(--color-tertiary);
   --table-card-bg: var(--color-neutral-2);
+
+  --modal-overlay-bg: var(--color-primary-0-30);
+  --modal-bg: var(--color-neutral-0);
 
   --button-text: var(--color-neutral-1);
   --button-text-hover: var(--color-neutral-1);
