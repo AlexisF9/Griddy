@@ -1,8 +1,13 @@
+:root {
+  --vh: 1vh;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
   scroll-behavior: smooth;
+  font-size: 62.5%;
 }
 
 article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, section {

@@ -3,16 +3,18 @@
   font-weight: $font-weight;
   color: $color;
 
-  @if $level == 'h-xl' {
-    font-size: 2rem;
+  @if $level == 'h-2xl' {
+    font-size: 4rem;
+  } @else if $level == 'h-xl' {
+    font-size: 3rem;
   } @else if $level == 'h-l' {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
   } @else if $level == 'text-l' {
-    font-size: 1.2rem;
+    font-size: 2rem;
   } @else if $level == 'text-m' {
-    font-size: 1rem;
+    font-size: 1.6rem;
   } @else if $level == 'text-s' {
-    font-size: 0.8rem;
+    font-size: 1.4rem;
   } @else {
     @error "Unknown level #{$level}.";
   }

@@ -9,7 +9,7 @@
   h1 {
     position: absolute;
     top: $space-24;
-    @include text('h-xl', var(--text-default), 600, var(--font-tertiary));
+    @include text('h-2xl', var(--text-default), 600, var(--font-tertiary));
   } 
 }
 
