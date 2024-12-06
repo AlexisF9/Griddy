@@ -13,6 +13,7 @@
   
   @include max-width(md) {
       position: fixed;
+      z-index: 9;
       padding: 2rem;
       top: 0;
       left: -100%;
