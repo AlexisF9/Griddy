@@ -1,25 +1,53 @@
 .c-table {
   display: flex;
   gap: $space-8;
-  overflow-x: auto;
-  margin: 0 calc($space-24 * -1);
-  padding: 0 $space-24;
+  position: relative;
+
+  @include min-width(md) {
+    margin: 0 calc($space-24 * -1);
+    padding: 0 $space-24;
+    overflow-x: auto;
+  }
 
   @include max-width(md) {
-    margin: 0 calc($space-16 * -1);
-    padding: 0 $space-16;
+    flex-direction: column;
   }
 }
 
+.c-table__on-drag {
+  opacity: .5;
+}
+
 .c-table__col {
+  position: relative;
   border: 1px solid var(--table-col-border);
   padding: $space-16;
   border-radius: var(--radius-md);
   min-width: 15rem;
+
+  @include max-width(md) {
+    width: 100%;
+  }
 }
 
-.c-table__col-remove {
-  color: var(--table-col-remove);
+.c-table__col-intro {
+  display: flex;  
+  align-items: center;
+  gap: $space-8;
+}
+
+.c-table__card {
+  padding: $space-8;
+  background-color: var(--table-card-bg);
+  border-radius: var(--radius-sm);
+}
+
+.c-table__çol-action {
+  border-top: 1px solid black;
+  padding-top: $space-16;
+  display: flex;
+  flex-direction: column;
+  gap: $space-8;
 }
 
 .c-table__new-task {
@@ -28,8 +56,9 @@
   gap: $space-4;
 }
 
-.c-table__card {
-  padding: $space-8;
-  background-color: var(--table-card-bg);
-  border-radius: var(--radius-sm);
+.c-table__col-remove {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  color: var(--table-col-remove);
 }

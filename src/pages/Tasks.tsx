@@ -16,6 +16,9 @@ function Tasks() {
   if (table) {
     new Sortable(table, {
       animation: 150,
+      draggable: ".c-table__col",
+      handle: ".c-table__col-drag",
+      ghostClass: "c-table__on-drag",
       onSort: (e) => {
         const arr = localStorage.getItem("tasks")
           ? JSON.parse(localStorage.getItem("tasks") ?? "")
@@ -108,23 +111,20 @@ function Tasks() {
         )}
       </div>
 
-      <ul className="c-table" id="table">
-        {tasks && tasks.length > 0 ? (
+      <div className="c-table" id="table">
+        {tasks &&
+          tasks.length > 0 &&
           tasks.map((col: any) => (
             <TasksCol
               key={col.id}
+              draggable={tasks.length > 1 ? true : false}
               id={col.id}
               name={col.name}
               cards={col.cards}
               removeColumn={removeColumn}
             />
-          ))
-        ) : (
-          <p>
-            Vous n'avez aucune tache. Crée une colonne pour ajouter une tâche.
-          </p>
-        )}
-      </ul>
+          ))}
+      </div>
     </div>
   );
 }
