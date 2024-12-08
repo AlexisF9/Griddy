@@ -1,5 +1,6 @@
 .c-home {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
@@ -7,9 +8,8 @@
   padding: 0 $space-16;
 
   h1 {
-    position: absolute;
-    top: $space-24;
     @include text('h-2xl', var(--text-default), 600, var(--font-tertiary));
+    margin-bottom: $space-32;
   } 
 }
 

@@ -1,4 +1,7 @@
 .c-button {
+  display: block;
+  height: auto;
+  width: fit-content;
   border: 0;
   padding: 1rem;
   border-radius: var(--radius-sm);
@@ -10,4 +13,8 @@
     background-color: var(--button-bg-hover);
     color: var(--button-text-hover); 
   }
+}
+
+.c-button--full {
+  width: 100%;
 }

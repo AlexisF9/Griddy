@@ -1,21 +1,32 @@
+import { Link } from "react-router";
+
 interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement> {
   label: string;
   color?: string;
   url?: string;
+  fullWidth?: boolean;
 }
 
 function Button(props: ButtonProps) {
-  const { label, color = "primary", url = null, ...rest } = props;
+  const {
+    label,
+    fullWidth = false,
+    color = "primary",
+    url = null,
+    ...rest
+  } = props;
 
-  const classes = `c-button ${"c-button--" + color}`;
+  const classes = `c-button ${"c-button--" + color} ${
+    fullWidth && "c-button--full"
+  }`;
 
   return (
     <>
       {url ? (
-        <a href={url} className={classes} {...rest}>
+        <Link to={url} className={classes} {...rest}>
           {label}
-        </a>
+        </Link>
       ) : (
         <button className={classes} {...rest}>
           {label}

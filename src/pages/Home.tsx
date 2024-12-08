@@ -40,7 +40,12 @@ function Home() {
                   name="name"
                   required
                 />
-                <Button color="secondary" label="Commencer" type="submit" />
+                <Button
+                  fullWidth={true}
+                  color="secondary"
+                  label="Commencer"
+                  type="submit"
+                />
               </form>
             </div>
           </div>

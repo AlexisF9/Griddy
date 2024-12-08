@@ -66,7 +66,7 @@ function Navbar() {
           </nav>
         </div>
 
-        <Button label="Réinitialiser" onClick={handleDeco} />
+        <Button fullWidth={true} label="Réinitialiser" onClick={handleDeco} />
       </div>
     </>
   );

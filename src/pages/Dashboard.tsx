@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppStore } from "../App";
+import Button from "../components/Button";
 
 function Dashboard() {
   const [tasks, setTasks] = useState([]);
@@ -17,13 +18,22 @@ function Dashboard() {
 
   return (
     <div className="c-dashboard">
-      <h2 className="c-dashboard__title c-h-xl u-mb-8">
-        Bienvenue sur ton board <span>{user}</span>
+      <h2 className="c-dashboard__title c-h-xl u-mb-24">
+        Bienvenue sur ton board <span className="u-text-tertiary">{user}</span>
       </h2>
-      <h3 className="c-text-l u-mb-12">Statistiques :</h3>
-      <p className="c-text-m">Nombre de colonnes : {tasks.length}</p>
-      <p className="c-text-m">Nombre total de tâches : 0</p>
-      <p className="c-text-m">Tâche(s) aujourd'hui : 0</p>
+      {tasks.length > 0 ? (
+        <div>
+          <h3 className="c-text-l u-mb-12">Statistiques :</h3>
+          <p className="c-text-m">Nombre de colonnes : {tasks.length}</p>
+        </div>
+      ) : (
+        <div>
+          <p className="c-text-m u-mb-16">
+            Commencer à créé des tâches pour mettre à jour vos statistiques
+          </p>
+          <Button color="secondary" url="/tasks" label="Ajouter une tâche" />
+        </div>
+      )}
     </div>
   );
 }
