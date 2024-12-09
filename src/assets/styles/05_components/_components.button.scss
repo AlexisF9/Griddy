@@ -23,6 +23,11 @@
   &--link {
     color: var(--button-link-text);
   }
+
+  & svg {
+    width: $space-16;
+    height: $space-16;
+  }
 }
 
 .c-button--full {

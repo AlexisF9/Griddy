@@ -1,8 +1,9 @@
-import { GripVertical, Plus, Trash2 } from "lucide-react";
+import { GripVertical, Pen, Plus, Trash2 } from "lucide-react";
 import Modal from "./Modal";
 import Button from "./Button";
 import { useContext } from "react";
 import { DialogContext } from "../pages/Tasks";
+import Dropdown from "./Dropdown";
 
 function TasksCol({
   id,
@@ -26,12 +27,22 @@ function TasksCol({
   return (
     <div className="c-table__col">
       <div className="c-table__col-intro u-mb-12">
-        {draggable && (
-          <span className="c-table__col-drag">
-            <GripVertical />
-          </span>
-        )}
-        <p className="c-text-l">{name}</p>
+        <div className="c-table__col-intro-content">
+          {draggable && <GripVertical />}
+          <p className="c-text-l">{name}</p>
+        </div>
+        <Dropdown>
+          <div className="c-table__col-action">
+            <Button isLink={true} icon={<Pen />} label="Modifier" />
+            <Button
+              isLink={true}
+              icon={<Trash2 />}
+              color="tertiary"
+              label="Supprimer"
+              onClick={() => removeColumn(id)}
+            />
+          </div>
+        </Dropdown>
       </div>
       <div>
         {cards && cards.length > 0
@@ -42,11 +53,13 @@ function TasksCol({
             ))
           : null}
       </div>
-
-      <div className="c-table__çol-action">
+      <div className="c-table__new-task">
         <Modal>
-          <p>Créé une tâche dans {name}</p>
-          <form onSubmit={(e) => createNewTask(e)}>
+          <p className="c-h-l u-mb-16">Créé une tâche dans {name}</p>
+          <form
+            className="c-table__new-task-form"
+            onSubmit={(e) => createNewTask(e)}
+          >
             <input
               required
               className="c-input"
@@ -54,12 +67,18 @@ function TasksCol({
               id="label"
               placeholder="Nom de la tache"
             />
-            <Button color="secondary" type="submit" label="Ajouter une tâche" />
-            <Button
-              isLink={true}
-              label="Annuler"
-              onClick={() => setOpenDialog(false)}
-            />
+            <div>
+              <Button
+                color="secondary"
+                type="submit"
+                label="Ajouter une tâche"
+              />
+              <Button
+                isLink={true}
+                label="Annuler"
+                onClick={() => setOpenDialog(false)}
+              />
+            </div>
           </form>
         </Modal>
         <Button
@@ -67,13 +86,6 @@ function TasksCol({
           icon={<Plus />}
           label="Nouvelle tache"
           onClick={() => setOpenDialog(true)}
-        />
-        <Button
-          isLink={true}
-          icon={<Trash2 />}
-          color="tertiary"
-          label="Supprimer la colonne"
-          onClick={() => removeColumn(id)}
         />
       </div>
     </div>

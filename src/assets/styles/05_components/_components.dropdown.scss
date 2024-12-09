@@ -1,0 +1,25 @@
+.c-dropdown {
+  position: relative;
+  z-index: 9;
+}
+
+.c-dropdown__action {
+  display: flex;
+}
+
+.c-dropdown__content {
+  position: absolute;
+  background-color: var(--dropdown-bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-in-out);
+  padding: $space-10;
+  top: 0;
+  right: $space-24;
+  border-radius: var(--radius-sm);
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
