@@ -9,6 +9,7 @@
   --color-neutral-3: #dbdbdb;
 
   --color-secondary: rgba(42, 192, 204, 1);
+  --color-secondary-20: rgba(42, 192, 204, .2);
   --color-secondary-2: rgb(39, 177, 187);
 
   --color-tertiary: rgba(250, 187, 58, 1);
@@ -31,12 +32,13 @@
 
   --table-col-border: var(--color-neutral-3);
   --table-col-remove: var(--color-tertiary);
-  --table-card-bg: var(--color-neutral-2);
+  --table-card-bg: var(--color-secondary-20);
+  --table-card-border: var(--color-secondary);
 
   --modal-overlay-bg: var(--color-primary-0-30);
   --modal-bg: var(--color-neutral-0);
 
-  --dropdown-bg: var(--color-neutral-2);
+  --dropdown-bg: var(--color-neutral-1);
 
   .c-button--primary {
     --button-bg: var(--color-neutral-1);
@@ -60,5 +62,9 @@
     --button-text: var(--color-neutral-1);
     --button-text-hover: var(--color-neutral-1);
     --button-link-text: var(--color-tertiary);
+  }
+
+  .c-button--white {
+    --button-link-text: var(--text-white);
   }
 }

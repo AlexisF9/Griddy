@@ -24,7 +24,7 @@
     color: var(--button-link-text);
   }
 
-  & svg {
+  &:not(&--icon-only) svg {
     width: $space-16;
     height: $space-16;
   }

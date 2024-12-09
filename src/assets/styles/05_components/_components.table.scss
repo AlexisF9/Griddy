@@ -24,6 +24,7 @@
   padding: $space-16;
   border-radius: var(--radius-md);
   min-width: 30rem;
+  height: fit-content;
 
   @include max-width(md) {
     width: 100%;
@@ -54,10 +55,17 @@
   cursor: grab;
 }
 
+.c-table__cards {
+  display: flex;
+  flex-direction: column;
+  gap: $space-10;
+}
+
 .c-table__card {
   padding: $space-8;
   background-color: var(--table-card-bg);
   border-radius: var(--radius-sm);
+  border: 1px solid var(--table-card-border);
 }
 
 .c-table__col-action {
