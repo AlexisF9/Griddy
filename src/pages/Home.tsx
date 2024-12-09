@@ -27,7 +27,7 @@ function Home() {
             <div className="c-home__card-content">
               <h2 className="c-h-xl u-mb-8">Bienvenue</h2>
               <p className="c-text-l u-mb-24">
-                Entrer votre nom pour commencer à utiliser Griddy
+                Entrez votre nom pour commencer à utiliser Griddy
               </p>
               <form className="c-home__form" onSubmit={(e) => handleSubmit(e)}>
                 <label className="c-text-m u-mb-8" htmlFor="name">

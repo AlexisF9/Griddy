@@ -29,7 +29,7 @@ function Dashboard() {
       ) : (
         <div>
           <p className="c-text-m u-mb-16">
-            Commencer à créé des tâches pour mettre à jour vos statistiques
+            Créez des tâches pour mettre à jour vos statistiques
           </p>
           <Button color="secondary" url="/tasks" label="Ajouter une tâche" />
         </div>

@@ -1,4 +1,4 @@
-.c-table {
+.c-tasks-column {
   display: flex;
   gap: $space-8;
   position: relative;
@@ -14,11 +14,11 @@
   }
 }
 
-.c-table__on-drag {
+.c-tasks-column__on-drag {
   opacity: .5;
 }
 
-.c-table__col {
+.c-tasks-column__col {
   position: relative;
   border: 1px solid var(--table-col-border);
   padding: $space-16;
@@ -31,50 +31,50 @@
   }
 }
 
-.c-table__col-intro {
+.c-tasks-column__col-intro {
   display: flex;  
   align-items: center;
   justify-content: space-between;
   gap: $space-8;
 }
 
-.c-table__col-intro-content {
+.c-tasks-column__col-intro-content {
   display: flex;  
   align-items: center;
   gap: $space-8;
 }
 
-.c-table__col-edit-name {
+.c-tasks-column__col-edit-name {
   display: flex;
   align-items: center;
   gap: $space-8;
 }
 
-.c-table__col-drag {
+.c-tasks-column__col-drag {
   display: flex;
   cursor: grab;
 }
 
-.c-table__cards {
+.c-tasks-column__cards {
   display: flex;
   flex-direction: column;
   gap: $space-10;
 }
 
-.c-table__card {
+.c-tasks-column__card {
   padding: $space-8;
   background-color: var(--table-card-bg);
   border-radius: var(--radius-sm);
   border: 1px solid var(--table-card-border);
 }
 
-.c-table__col-action {
+.c-tasks-column__col-action {
   display: flex;
   flex-direction: column;
   gap: $space-10;
 }
 
-.c-table__new-task {
+.c-tasks-column__new-task {
   border-top: 1px solid black;
   padding-top: $space-16;
   display: flex;
@@ -82,7 +82,7 @@
   gap: $space-8;
 }
 
-.c-table__new-task-form {
+.c-tasks-column__new-task-form {
   display: flex;
   flex-direction: column;
 
@@ -93,7 +93,7 @@
   }
 }
 
-.c-table__col-remove {
+.c-tasks-column__col-remove {
   display: flex;
   align-items: center;
   gap: $space-4;

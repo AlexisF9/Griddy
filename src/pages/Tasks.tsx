@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import TasksColumn from "../components/TasksColumn";
 import Sortable from "sortablejs";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
@@ -65,8 +67,29 @@ function Tasks() {
       localStorage.setItem("tasks", JSON.stringify(newTasks));
       setNewColumn(false);
       getTasksList();
+      toast.success("Une nouvelle colonne à été ajouté", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     } else {
-      window.alert("Cette colonne existe déjà");
+      toast.error("Cette colonne existe déjà", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     }
   };
 
@@ -85,7 +108,7 @@ function Tasks() {
     <div className="c-tasks">
       <div className="c-tasks__intro">
         <h2 className="c-h-l u-mb-16">Mes taches</h2>
-
+        <ToastContainer />
         {newColumn ? (
           <div className="c-tasks__new-col">
             <form onSubmit={(e) => createColumn(e)}>
@@ -116,7 +139,7 @@ function Tasks() {
         )}
       </div>
 
-      <div className="c-table" id="table">
+      <div className="c-tasks-column" id="table">
         {tasks && tasks.length > 0 ? (
           tasks.map((col: any) => (
             <TasksColumn

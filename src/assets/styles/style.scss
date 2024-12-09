@@ -19,31 +19,31 @@
 
 // Components
 @import
-"./05_components/components.navbar",
-"./05_components/components.button",
-"./05_components/components.footer",
-"./05_components/components.layout",
-"./05_components/components.home",
-"./05_components/components.dashboard",
-"./05_components/components.input",
-"./05_components/components.heading",
-"./05_components/components.text",
-"./05_components/components.table",
-"./05_components/components.tasks",
-"./05_components/components.modal",
-"./05_components/components.dropdown"
+"./03_components/components.navbar",
+"./03_components/components.button",
+"./03_components/components.footer",
+"./03_components/components.layout",
+"./03_components/components.home",
+"./03_components/components.dashboard",
+"./03_components/components.input",
+"./03_components/components.heading",
+"./03_components/components.text",
+"./03_components/components.tasks-column",
+"./03_components/components.tasks",
+"./03_components/components.modal",
+"./03_components/components.dropdown"
 ;
 
 // Utilities
 @import
-"./06_utilities/utilities.colors",
-"./06_utilities/utilities.font-weight",
-"./06_utilities/utilities.hidden",
-"./06_utilities/utilities.margin",
-"./06_utilities/utilities.overflow",
-"./06_utilities/utilities.sr",
-"./06_utilities/utilities.transform",
-"./06_utilities/utilities.alignment"
+"./04_utilities/utilities.colors",
+"./04_utilities/utilities.font-weight",
+"./04_utilities/utilities.hidden",
+"./04_utilities/utilities.margin",
+"./04_utilities/utilities.overflow",
+"./04_utilities/utilities.sr",
+"./04_utilities/utilities.transform",
+"./04_utilities/utilities.alignment"
 ;
 
 

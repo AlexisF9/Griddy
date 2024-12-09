@@ -104,17 +104,17 @@ function TasksColumn({
         setOpenDialog,
       }}
     >
-      <div className="c-table__col">
-        <div className="c-table__col-intro u-mb-24">
-          <div className="c-table__col-intro-content">
+      <div className="c-tasks-column__col">
+        <div className="c-tasks-column__col-intro u-mb-24">
+          <div className="c-tasks-column__col-intro-content">
             {draggable && (
-              <span className="c-table__col-drag">
+              <span className="c-tasks-column__col-drag">
                 <GripVertical />
               </span>
             )}
             {editColName ? (
               <form
-                className="c-table__col-edit-name"
+                className="c-tasks-column__col-edit-name"
                 ref={changeNameRef}
                 onSubmit={(e) => handleEditColName(e, id)}
               >
@@ -132,7 +132,7 @@ function TasksColumn({
             )}
           </div>
           <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
-            <div className="c-table__col-action">
+            <div className="c-tasks-column__col-action">
               <Button
                 isLink={true}
                 icon={<Pen />}
@@ -152,18 +152,18 @@ function TasksColumn({
         </div>
 
         {cards && cards.length > 0 && (
-          <div className="c-table__cards u-mb-24">
+          <div className="c-tasks-column__cards u-mb-24">
             {cards.map((card: any) => (
               <TaskCard key={card.id} card={card} colId={id} />
             ))}
           </div>
         )}
 
-        <div className="c-table__new-task">
+        <div className="c-tasks-column__new-task">
           <Modal>
             <p className="c-h-l u-mb-16">Créé une tâche dans {name}</p>
             <form
-              className="c-table__new-task-form"
+              className="c-tasks-column__new-task-form"
               onSubmit={(e) => createNewTask(e, id)}
             >
               <input
