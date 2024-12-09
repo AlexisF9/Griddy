@@ -1,4 +1,4 @@
-import { Pen, Trash2 } from "lucide-react";
+import { Eye, Pen, Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import { TasksContext } from "../pages/Tasks";
@@ -39,23 +39,26 @@ function TaskCard({
       <div className="c-task-card">
         <div className="c-task-card__intro">
           <p>{card.label}</p>
-          <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
-            <div className="c-tasks-column__col-action">
-              <Button
-                isLink={true}
-                icon={<Pen />}
-                color="white"
-                label="Modifier"
-              />
-              <Button
-                isLink={true}
-                icon={<Trash2 />}
-                color="tertiary"
-                label="Supprimer"
-                onClick={() => removeTask(card.id, colId)}
-              />
-            </div>
-          </Dropdown>
+          <div className="c-task-card__actions">
+            <Eye />
+            <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
+              <div className="c-tasks-column__col-action">
+                <Button
+                  isLink={true}
+                  icon={<Pen />}
+                  color="white"
+                  label="Modifier"
+                />
+                <Button
+                  isLink={true}
+                  icon={<Trash2 />}
+                  color="tertiary"
+                  label="Supprimer"
+                  onClick={() => removeTask(card.id, colId)}
+                />
+              </div>
+            </Dropdown>
+          </div>
         </div>
       </div>
     </>

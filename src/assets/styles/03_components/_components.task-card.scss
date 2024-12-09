@@ -8,4 +8,11 @@
 .c-task-card__intro {
   display: flex;
   justify-content: space-between;
+  gap: $space-8;
+}
+
+.c-task-card__actions {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
 }

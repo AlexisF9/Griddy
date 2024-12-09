@@ -20,9 +20,9 @@ function Tasks() {
       new Sortable(table, {
         animation: 150,
         swapThreshold: 1,
-        draggable: ".c-table__col",
-        handle: ".c-table__col-drag",
-        ghostClass: "c-table__on-drag",
+        draggable: ".c-tasks-column__col",
+        handle: ".c-tasks-column__col-drag",
+        ghostClass: "c-tasks-column__on-drag",
         onEnd: (e) => {
           const arr = localStorage.getItem("tasks")
             ? JSON.parse(localStorage.getItem("tasks") ?? "")
