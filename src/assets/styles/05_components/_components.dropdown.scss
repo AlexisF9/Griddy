@@ -1,6 +1,6 @@
 .c-dropdown {
   position: relative;
-  z-index: 9;
+  z-index: 1;
 }
 
 .c-dropdown__action {
@@ -12,14 +12,16 @@
   background-color: var(--dropdown-bg);
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--transition-in-out);
+  transition: opacity var(--transition-in-out), transform var(--transition-in-out);
   padding: $space-10;
   top: 0;
   right: $space-24;
   border-radius: var(--radius-sm);
+  transform: translateX(10px);
 
   &.is-open {
     opacity: 1;
     pointer-events: all;
+    transform: translateX(0);
   }
 }

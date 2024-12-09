@@ -1,9 +1,16 @@
 import { EllipsisVertical } from "lucide-react";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-function Dropdown({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
+function Dropdown({
+  setOpen,
+  open,
+  children,
+}: {
+  setOpen: any;
+  open: boolean;
+  children: React.ReactNode;
+}) {
   const menuRef = React.useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

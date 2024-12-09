@@ -129,6 +129,7 @@ function Tasks() {
             tasks.map((col: any) => (
               <TasksCol
                 key={col.id}
+                getTasksList={getTasksList}
                 draggable={tasks.length > 1 ? true : false}
                 id={col.id}
                 name={col.name}

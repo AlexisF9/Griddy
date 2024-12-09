@@ -43,6 +43,17 @@
   gap: $space-8;
 }
 
+.c-table__col-edit-name {
+  display: flex;
+  align-items: center;
+  gap: $space-8;
+}
+
+.c-table__col-drag {
+  display: flex;
+  cursor: grab;
+}
+
 .c-table__card {
   padding: $space-8;
   background-color: var(--table-card-bg);
