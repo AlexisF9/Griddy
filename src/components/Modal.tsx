@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { createPortal } from "react-dom";
-import { DialogContext } from "./TasksCol";
 import { X } from "lucide-react";
+import { DialogContext } from "../pages/Tasks";
 
 function Modal({ children }: { children: React.ReactNode }) {
   const context: any = useContext(DialogContext);

@@ -1,9 +1,8 @@
 import { GripVertical, Plus, Trash2 } from "lucide-react";
-import { createContext, useState } from "react";
 import Modal from "./Modal";
 import Button from "./Button";
-
-export const DialogContext: any = createContext(null);
+import { useContext } from "react";
+import { DialogContext } from "../pages/Tasks";
 
 function TasksCol({
   id,
@@ -18,72 +17,66 @@ function TasksCol({
   draggable: boolean;
   removeColumn: (e: any) => void;
 }) {
-  const [openDialog, setOpenDialog] = useState(false);
+  const { setOpenDialog }: any = useContext(DialogContext);
 
   const createNewTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
   return (
-    <DialogContext.Provider
-      value={{
-        openDialog,
-        setOpenDialog,
-      }}
-    >
-      <div className="c-table__col">
-        <div className="c-table__col-intro u-mb-12">
-          {draggable && (
-            <span className="c-table__col-drag">
-              <GripVertical />
-            </span>
-          )}
-          <p className="c-text-l">{name}</p>
-        </div>
-        <div>
-          {cards && cards.length > 0
-            ? cards.map((card: any) => (
-                <div className="c-table__card" key={card.id}>
-                  {card.label}
-                </div>
-              ))
-            : null}
-        </div>
-
-        <div className="c-table__çol-action">
-          <Modal>
-            <p>Créé une tâche dans {name}</p>
-            <form onSubmit={(e) => createNewTask(e)}>
-              <input
-                required
-                className="c-input"
-                name="label"
-                id="label"
-                placeholder="Nom de la tache"
-              />
-              <Button
-                color="secondary"
-                type="submit"
-                label="Ajouter une tâche"
-              />
-              <Button label="Annuler" onClick={() => setOpenDialog(false)} />
-            </form>
-          </Modal>
-          <button
-            className="c-table__new-task"
-            onClick={() => setOpenDialog(true)}
-          >
-            <Plus /> Nouvelle tache
-          </button>
-          <button
-            className="c-table__col-remove"
-            onClick={() => removeColumn(id)}
-          >
-            <Trash2 /> Supprimer la colonne
-          </button>
-        </div>
+    <div className="c-table__col">
+      <div className="c-table__col-intro u-mb-12">
+        {draggable && (
+          <span className="c-table__col-drag">
+            <GripVertical />
+          </span>
+        )}
+        <p className="c-text-l">{name}</p>
       </div>
-    </DialogContext.Provider>
+      <div>
+        {cards && cards.length > 0
+          ? cards.map((card: any) => (
+              <div className="c-table__card" key={card.id}>
+                {card.label}
+              </div>
+            ))
+          : null}
+      </div>
+
+      <div className="c-table__çol-action">
+        <Modal>
+          <p>Créé une tâche dans {name}</p>
+          <form onSubmit={(e) => createNewTask(e)}>
+            <input
+              required
+              className="c-input"
+              name="label"
+              id="label"
+              placeholder="Nom de la tache"
+            />
+            <Button color="secondary" type="submit" label="Ajouter une tâche" />
+            <Button
+              isLink={true}
+              label="Annuler"
+              onClick={() => setOpenDialog(false)}
+            />
+          </form>
+        </Modal>
+        <Button
+          isLink={true}
+          icon={<Plus />}
+          label="Nouvelle tache"
+          onClick={() => setOpenDialog(true)}
+        />
+        <Button
+          isLink={true}
+          icon={<Trash2 />}
+          color="tertiary"
+          label="Supprimer la colonne"
+          onClick={() => removeColumn(id)}
+        />
+      </div>
+    </div>
   );
 }
 

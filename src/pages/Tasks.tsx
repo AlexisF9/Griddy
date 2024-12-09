@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Button from "../components/Button";
 import TasksCol from "../components/TasksCol";
 import Sortable from "sortablejs";
 
+export const DialogContext: any = createContext(null);
+
 function Tasks() {
+  const [openDialog, setOpenDialog] = useState(false);
   const [newColumn, setNewColumn] = useState(false);
   const [tasks, setTasks] = useState([]);
 
@@ -81,56 +84,67 @@ function Tasks() {
   };
 
   return (
-    <div className="c-tasks">
-      <div className="c-tasks__intro">
-        <h2 className="c-h-l u-mb-16">Mes taches</h2>
+    <DialogContext.Provider
+      value={{
+        openDialog,
+        setOpenDialog,
+      }}
+    >
+      <div className="c-tasks">
+        <div className="c-tasks__intro">
+          <h2 className="c-h-l u-mb-16">Mes taches</h2>
 
-        {newColumn ? (
-          <div className="c-tasks__new-col">
-            <form onSubmit={(e) => createColumn(e)}>
-              <label htmlFor="name">Nom de la colonne</label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                className="c-input"
-                required
-              />
-              <div>
-                <Button type="submit" color="secondary" label="Créer" />
-                <Button label="Annuler" onClick={() => setNewColumn(false)} />
-              </div>
-            </form>
-          </div>
-        ) : (
-          <Button
-            color="secondary"
-            label="Ajouter une colonne"
-            onClick={() => setNewColumn(true)}
-          />
-        )}
-      </div>
-
-      <div className="c-table" id="table">
-        {tasks && tasks.length > 0 ? (
-          tasks.map((col: any) => (
-            <TasksCol
-              key={col.id}
-              draggable={tasks.length > 1 ? true : false}
-              id={col.id}
-              name={col.name}
-              cards={col.cards}
-              removeColumn={removeColumn}
+          {newColumn ? (
+            <div className="c-tasks__new-col">
+              <form onSubmit={(e) => createColumn(e)}>
+                <label htmlFor="name">Nom de la colonne</label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  className="c-input"
+                  required
+                />
+                <div>
+                  <Button type="submit" color="secondary" label="Créer" />
+                  <Button
+                    isLink={true}
+                    label="Annuler"
+                    onClick={() => setNewColumn(false)}
+                  />
+                </div>
+              </form>
+            </div>
+          ) : (
+            <Button
+              color="secondary"
+              label="Ajouter une colonne"
+              onClick={() => setNewColumn(true)}
             />
-          ))
-        ) : (
-          <p>
-            Vous n'avez pas de tâches. Crée une colonne pour ajouter une
-            nouvelle tâche.
-          </p>
-        )}
+          )}
+        </div>
+
+        <div className="c-table" id="table">
+          {tasks && tasks.length > 0 ? (
+            tasks.map((col: any) => (
+              <TasksCol
+                key={col.id}
+                draggable={tasks.length > 1 ? true : false}
+                id={col.id}
+                name={col.name}
+                cards={col.cards}
+                removeColumn={removeColumn}
+              />
+            ))
+          ) : (
+            <p>
+              Vous n'avez pas de tâches. Crée une colonne pour ajouter une
+              nouvelle tâche.
+            </p>
+          )}
+        </div>
       </div>
-    </div>
+    </DialogContext.Provider>
   );
 }
 

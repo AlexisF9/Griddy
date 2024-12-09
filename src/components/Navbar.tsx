@@ -1,4 +1,4 @@
-import { House, List, Menu, X } from "lucide-react";
+import { House, List, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import { useAppStore } from "../App";
@@ -66,7 +66,13 @@ function Navbar() {
           </nav>
         </div>
 
-        <Button fullWidth={true} label="Réinitialiser" onClick={handleDeco} />
+        <Button
+          icon={<LogOut />}
+          color="tertiary"
+          fullWidth={true}
+          label="Réinitialiser"
+          onClick={handleDeco}
+        />
       </div>
     </>
   );

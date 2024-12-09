@@ -36,16 +36,27 @@
   --modal-overlay-bg: var(--color-primary-0-30);
   --modal-bg: var(--color-neutral-0);
 
-  --button-text: var(--color-neutral-1);
-  --button-text-hover: var(--color-neutral-1);
-
   .c-button--primary {
-    --button-bg: var(--color-tertiary);
-    --button-bg-hover: var(--color-tertiary-2);
+    --button-bg: var(--color-neutral-1);
+    --button-bg-hover: var(--color-neutral-0);
+    --button-text: var(--text-white);
+    --button-text-hover: var(--color-neutral-1);
+    --button-link-text: var(--color-neutral-1);
   }
 
   .c-button--secondary {
     --button-bg: var(--color-secondary);
     --button-bg-hover: var(--color-secondary-2);
+    --button-text: var(--color-neutral-1);
+    --button-text-hover: var(--color-neutral-1);
+    --button-link-text: var(--color-secondary);
+  }
+
+  .c-button--tertiary {
+    --button-bg: var(--color-tertiary);
+    --button-bg-hover: var(--color-tertiary-2);
+    --button-text: var(--color-neutral-1);
+    --button-text-hover: var(--color-neutral-1);
+    --button-link-text: var(--color-tertiary);
   }
 }
