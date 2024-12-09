@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Button from "../components/Button";
 import TasksColumn from "../components/TasksColumn";
 import Sortable from "sortablejs";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+export const TasksContext: any = createContext(null);
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
@@ -105,61 +107,66 @@ function Tasks() {
   };
 
   return (
-    <div className="c-tasks">
-      <div className="c-tasks__intro">
-        <h2 className="c-h-l u-mb-16">Mes taches</h2>
-        <ToastContainer />
-        {newColumn ? (
-          <div className="c-tasks__new-col">
-            <form onSubmit={(e) => createColumn(e)}>
-              <label htmlFor="name">Nom de la colonne</label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                className="c-input"
-                required
-              />
-              <div>
-                <Button type="submit" color="secondary" label="Créer" />
-                <Button
-                  isLink={true}
-                  label="Annuler"
-                  onClick={() => setNewColumn(false)}
+    <TasksContext.Provider
+      value={{
+        getTasksList,
+      }}
+    >
+      <div className="c-tasks">
+        <div className="c-tasks__intro">
+          <h2 className="c-h-l u-mb-16">Mes taches</h2>
+          <ToastContainer />
+          {newColumn ? (
+            <div className="c-tasks__new-col">
+              <form onSubmit={(e) => createColumn(e)}>
+                <label htmlFor="name">Nom de la colonne</label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  className="c-input"
+                  required
                 />
-              </div>
-            </form>
-          </div>
-        ) : (
-          <Button
-            color="secondary"
-            label="Ajouter une colonne"
-            onClick={() => setNewColumn(true)}
-          />
-        )}
-      </div>
-
-      <div className="c-tasks-column" id="table">
-        {tasks && tasks.length > 0 ? (
-          tasks.map((col: any) => (
-            <TasksColumn
-              key={col.id}
-              getTasksList={getTasksList}
-              draggable={tasks.length > 1 ? true : false}
-              id={col.id}
-              name={col.name}
-              cards={col.cards}
-              removeColumn={removeColumn}
+                <div>
+                  <Button type="submit" color="secondary" label="Créer" />
+                  <Button
+                    isLink={true}
+                    label="Annuler"
+                    onClick={() => setNewColumn(false)}
+                  />
+                </div>
+              </form>
+            </div>
+          ) : (
+            <Button
+              color="secondary"
+              label="Ajouter une colonne"
+              onClick={() => setNewColumn(true)}
             />
-          ))
-        ) : (
-          <p>
-            Vous n'avez pas de tâches. Crée une colonne pour ajouter une
-            nouvelle tâche.
-          </p>
-        )}
+          )}
+        </div>
+
+        <div className="c-tasks-column" id="table">
+          {tasks && tasks.length > 0 ? (
+            tasks.map((col: any) => (
+              <TasksColumn
+                key={col.id}
+                draggable={tasks.length > 1 ? true : false}
+                id={col.id}
+                name={col.name}
+                cards={col.cards}
+                removeColumn={removeColumn}
+              />
+            ))
+          ) : (
+            <p>
+              Vous n'avez pas de tâches. Crée une colonne pour ajouter une
+              nouvelle tâche.
+            </p>
+          )}
+        </div>
       </div>
-    </div>
+    </TasksContext.Provider>
   );
 }
 

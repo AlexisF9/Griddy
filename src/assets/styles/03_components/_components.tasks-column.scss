@@ -61,13 +61,6 @@
   gap: $space-10;
 }
 
-.c-tasks-column__card {
-  padding: $space-8;
-  background-color: var(--table-card-bg);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--table-card-border);
-}
-
 .c-tasks-column__col-action {
   display: flex;
   flex-direction: column;

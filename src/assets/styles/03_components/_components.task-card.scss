@@ -1,0 +1,11 @@
+.c-task-card {
+  padding: $space-8;
+  background-color: var(--table-card-bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--table-card-border);
+}
+
+.c-task-card__intro {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,9 +1,10 @@
 import { Check, GripVertical, Pen, Plus, Trash2 } from "lucide-react";
 import Modal from "./Modal";
 import Button from "./Button";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import TaskCard from "./TaskCard";
+import { TasksContext } from "../pages/Tasks";
 
 export const DialogContext: any = createContext(null);
 
@@ -13,19 +14,20 @@ function TasksColumn({
   cards,
   draggable,
   removeColumn,
-  getTasksList,
 }: {
   id: number;
   name: string;
   cards: { label: string }[];
   draggable: boolean;
   removeColumn: (e: any) => void;
-  getTasksList: () => void;
 }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [editColName, setEditColName] = useState(false);
   const [colName, setColName] = useState(name);
+
+  const { getTasksList }: { getTasksList: () => void } =
+    useContext(TasksContext);
 
   const changeNameRef = React.useRef<HTMLFormElement | null>(null);
 

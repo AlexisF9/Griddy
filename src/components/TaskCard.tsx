@@ -1,5 +1,8 @@
-import { Trash2 } from "lucide-react";
+import { Pen, Trash2 } from "lucide-react";
 import Button from "./Button";
+import { useContext, useState } from "react";
+import { TasksContext } from "../pages/Tasks";
+import Dropdown from "./Dropdown";
 
 function TaskCard({
   card,
@@ -8,9 +11,11 @@ function TaskCard({
   card: { label: string; id: number };
   colId: number;
 }) {
-  const removeTask = (cardId: number, colId: number) => {
-    console.log(cardId, colId);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const { getTasksList }: { getTasksList: () => void } =
+    useContext(TasksContext);
 
+  const removeTask = (cardId: number, colId: number) => {
     const arr = localStorage.getItem("tasks")
       ? JSON.parse(localStorage.getItem("tasks") ?? "")
       : [];
@@ -25,17 +30,33 @@ function TaskCard({
     arr[colIndex].cards = [...col.cards];
 
     localStorage.setItem("tasks", JSON.stringify(arr));
+
+    getTasksList();
   };
 
   return (
     <>
-      <div className="c-table__card">
-        <p>{card.label}</p>
-        <Button
-          onClick={() => removeTask(card.id, colId)}
-          icon={<Trash2 />}
-          isLink={true}
-        />
+      <div className="c-task-card">
+        <div className="c-task-card__intro">
+          <p>{card.label}</p>
+          <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
+            <div className="c-tasks-column__col-action">
+              <Button
+                isLink={true}
+                icon={<Pen />}
+                color="white"
+                label="Modifier"
+              />
+              <Button
+                isLink={true}
+                icon={<Trash2 />}
+                color="tertiary"
+                label="Supprimer"
+                onClick={() => removeTask(card.id, colId)}
+              />
+            </div>
+          </Dropdown>
+        </div>
       </div>
     </>
   );

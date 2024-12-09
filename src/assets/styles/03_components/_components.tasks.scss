@@ -2,6 +2,10 @@
   margin-bottom: $space-24;
 }
 
+.c-tasks__new-col {
+  max-width: 50rem;
+}
+
 .c-tasks__new-col form {
   display: flex;
   flex-direction: column;
