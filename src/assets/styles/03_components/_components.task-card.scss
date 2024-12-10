@@ -4,6 +4,8 @@
   border-radius: var(--radius-sm);
   display: grid;
   grid-template-columns: 1fr $space-24;
+  position: relative;
+  z-index: 0;
 }
 
 .c-task-card__content {
@@ -11,8 +13,15 @@
   flex-direction: column;
   gap: $space-8;
   width: 100%;
+  cursor: pointer;
 }
 
 .c-task-card__actions {
   gap: $space-4;
+}
+
+.c-task-card__infos {
+  display: flex;
+  align-items: center;
+  gap: $space-8;
 }

@@ -6,6 +6,7 @@ import Dropdown from "./Dropdown";
 import TaskCard from "./TaskCard";
 import { TasksContext } from "../pages/Tasks";
 import Field from "./Field";
+import Select from "./Select";
 
 export const DialogContext: any = createContext(null);
 
@@ -62,6 +63,7 @@ function TasksColumn({
         label: data.get("task-label"),
         description: data.get("task-desc") ?? null,
         date: data.get("task-date") ?? null,
+        priority: data.get("task-priority"),
         id: Date.now(),
       };
 
@@ -124,7 +126,7 @@ function TasksColumn({
                 onSubmit={(e) => handleEditColName(e, id)}
               >
                 <input
-                  className="c-input"
+                  className="c-field__input"
                   name="col-name"
                   value={colName}
                   onChange={(e) => setColName(e.target.value)}
@@ -188,6 +190,18 @@ function TasksColumn({
                 name="task-date"
                 id="date"
                 type="date"
+              />
+              <Select
+                required={true}
+                options={[
+                  { label: "Faible", value: "low" },
+                  { label: "Normal", value: "normal", selected: true },
+                  { label: "Haute", value: "high" },
+                  { label: "Urgent", value: "top" },
+                ]}
+                label="Priorité"
+                id="priority"
+                name="task-priority"
               />
               <div className="c-tasks-column__new-task-action">
                 <p className="c-text-s u-mb-12">*Champs obligatoire</p>

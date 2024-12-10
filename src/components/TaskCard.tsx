@@ -3,14 +3,21 @@ import Button from "./Button";
 import { useContext, useState } from "react";
 import { TasksContext } from "../pages/Tasks";
 import Dropdown from "./Dropdown";
+import Priority from "./Priority";
 
-function TaskCard({
-  card,
-  colId,
-}: {
-  card: { label: string; id: number };
+interface taskProps {
+  card: {
+    label: string;
+    date?: string;
+    id: number;
+    description: string;
+    priority: "normal" | "low" | "high" | "top";
+  };
   colId: number;
-}) {
+}
+
+function TaskCard(props: taskProps) {
+  const { card, colId } = props;
   const [openDropdown, setOpenDropdown] = useState(false);
   const {
     setTaskInfo,
@@ -36,6 +43,20 @@ function TaskCard({
     getTasksList();
   };
 
+  const changeFormatDate = (date: string) => {
+    return date.toString().split("-").reverse().join("/");
+  };
+
+  const dateInfos = (date: string) => {
+    const today = new Date();
+    const dateFormated = new Date(date);
+    return dateFormated.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)
+      ? "today"
+      : dateFormated.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)
+      ? "past"
+      : "future";
+  };
+
   return (
     <>
       <div className="c-task-card">
@@ -50,6 +71,20 @@ function TaskCard({
           }
         >
           <p>{card.label}</p>
+          <div className="c-task-card__infos">
+            <Priority priority={card.priority} />
+            {card.date && (
+              <p
+                className={`c-text-s${
+                  dateInfos(card.date) === "past" ? " u-text-tertiary" : ""
+                }`}
+              >
+                {dateInfos(card.date) === "today"
+                  ? "Aujourd'hui"
+                  : changeFormatDate(card.date)}
+              </p>
+            )}
+          </div>
         </div>
         <div className="c-task-card__actions">
           <Dropdown setOpen={setOpenDropdown} open={openDropdown}>

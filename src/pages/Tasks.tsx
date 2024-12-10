@@ -5,6 +5,7 @@ import Sortable from "sortablejs";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { X } from "lucide-react";
+import Field from "../components/Field";
 
 export const TasksContext: any = createContext(null);
 
@@ -121,11 +122,26 @@ function Tasks() {
       const col: any = tasks.find(
         (el: { id: number }) => el.id === taskInfo.col
       );
-      return (
-        col.cards &&
-        col.cards.length > 0 &&
-        col.cards.find((el: { id: number }) => el.id === taskInfo.card)
-      );
+
+      if (col.cards && col.cards.length > 0) {
+        return (
+          col.cards &&
+          col.cards.length > 0 &&
+          col.cards.find((el: { id: number }) => el.id === taskInfo.card)
+        );
+      } else {
+        return setTaskInfo({
+          open: false,
+          col: null,
+          card: null,
+        });
+      }
+    } else {
+      return setTaskInfo({
+        open: false,
+        col: null,
+        card: null,
+      });
     }
   };
 
@@ -144,13 +160,11 @@ function Tasks() {
             {newColumn ? (
               <div className="c-tasks__new-col">
                 <form onSubmit={(e) => createColumn(e)}>
-                  <label htmlFor="name">Nom de la colonne</label>
-                  <input
+                  <Field
+                    required={true}
                     id="name"
-                    type="text"
                     name="name"
-                    className="c-input"
-                    required
+                    placeholder="Nom de la colonne"
                   />
                   <div>
                     <Button type="submit" color="secondary" label="Créer" />

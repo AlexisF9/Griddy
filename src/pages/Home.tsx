@@ -1,6 +1,7 @@
 import { Navigate } from "react-router";
 import Button from "../components/Button";
 import { useAppStore } from "../App";
+import Field from "../components/Field";
 
 function Home() {
   const { isAuth, toggleAuth, changeName } = useAppStore();
@@ -29,12 +30,11 @@ function Home() {
                 Entrez votre nom pour continuer
               </p>
               <form className="c-home__form" onSubmit={(e) => handleSubmit(e)}>
-                <input
-                  placeholder="Entrez votre nom"
-                  className="c-input u-mb-16"
-                  type="text"
+                <Field
                   name="name"
-                  required
+                  id="name"
+                  required={true}
+                  placeholder="Entrez votre nom"
                 />
                 <Button
                   fullWidth={true}

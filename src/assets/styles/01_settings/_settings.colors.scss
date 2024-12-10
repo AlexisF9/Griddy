@@ -13,7 +13,11 @@
   --color-secondary-2: rgb(39, 177, 187);
 
   --color-tertiary: rgba(250, 187, 58, 1);
+  --color-tertiary-30: rgba(250, 187, 58, .3);
   --color-tertiary-2: rgb(233, 174, 56);
+
+  --color-red: rgb(239, 73, 27);
+  --color-red-30: rgba(239, 73, 27, .3);
 
   // Assignation (components)
 
@@ -52,7 +56,6 @@
     --button-text-hover: var(--color-neutral-1);
     --button-link-text: var(--color-neutral-1);
   }
-
   .c-button--secondary {
     --button-bg: var(--color-secondary);
     --button-bg-hover: var(--color-secondary-2);
@@ -60,7 +63,6 @@
     --button-text-hover: var(--color-neutral-1);
     --button-link-text: var(--color-secondary);
   }
-
   .c-button--tertiary {
     --button-bg: var(--color-tertiary);
     --button-bg-hover: var(--color-tertiary-2);
@@ -68,8 +70,20 @@
     --button-text-hover: var(--color-neutral-1);
     --button-link-text: var(--color-tertiary);
   }
-
   .c-button--white {
     --button-link-text: var(--text-white);
+  }
+
+  .c-priority--normal {
+    --priority-bg: var(--color-secondary-30);
+  }
+  .c-priority--low {
+    --priority-bg: var(--color-neutral-3);
+  }
+  .c-priority--high {
+    --priority-bg: var(--color-tertiary-30);
+  }
+  .c-priority--top {
+    --priority-bg: var(--color-red-30);
   }
 }
