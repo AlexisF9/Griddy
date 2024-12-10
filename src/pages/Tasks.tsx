@@ -9,6 +9,15 @@ export const TasksContext: any = createContext(null);
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
+  const [taskInfo, setTaskInfo] = useState<{
+    open: boolean;
+    col: number | null;
+    card: number | null;
+  }>({
+    open: false,
+    col: null,
+    card: null,
+  });
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -106,13 +115,25 @@ function Tasks() {
     }
   };
 
+  const getTask = (colId: number, cardId: number) => {
+    if (tasks && tasks.length > 0) {
+      const col: any = tasks.find((el: { id: number }) => el.id === colId);
+      return (
+        col.cards &&
+        col.cards.length > 0 &&
+        col.cards.find((el: { id: number }) => el.id === cardId)
+      );
+    }
+  };
+
   return (
     <TasksContext.Provider
       value={{
         getTasksList,
+        setTaskInfo,
       }}
     >
-      <div className="c-tasks">
+      <div className={`c-tasks${taskInfo.open ? " c-tasks--open" : ""}`}>
         <div className="c-tasks__content">
           <div className="c-tasks__intro">
             <h2 className="c-h-l u-mb-16">Mes taches</h2>
@@ -167,8 +188,34 @@ function Tasks() {
             )}
           </div>
         </div>
+
         <div className="c-tasks__task-infos">
-          <p>cc</p>
+          <button
+            onClick={() =>
+              setTaskInfo({
+                open: false,
+                col: taskInfo.col,
+                card: taskInfo.card,
+              })
+            }
+          >
+            Close
+          </button>
+
+          {taskInfo.card && taskInfo.col ? (
+            <div>
+              {getTask(taskInfo.col, taskInfo.card) ? (
+                getTask(taskInfo.col, taskInfo.card).label
+              ) : (
+                <p>
+                  Un problème est survenu. Nous n'avons pas pu afficher votre
+                  tâche.
+                </p>
+              )}
+            </div>
+          ) : (
+            <p>Une erreur est survenu</p>
+          )}
         </div>
       </div>
     </TasksContext.Provider>

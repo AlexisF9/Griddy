@@ -1,4 +1,4 @@
-import { Eye, Pen, Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import { TasksContext } from "../pages/Tasks";
@@ -12,7 +12,10 @@ function TaskCard({
   colId: number;
 }) {
   const [openDropdown, setOpenDropdown] = useState(false);
-  const { getTasksList }: { getTasksList: () => void } =
+  const {
+    setTaskInfo,
+    getTasksList,
+  }: { getTasksList: () => void; setTaskInfo: ({}) => void } =
     useContext(TasksContext);
 
   const removeTask = (cardId: number, colId: number) => {
@@ -40,14 +43,20 @@ function TaskCard({
         <div className="c-task-card__intro">
           <p>{card.label}</p>
           <div className="c-task-card__actions">
-            <Eye />
             <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
               <div className="c-tasks-column__col-action">
                 <Button
                   isLink={true}
-                  icon={<Pen />}
+                  icon={<Eye />}
                   color="white"
-                  label="Modifier"
+                  label="Vois plus"
+                  onClick={() =>
+                    setTaskInfo({
+                      open: true,
+                      col: colId,
+                      card: card.id,
+                    })
+                  }
                 />
                 <Button
                   isLink={true}
