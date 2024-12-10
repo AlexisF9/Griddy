@@ -4,6 +4,7 @@ import TasksColumn from "../components/TasksColumn";
 import Sortable from "sortablejs";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { X } from "lucide-react";
 
 export const TasksContext: any = createContext(null);
 
@@ -115,13 +116,15 @@ function Tasks() {
     }
   };
 
-  const getTask = (colId: number, cardId: number) => {
-    if (tasks && tasks.length > 0) {
-      const col: any = tasks.find((el: { id: number }) => el.id === colId);
+  const getTask = () => {
+    if (tasks && tasks.length > 0 && taskInfo.col && taskInfo.card) {
+      const col: any = tasks.find(
+        (el: { id: number }) => el.id === taskInfo.col
+      );
       return (
         col.cards &&
         col.cards.length > 0 &&
-        col.cards.find((el: { id: number }) => el.id === cardId)
+        col.cards.find((el: { id: number }) => el.id === taskInfo.card)
       );
     }
   };
@@ -190,7 +193,9 @@ function Tasks() {
         </div>
 
         <div className="c-tasks__task-infos">
-          <button
+          <Button
+            icon={<X />}
+            isLink={true}
             onClick={() =>
               setTaskInfo({
                 open: false,
@@ -198,14 +203,15 @@ function Tasks() {
                 card: taskInfo.card,
               })
             }
-          >
-            Close
-          </button>
+          />
 
           {taskInfo.card && taskInfo.col ? (
             <div>
-              {getTask(taskInfo.col, taskInfo.card) ? (
-                getTask(taskInfo.col, taskInfo.card).label
+              {getTask() ? (
+                <div>
+                  <p>{getTask().label}</p>
+                  {getTask().description && <p>{getTask().description}</p>}
+                </div>
               ) : (
                 <p>
                   Un problème est survenu. Nous n'avons pas pu afficher votre

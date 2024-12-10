@@ -5,6 +5,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import TaskCard from "./TaskCard";
 import { TasksContext } from "../pages/Tasks";
+import Field from "./Field";
 
 export const DialogContext: any = createContext(null);
 
@@ -59,6 +60,8 @@ function TasksColumn({
     ) {
       const newTask = {
         label: data.get("task-label"),
+        description: data.get("task-desc") ?? null,
+        date: data.get("task-date") ?? null,
         id: Date.now(),
       };
 
@@ -168,12 +171,23 @@ function TasksColumn({
               className="c-tasks-column__new-task-form"
               onSubmit={(e) => createNewTask(e, id)}
             >
-              <input
-                required
-                className="c-input"
+              <Field
+                label="Nom de la tâche"
+                required={true}
                 name="task-label"
                 id="label"
-                placeholder="Nom de la tache"
+              />
+              <Field
+                label="Déscription"
+                name="task-desc"
+                id="desc"
+                isTextarea={true}
+              />
+              <Field
+                label="Date d'échéance"
+                name="task-date"
+                id="date"
+                type="date"
               />
               <div>
                 <Button

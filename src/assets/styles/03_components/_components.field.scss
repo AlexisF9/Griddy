@@ -1,4 +1,10 @@
-.c-input {
+.c-field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-10;
+}
+
+.c-field__input {
   border: 0;
   padding: 1rem;
   border-radius: var(--radius-sm);
