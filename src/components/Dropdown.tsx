@@ -1,4 +1,4 @@
-import { EllipsisVertical } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import React from "react";
 import { useEffect } from "react";
 
@@ -28,7 +28,7 @@ function Dropdown({
     <>
       <div className="c-dropdown" ref={menuRef}>
         <button className="c-dropdown__action" onClick={() => setOpen(!open)}>
-          <EllipsisVertical />
+          <Ellipsis />
         </button>
         <div className={`c-dropdown__content ${open && "is-open"}`}>
           {children}

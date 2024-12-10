@@ -9,7 +9,6 @@
 
   h1 {
     @include text('h-2xl', var(--text-default), 600, var(--font-tertiary));
-    margin-bottom: $space-32;
   } 
 }
 
@@ -20,6 +19,8 @@
   border-radius: var(--radius-md);
   position: relative;
   overflow: hidden;
+  text-align: center;
+  box-shadow: 0px 0px 3rem 1rem var(--home-card-shadow);
 
   @include max-width(md) {
     padding: $space-16;

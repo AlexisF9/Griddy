@@ -1,3 +1,20 @@
+.c-tasks {
+  display: grid;
+  grid-template-columns: 1fr 0px;
+  height: 100%;
+  width: 100%;
+  transition: grid-template-columns var(--transition-in-out);
+
+  &--open {
+    grid-template-columns: 1fr 30rem;
+  }
+}
+
+.c-tasks__content {
+  overflow: hidden;
+  padding: $space-24;
+}
+
 .c-tasks__intro {
   margin-bottom: $space-24;
 }
@@ -16,4 +33,9 @@
     display: flex;
     gap: $space-8;
   }
+}
+
+.c-tasks__task-infos {
+  background-color: silver;
+  padding: $space-16;
 }

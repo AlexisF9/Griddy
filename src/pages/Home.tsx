@@ -22,19 +22,15 @@ function Home() {
         <Navigate to="/dashboard" replace />
       ) : (
         <div className="c-home">
-          <h1>Griddy</h1>
           <div className="c-home__card">
             <div className="c-home__card-content">
-              <h2 className="c-h-xl u-mb-8">Bienvenue</h2>
-              <p className="c-text-l u-mb-24">
-                Entrez votre nom pour commencer à utiliser Griddy
+              <h1 className="u-mb-16">Griddy</h1>
+              <p className="c-text-l u-mb-32">
+                Entrez votre nom pour continuer
               </p>
               <form className="c-home__form" onSubmit={(e) => handleSubmit(e)}>
-                <label className="c-text-m u-mb-8" htmlFor="name">
-                  Quel est ton prénom ?
-                </label>
                 <input
-                  id="name"
+                  placeholder="Entrez votre nom"
                   className="c-input u-mb-16"
                   type="text"
                   name="name"

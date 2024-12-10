@@ -113,57 +113,62 @@ function Tasks() {
       }}
     >
       <div className="c-tasks">
-        <div className="c-tasks__intro">
-          <h2 className="c-h-l u-mb-16">Mes taches</h2>
-          <ToastContainer />
-          {newColumn ? (
-            <div className="c-tasks__new-col">
-              <form onSubmit={(e) => createColumn(e)}>
-                <label htmlFor="name">Nom de la colonne</label>
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  className="c-input"
-                  required
-                />
-                <div>
-                  <Button type="submit" color="secondary" label="Créer" />
-                  <Button
-                    isLink={true}
-                    label="Annuler"
-                    onClick={() => setNewColumn(false)}
+        <div className="c-tasks__content">
+          <div className="c-tasks__intro">
+            <h2 className="c-h-l u-mb-16">Mes taches</h2>
+            <ToastContainer />
+            {newColumn ? (
+              <div className="c-tasks__new-col">
+                <form onSubmit={(e) => createColumn(e)}>
+                  <label htmlFor="name">Nom de la colonne</label>
+                  <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    className="c-input"
+                    required
                   />
-                </div>
-              </form>
-            </div>
-          ) : (
-            <Button
-              color="secondary"
-              label="Ajouter une colonne"
-              onClick={() => setNewColumn(true)}
-            />
-          )}
-        </div>
-
-        <div className="c-tasks-column" id="table">
-          {tasks && tasks.length > 0 ? (
-            tasks.map((col: any) => (
-              <TasksColumn
-                key={col.id}
-                draggable={tasks.length > 1 ? true : false}
-                id={col.id}
-                name={col.name}
-                cards={col.cards}
-                removeColumn={removeColumn}
+                  <div>
+                    <Button type="submit" color="secondary" label="Créer" />
+                    <Button
+                      isLink={true}
+                      label="Annuler"
+                      onClick={() => setNewColumn(false)}
+                    />
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <Button
+                color="secondary"
+                label="Ajouter une colonne"
+                onClick={() => setNewColumn(true)}
               />
-            ))
-          ) : (
-            <p>
-              Vous n'avez pas de tâches. Crée une colonne pour ajouter une
-              nouvelle tâche.
-            </p>
-          )}
+            )}
+          </div>
+
+          <div className="c-tasks-column" id="table">
+            {tasks && tasks.length > 0 ? (
+              tasks.map((col: any) => (
+                <TasksColumn
+                  key={col.id}
+                  draggable={tasks.length > 1 ? true : false}
+                  id={col.id}
+                  name={col.name}
+                  cards={col.cards}
+                  removeColumn={removeColumn}
+                />
+              ))
+            ) : (
+              <p>
+                Vous n'avez pas de tâches. Crée une colonne pour ajouter une
+                nouvelle tâche.
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="c-tasks__task-infos">
+          <p>cc</p>
         </div>
       </div>
     </TasksContext.Provider>
