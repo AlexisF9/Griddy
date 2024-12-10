@@ -35,7 +35,10 @@ function Navbar() {
 
   return (
     <>
-      <button onClick={handleOpen} className="c-navbar__open-navbar">
+      <button
+        onClick={handleOpen}
+        className="c-navbar__open-navbar u-text-default"
+      >
         <Menu />
       </button>
       <div className={`c-navbar ${open && "c-navbar--open"}`}>

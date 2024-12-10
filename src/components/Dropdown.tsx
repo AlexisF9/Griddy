@@ -27,7 +27,10 @@ function Dropdown({
   return (
     <>
       <div className="c-dropdown" ref={menuRef}>
-        <button className="c-dropdown__action" onClick={() => setOpen(!open)}>
+        <button
+          className="c-dropdown__action u-text-default"
+          onClick={() => setOpen(!open)}
+        >
           <Ellipsis />
         </button>
         <div className={`c-dropdown__content ${open && "is-open"}`}>
