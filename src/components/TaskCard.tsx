@@ -1,4 +1,4 @@
-import { Eye, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import { TasksContext } from "../pages/Tasks";
@@ -33,41 +33,36 @@ function TaskCard({
     arr[colIndex].cards = [...col.cards];
 
     localStorage.setItem("tasks", JSON.stringify(arr));
-
     getTasksList();
   };
 
   return (
     <>
       <div className="c-task-card">
-        <div className="c-task-card__intro">
+        <div
+          className="c-task-card__content"
+          onClick={() =>
+            setTaskInfo({
+              open: true,
+              col: colId,
+              card: card.id,
+            })
+          }
+        >
           <p>{card.label}</p>
-          <div className="c-task-card__actions">
-            <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
-              <div className="c-tasks-column__col-action">
-                <Button
-                  isLink={true}
-                  icon={<Eye />}
-                  color="white"
-                  label="Vois plus"
-                  onClick={() =>
-                    setTaskInfo({
-                      open: true,
-                      col: colId,
-                      card: card.id,
-                    })
-                  }
-                />
-                <Button
-                  isLink={true}
-                  icon={<Trash2 />}
-                  color="tertiary"
-                  label="Supprimer"
-                  onClick={() => removeTask(card.id, colId)}
-                />
-              </div>
-            </Dropdown>
-          </div>
+        </div>
+        <div className="c-task-card__actions">
+          <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
+            <div className="c-tasks-column__col-action">
+              <Button
+                isLink={true}
+                icon={<Trash2 />}
+                color="tertiary"
+                label="Supprimer"
+                onClick={() => removeTask(card.id, colId)}
+              />
+            </div>
+          </Dropdown>
         </div>
       </div>
     </>

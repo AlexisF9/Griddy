@@ -189,17 +189,20 @@ function TasksColumn({
                 id="date"
                 type="date"
               />
-              <div>
-                <Button
-                  color="secondary"
-                  type="submit"
-                  label="Ajouter une tâche"
-                />
-                <Button
-                  isLink={true}
-                  label="Annuler"
-                  onClick={() => setOpenDialog(false)}
-                />
+              <div className="c-tasks-column__new-task-action">
+                <p className="c-text-s u-mb-12">*Champs obligatoire</p>
+                <div>
+                  <Button
+                    color="secondary"
+                    type="submit"
+                    label="Ajouter une tâche"
+                  />
+                  <Button
+                    isLink={true}
+                    label="Annuler"
+                    onClick={() => setOpenDialog(false)}
+                  />
+                </div>
               </div>
             </form>
           </Modal>

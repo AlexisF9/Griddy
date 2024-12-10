@@ -26,7 +26,10 @@ function Field({
   return (
     <>
       <div className="c-field">
-        <label htmlFor={id}>{label}</label>
+        <label className="c-text-m" htmlFor={id}>
+          {label}
+          {required && <span>*</span>}
+        </label>
         {isTextarea ? (
           <textarea {...parameters} />
         ) : (

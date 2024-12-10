@@ -2,16 +2,17 @@
   padding: $space-8;
   background-color: var(--table-card-bg);
   border-radius: var(--radius-sm);
+  display: grid;
+  grid-template-columns: 1fr $space-24;
 }
 
-.c-task-card__intro {
+.c-task-card__content {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: $space-8;
+  width: 100%;
 }
 
 .c-task-card__actions {
-  display: flex;
-  align-items: center;
   gap: $space-4;
 }

@@ -79,10 +79,15 @@
 .c-tasks-column__new-task-form {
   display: flex;
   flex-direction: column;
+  gap: $space-16;
+}
+
+.c-tasks-column__new-task-action {
+  margin-top: $space-16;
 
   & > div {
-    margin-top: $space-16;
     display: flex;
+    align-items: center;
     gap: $space-8;
   }
 }
