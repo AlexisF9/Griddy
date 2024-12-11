@@ -1,16 +1,13 @@
-function Select({
-  label,
-  options,
-  id,
-  name,
-  required,
-}: {
+interface SelectProps extends React.SelectHTMLAttributes<any> {
   label?: string;
   options: { label: string; value: string; selected?: boolean }[];
   id: string;
   name: string;
   required?: boolean;
-}) {
+}
+
+function Select(props: SelectProps) {
+  const { label, options, id, name, required, ...rest } = props;
   return (
     <>
       <div className="c-select">
@@ -25,6 +22,7 @@ function Select({
           id={id}
           required={required ?? false}
           defaultValue={options.find((el) => el.selected)?.value ?? ""}
+          {...rest}
         >
           {options.map((option, index) => (
             <option key={index} value={option.value}>

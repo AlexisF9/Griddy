@@ -1,14 +1,12 @@
 import { Check, GripVertical, Pen, Plus, Trash2 } from "lucide-react";
 import Modal from "./Modal";
 import Button from "./Button";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import TaskCard from "./TaskCard";
 import Field from "./Field";
-import Select from "./Select";
 import { TasksContext } from "../pages/Layout";
-
-export const DialogContext: any = createContext(null);
+import TaskForm from "./TaskForm";
 
 function TasksColumn({
   id,
@@ -61,8 +59,8 @@ function TasksColumn({
     ) {
       const newTask = {
         label: data.get("task-label"),
-        description: data.get("task-desc") ?? null,
-        date: data.get("task-date") ?? null,
+        description: data.get("task-desc") ?? "",
+        date: data.get("task-date") ?? "",
         priority: data.get("task-priority"),
         id: Date.now(),
       };
@@ -105,130 +103,93 @@ function TasksColumn({
   };
 
   return (
-    <DialogContext.Provider
-      value={{
-        openDialog,
-        setOpenDialog,
-      }}
-    >
-      <div className="c-tasks-column__col">
-        <div className="c-tasks-column__col-intro u-mb-24">
-          <div className="c-tasks-column__col-intro-content">
-            {draggable && (
-              <span className="c-tasks-column__col-drag">
-                <GripVertical />
-              </span>
-            )}
-            {editColName ? (
-              <form
-                className="c-tasks-column__col-edit-name"
-                ref={changeNameRef}
-                onSubmit={(e) => handleEditColName(e, id)}
-              >
-                <input
-                  className="c-field__input"
-                  name="col-name"
-                  value={colName}
-                  onChange={(e) => setColName(e.target.value)}
-                  type="text"
-                />
-                <Button isLink={true} type="submit" icon={<Check />} label="" />
-              </form>
-            ) : (
-              <p className="c-text-l">{name}</p>
-            )}
-          </div>
-          <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
-            <div className="c-tasks-column__col-action">
-              <Button
-                isLink={true}
-                icon={<Pen />}
-                color="white"
-                label="Modifier"
-                onClick={toggleEditCol}
-              />
-              <Button
-                isLink={true}
-                icon={<Trash2 />}
-                color="tertiary"
-                label="Supprimer"
-                onClick={() => removeColumn(id)}
-              />
-            </div>
-          </Dropdown>
-        </div>
-
-        {cards && cards.length > 0 && (
-          <div className="c-tasks-column__cards u-mb-24">
-            {cards.map((card: any) => (
-              <TaskCard key={card.id} card={card} colId={id} />
-            ))}
-          </div>
-        )}
-
-        <div className="c-tasks-column__new-task">
-          <Modal>
-            <p className="c-h-l u-mb-16">Créé une tâche dans {name}</p>
+    <div className="c-tasks-column__col">
+      <div className="c-tasks-column__col-intro u-mb-24">
+        <div className="c-tasks-column__col-intro-content">
+          {draggable && (
+            <span className="c-tasks-column__col-drag">
+              <GripVertical />
+            </span>
+          )}
+          {editColName ? (
             <form
-              className="c-tasks-column__new-task-form"
-              onSubmit={(e) => createNewTask(e, id)}
+              className="c-tasks-column__col-edit-name"
+              ref={changeNameRef}
+              onSubmit={(e) => handleEditColName(e, id)}
             >
               <Field
-                label="Nom de la tâche"
-                required={true}
-                name="task-label"
-                id="label"
+                id="name"
+                name="col-name"
+                value={colName}
+                onChange={(e) => setColName(e.target.value)}
               />
-              <Field
-                label="Déscription"
-                name="task-desc"
-                id="desc"
-                isTextarea={true}
-              />
-              <Field
-                label="Date d'échéance"
-                name="task-date"
-                id="date"
-                type="date"
-              />
-              <Select
-                required={true}
-                options={[
-                  { label: "Faible", value: "low" },
-                  { label: "Normal", value: "normal", selected: true },
-                  { label: "Haute", value: "high" },
-                  { label: "Urgent", value: "top" },
-                ]}
-                label="Priorité"
-                id="priority"
-                name="task-priority"
-              />
-              <div className="c-tasks-column__new-task-action">
-                <p className="c-text-s u-mb-12">*Champs obligatoire</p>
-                <div>
-                  <Button
-                    color="secondary"
-                    type="submit"
-                    label="Ajouter une tâche"
-                  />
-                  <Button
-                    isLink={true}
-                    label="Annuler"
-                    onClick={() => setOpenDialog(false)}
-                  />
-                </div>
-              </div>
+              <Button isLink={true} type="submit" icon={<Check />} label="" />
             </form>
-          </Modal>
-          <Button
-            isLink={true}
-            icon={<Plus />}
-            label="Nouvelle tache"
-            onClick={() => setOpenDialog(true)}
-          />
+          ) : (
+            <p className="c-text-l">{name}</p>
+          )}
         </div>
+        <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
+          <div className="c-tasks-column__col-action">
+            <Button
+              isLink={true}
+              icon={<Pen />}
+              color="white"
+              label="Modifier"
+              onClick={toggleEditCol}
+            />
+            <Button
+              isLink={true}
+              icon={<Trash2 />}
+              color="tertiary"
+              label="Supprimer"
+              onClick={() => removeColumn(id)}
+            />
+          </div>
+        </Dropdown>
       </div>
-    </DialogContext.Provider>
+
+      {cards && cards.length > 0 && (
+        <div className="c-tasks-column__cards u-mb-24">
+          {cards.map((card: any) => (
+            <TaskCard key={card.id} card={card} colId={id} />
+          ))}
+        </div>
+      )}
+
+      <div className="c-tasks-column__new-task">
+        <Modal open={openDialog} setOpen={setOpenDialog}>
+          <p className="c-h-l u-mb-16">Création d'une tâche dans {name}</p>
+          <form
+            className="c-tasks-column__new-task-form"
+            onSubmit={(e) => createNewTask(e, id)}
+          >
+            <TaskForm />
+            <div className="c-tasks-column__new-task-action">
+              <p className="c-text-s u-mb-12">*Champs obligatoire</p>
+              <div>
+                <Button
+                  color="secondary"
+                  type="submit"
+                  label="Ajouter une tâche"
+                />
+                <Button
+                  isLink={true}
+                  label="Annuler"
+                  onClick={() => setOpenDialog(false)}
+                />
+              </div>
+            </div>
+          </form>
+        </Modal>
+        <Button
+          isLink={true}
+          icon={<Plus />}
+          label="Nouvelle tache"
+          onClick={() => setOpenDialog(true)}
+        />
+      </div>
+    </div>
   );
 }
 

@@ -7,8 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { X } from "lucide-react";
 import Field from "../components/Field";
 import { TasksContext } from "./Layout";
+import Modal from "../components/Modal";
+import TaskForm from "../components/TaskForm";
 
 function Tasks() {
+  const [openDialog, setOpenDialog] = useState(false);
   const [newColumn, setNewColumn] = useState(false);
 
   const {
@@ -140,6 +143,41 @@ function Tasks() {
     }
   };
 
+  const editTask = (e: any) => {
+    e.preventDefault();
+
+    const data = new FormData(e.currentTarget);
+    const editedTask = {
+      label: data.get("task-label"),
+      description: data.get("task-desc") ?? "",
+      date: data.get("task-date") ?? "",
+      priority: data.get("task-priority"),
+    };
+
+    setOpenDialog(false);
+
+    if (taskInfo.col && taskInfo.card) {
+      const arr = localStorage.getItem("tasks")
+        ? JSON.parse(localStorage.getItem("tasks") ?? "")
+        : [];
+
+      const col = arr.find((el: { id: number }) => el.id === taskInfo.col);
+      const colIndex = arr.indexOf(col);
+      const card = col.cards.find(
+        (el: { id: number }) => el.id === taskInfo.card
+      );
+      const cardIndex = col.cards.indexOf(card);
+
+      arr[colIndex].cards[cardIndex] = {
+        ...editedTask,
+        id: taskInfo.card,
+      };
+
+      localStorage.setItem("tasks", JSON.stringify(arr));
+      getTasksList();
+    }
+  };
+
   return (
     <div className={`c-tasks${taskInfo.open ? " c-tasks--open" : ""}`}>
       <div className="c-tasks__content">
@@ -214,6 +252,33 @@ function Tasks() {
               <div>
                 <p>{getTask().label}</p>
                 {getTask().description && <p>{getTask().description}</p>}
+                <button onClick={() => setOpenDialog(true)}>Edit</button>
+                <Modal open={openDialog} setOpen={setOpenDialog}>
+                  <p className="c-h-l u-mb-16">
+                    Modification de {getTask().label}
+                  </p>
+                  <form
+                    className="c-tasks-column__new-task-form"
+                    onSubmit={(e) => editTask(e)}
+                  >
+                    <TaskForm task={getTask()} />
+                    <div className="c-tasks-column__new-task-action">
+                      <p className="c-text-s u-mb-12">*Champs obligatoire</p>
+                      <div>
+                        <Button
+                          color="secondary"
+                          type="submit"
+                          label="Ajouter une tâche"
+                        />
+                        <Button
+                          isLink={true}
+                          label="Annuler"
+                          onClick={() => setOpenDialog(false)}
+                        />
+                      </div>
+                    </div>
+                  </form>
+                </Modal>
               </div>
             ) : (
               <p>

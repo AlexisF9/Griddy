@@ -1,12 +1,4 @@
-function Field({
-  label,
-  type,
-  id,
-  name,
-  placeholder,
-  required,
-  isTextarea,
-}: {
+interface FieldProps extends React.InputHTMLAttributes<any> {
   label?: string;
   type?: string;
   id: string;
@@ -14,7 +6,12 @@ function Field({
   placeholder?: string;
   required?: boolean;
   isTextarea?: boolean;
-}) {
+}
+
+function Field(props: FieldProps) {
+  const { label, type, id, name, placeholder, required, isTextarea, ...rest } =
+    props;
+
   const parameters = {
     required: required,
     name: name,
@@ -33,9 +30,9 @@ function Field({
           </label>
         )}
         {isTextarea ? (
-          <textarea {...parameters} />
+          <textarea {...parameters} {...rest} />
         ) : (
-          <input type={type ?? "text"} {...parameters} />
+          <input type={type ?? "text"} {...parameters} {...rest} />
         )}
       </div>
     </>

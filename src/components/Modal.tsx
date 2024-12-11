@@ -1,30 +1,32 @@
-import { useContext } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { DialogContext } from "./TasksColumn";
 
-function Modal({ children }: { children: React.ReactNode }) {
-  const context: any = useContext(DialogContext);
-
-  if (!context.openDialog) return;
-
-  return createPortal(
-    <div className="c-modal">
-      <span
-        className="c-modal__overlay"
-        onClick={() => context.setOpenDialog(false)}
-      ></span>
-      <div className="c-modal__content">
-        <button
-          className="c-modal__close"
-          onClick={() => context.setOpenDialog(false)}
-        >
-          <X />
-        </button>
-        {children}
-      </div>
-    </div>,
-    document.body
+function Modal({
+  open,
+  setOpen,
+  children,
+}: {
+  open: boolean;
+  setOpen: (e: boolean) => void;
+  children: React.ReactNode;
+}) {
+  return (
+    open &&
+    createPortal(
+      <div className="c-modal">
+        <span
+          className="c-modal__overlay"
+          onClick={() => setOpen(false)}
+        ></span>
+        <div className="c-modal__content">
+          <button className="c-modal__close" onClick={() => setOpen(false)}>
+            <X />
+          </button>
+          {children}
+        </div>
+      </div>,
+      document.body
+    )
   );
 }
 
