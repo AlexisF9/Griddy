@@ -5,6 +5,7 @@ import TaskForm from "./TaskForm";
 import { TasksContext } from "../pages/Layout";
 import { Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
+import Priority from "./Priority";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -95,9 +96,15 @@ function TaskInfos() {
     }
   };
 
+  const changeFormatDate = (date: string) => {
+    return date.toString().split("-").reverse().join("/");
+  };
+
   return (
     <>
-      <div className="c-task-infos">
+      <div
+        className={`c-task-infos ${taskInfo.open ? "c-task-infos--open" : ""}`}
+      >
         <Button
           icon={<X />}
           isLink={true}
@@ -113,7 +120,7 @@ function TaskInfos() {
         {taskInfo.card && taskInfo.col && getTask() && (
           <>
             <div className="c-task-infos__container">
-              <div>
+              <div className="c-task-infos__content">
                 <div className="c-task-infos__intro">
                   <p className="c-h-l">{getTask().label}</p>
                   <Button
@@ -122,16 +129,21 @@ function TaskInfos() {
                     onClick={() => setOpenDialog(true)}
                   />
                 </div>
+                <div className="c-task-infos__short-infos">
+                  <Priority priority={getTask().priority} />
+                  {getTask().date && <p>{changeFormatDate(getTask().date)}</p>}
+                </div>
                 {getTask().description && <p>{getTask().description}</p>}
               </div>
-
-              <Button
-                isLink={true}
-                icon={<Trash2 />}
-                color="tertiary"
-                label="Supprimer la tâche"
-                onClick={removeTask}
-              />
+              <div className="c-task-infos__remove">
+                <Button
+                  isLink={true}
+                  icon={<Trash2 />}
+                  color="tertiary"
+                  label="Supprimer la tâche"
+                  onClick={removeTask}
+                />
+              </div>
             </div>
             <Modal open={openDialog} setOpen={setOpenDialog}>
               <p className="c-h-l u-mb-16">

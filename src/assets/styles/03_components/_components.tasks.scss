@@ -1,28 +1,6 @@
 .c-tasks {  
   height: 100%;
   width: 100%;
-
-  @include min-width(md) {
-    display: grid;
-    grid-template-columns: 1fr 0;
-    transition: grid-template-columns var(--transition-in-out);
-
-    &--open {
-      grid-template-columns: 1fr 30rem;
-
-      .c-task-infos {
-        transform: translateX(0);
-      }
-    }
-  }
-
-  @include max-width(md) {
-    &--open {
-      .c-task-infos {
-        left: 0;
-      }
-    }
-  }
 }
 
 .c-tasks__content {

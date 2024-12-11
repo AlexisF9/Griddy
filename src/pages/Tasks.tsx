@@ -12,15 +12,9 @@ function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
 
   const {
-    taskInfo,
     tasks,
     getTasksList,
   }: {
-    taskInfo: {
-      open: boolean;
-      col: number | null;
-      card: number | null;
-    };
     tasks: [];
     getTasksList: () => void;
     setTaskInfo: (e: any) => void;
@@ -112,7 +106,7 @@ function Tasks() {
   };
 
   return (
-    <div className={`c-tasks${taskInfo.open ? " c-tasks--open" : ""}`}>
+    <div className="c-tasks">
       <div className="c-tasks__content">
         <div className="c-tasks__intro">
           <h2 className="c-h-l u-mb-16">Mes taches</h2>

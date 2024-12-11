@@ -1,23 +1,28 @@
 .c-task-infos {
-  background-color: var(--tasks-task-infos-bg);
-  border-left: 1px solid var(--tasks-task-infos-border);
+  position: fixed;
+  top: 0;
+  z-index: 8;
+  transition: right var(--transition-in-out);
+  background-color: var(--task-infos-bg);
+  border-left: 1px solid var(--task-infos-border);
   padding: $space-24;
   padding: $space-16;
 
   @include min-width(md) {
-    box-shadow: 0px 0px 3rem 0px var(--tasks-task-infos-shadow);
-    transition: transform var(--transition-in-out);
-    transform: translateX(30rem);
+    height: 100vh;
+    width: 40rem;
+    right: -40rem;
+    box-shadow: 0px 0px 3rem 0px var(--task-infos-shadow);
   }
 
   @include max-width(md) {
-    position: fixed;
+    right: -100%;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 100%;
-    z-index: 9;
-    transition: left var(--transition-in-out);
+  }
+
+  &--open {
+    right: 0
   }
 }
 
@@ -25,7 +30,25 @@
   margin-top: $space-16;
 }
 
+.c-task-infos__content {
+  display: flex;
+  flex-direction: column;
+  gap: $space-16;
+}
+
 .c-task-infos__intro {
   display: flex;
   gap: $space-8;
+}
+
+.c-task-infos__short-infos {
+  display: flex;
+  align-items: center;
+  gap: $space-8;
+}
+
+.c-task-infos__remove {
+  border-top: 1px solid var(--task-infos-border);
+  margin-top: $space-24;
+  padding-top: $space-24;
 }
