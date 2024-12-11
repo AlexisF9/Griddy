@@ -1,9 +1,9 @@
 import { Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
-import { TasksContext } from "../pages/Tasks";
 import Dropdown from "./Dropdown";
 import Priority from "./Priority";
+import { TasksContext } from "../pages/Layout";
 
 interface taskProps {
   card: {

@@ -4,9 +4,9 @@ import Button from "./Button";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import TaskCard from "./TaskCard";
-import { TasksContext } from "../pages/Tasks";
 import Field from "./Field";
 import Select from "./Select";
+import { TasksContext } from "../pages/Layout";
 
 export const DialogContext: any = createContext(null);
 
