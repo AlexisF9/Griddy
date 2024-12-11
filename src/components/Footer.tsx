@@ -2,7 +2,7 @@ function Footer() {
   return (
     <footer className="footer">
       <p>
-        Create by{" "}
+        Créé par{" "}
         <a href="https://www.alexisflacher.fr" target="_blank">
           Alexis Flacher
         </a>

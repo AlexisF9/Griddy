@@ -1,7 +1,7 @@
 import { Navigate } from "react-router";
 import Button from "../components/Button";
-import { useAppStore } from "../App";
 import Field from "../components/Field";
+import { useAppStore } from "../store";
 
 function Home() {
   const { isAuth, toggleAuth, changeName } = useAppStore();

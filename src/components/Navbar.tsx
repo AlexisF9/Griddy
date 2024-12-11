@@ -1,8 +1,8 @@
 import { House, List, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router";
-import { useAppStore } from "../App";
 import Button from "./Button";
+import { useAppStore } from "../store";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -20,7 +20,7 @@ function Navbar() {
       icon: <House />,
     },
     {
-      name: "Tasks",
+      name: "Tâches",
       url: "/tasks",
       icon: <List />,
     },

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAppStore } from "../App";
 import Button from "../components/Button";
+import { useAppStore } from "../store";
 
 function Dashboard() {
   const [tasks, setTasks] = useState([]);
