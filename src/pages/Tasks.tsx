@@ -6,7 +6,6 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Field from "../components/Field";
 import { TasksContext } from "./Layout";
-import TaskInfos from "../components/TaskInfos";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
@@ -159,8 +158,6 @@ function Tasks() {
           )}
         </div>
       </div>
-
-      <TaskInfos />
     </div>
   );
 }

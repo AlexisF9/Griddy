@@ -1,20 +1,41 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "../components/Button";
 import { useAppStore } from "../store";
+import { TasksContext } from "./Layout";
 
 function Dashboard() {
-  const [tasks, setTasks] = useState([]);
+  const [allTasks, setAllTasks] = useState<any>([]);
 
   const { name } = useAppStore();
   const user = name ?? "";
 
+  const {
+    tasks,
+  }: {
+    tasks: [];
+  } = useContext(TasksContext);
+
+  const isToday = (date: string) => {
+    const today = new Date();
+    const dateFormated = new Date(date);
+    return dateFormated.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)
+      ? true
+      : false;
+  };
+
   useEffect(() => {
-    setTasks(
-      localStorage.getItem("tasks")
-        ? JSON.parse(localStorage.getItem("tasks") ?? "")
-        : []
-    );
-  }, []);
+    tasks.forEach((el: any) => {
+      setAllTasks((arr: any) => [
+        ...arr,
+        {
+          cards: [...el.cards.filter((t: { date: string }) => isToday(t.date))],
+          col: el.id,
+        },
+      ]);
+    });
+
+    return () => setAllTasks([]);
+  }, [tasks]);
 
   return (
     <div className="c-dashboard">
@@ -24,7 +45,11 @@ function Dashboard() {
       {tasks.length > 0 ? (
         <div>
           <h3 className="c-text-l u-mb-12">Statistiques :</h3>
-          <p className="c-text-m">Nombre de colonnes : {tasks.length}</p>
+          <p className="c-text-m">Vos tâches d'aujourd'hui</p>
+
+          {allTasks.map((el: { cards: []; col: number }) =>
+            el.cards.map((card: any) => <div key={card.id}>{card.label}</div>)
+          )}
         </div>
       ) : (
         <div>

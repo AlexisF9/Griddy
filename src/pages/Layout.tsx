@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useAppStore } from "../store";
 import { createContext, useEffect, useState } from "react";
+import TaskInfos from "../components/TaskInfos";
 
 export const TasksContext: any = createContext(null);
 
@@ -47,6 +48,7 @@ function Layout() {
             <Navbar />
             <div className="layout__content">
               <Outlet />
+              <TaskInfos />
             </div>
             <Footer />
           </div>
