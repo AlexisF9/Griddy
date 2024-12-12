@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Field from "./Field";
 import Select from "./Select";
+import { useTransformBase64 } from "../hooks/useTransformBase64";
 
 function TaskForm({
   task,
@@ -50,22 +51,11 @@ function TaskForm({
     }
   }, []);
 
-  const getBase64 = async (file: any) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
-  };
-
   const getPicture = async (file: File) => {
     let picture = null;
 
     try {
-      const res = await getBase64(file);
+      const res = await useTransformBase64(file);
       picture = res;
     } catch (err: any) {
       console.log(err.toString());

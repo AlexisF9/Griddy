@@ -7,6 +7,7 @@ import { Clock9, Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
 import { useAppStore } from "../store";
+import { useTransformBase64 } from "../hooks/useTransformBase64";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -52,24 +53,13 @@ function TaskInfos() {
     });
   };
 
-  const getBase64 = async (file: any) => {
-    return new Promise((resolve, reject) => {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
-  };
-
   const editTask = async (e: any) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
 
     let picture = null;
 
-    await getBase64(data.get("task-cover"))
+    await useTransformBase64(data.get("task-cover") as File)
       .then((res) => (picture = res))
       .catch((err) => console.log(err));
 
