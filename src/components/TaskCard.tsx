@@ -15,10 +15,11 @@ interface taskProps {
     priority: "normal" | "low" | "high" | "top";
   };
   colId: number;
+  color?: "primary" | "secondary";
 }
 
 function TaskCard(props: taskProps) {
-  const { card, colId } = props;
+  const { card, colId, color = "primary" } = props;
   const [openDropdown, setOpenDropdown] = useState(false);
   const {
     setTaskInfo,
@@ -47,34 +48,20 @@ function TaskCard(props: taskProps) {
 
   return (
     <>
-      <div className="c-task-card">
-        <div
-          className="c-task-card__content"
-          onClick={() =>
-            setTaskInfo({
-              open: true,
-              col: colId,
-              card: card.id,
-            })
-          }
-        >
-          <p>{card.label}</p>
-          <div className="c-task-card__infos">
-            <Priority priority={card.priority} />
-            {card.date && (
-              <p
-                className={`c-text-s${
-                  dateInfos(card.date) === "past" ? " u-text-tertiary" : ""
-                }`}
-              >
-                {dateInfos(card.date) === "today"
-                  ? "Aujourd'hui"
-                  : changeFormatDate(card.date)}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="c-task-card__actions">
+      <div className={`c-task-card c-task-card--${color}`}>
+        <div className="c-task-card__intro">
+          <p
+            className="c-task-card__label"
+            onClick={() =>
+              setTaskInfo({
+                open: true,
+                col: colId,
+                card: card.id,
+              })
+            }
+          >
+            {card.label}
+          </p>
           <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
             <div className="c-tasks-column__col-action">
               <Button
@@ -86,6 +73,24 @@ function TaskCard(props: taskProps) {
               />
             </div>
           </Dropdown>
+        </div>
+        {card.description && (
+          <p className="c-task-card__description">{card.description}</p>
+        )}
+
+        <div className="c-task-card__infos">
+          <Priority priority={card.priority} />
+          {card.date && (
+            <p
+              className={`c-text-s${
+                dateInfos(card.date) === "past" ? " u-text-tertiary" : ""
+              }`}
+            >
+              {dateInfos(card.date) === "today"
+                ? "Aujourd'hui"
+                : changeFormatDate(card.date)}
+            </p>
+          )}
         </div>
       </div>
     </>

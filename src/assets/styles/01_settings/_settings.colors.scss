@@ -26,19 +26,22 @@
 
   --navbar-bg: var(--color-neutral-1);
 
-  --footer-bg: var(--color-neutral-2);
+  --footer-bg: var(--color-neutral-3);
 
   --text-default: var(--color-primary-0);
   --text-white: var(--color-neutral-0);
   --text-tertiary: var(--color-tertiary);
 
+  --input-bg: var(--color-neutral-0);
   --input-border: var(--color-neutral-3);
   --input-border-focus: var(--color-neutral-1);
 
   --table-col-bg: var(--color-neutral-2);
   --table-col-border: var(--color-neutral-3);
   --table-col-remove: var(--color-tertiary);
-  --table-card-bg: var(--color-neutral-0);
+
+  --task-card-bg: var(--color-neutral-0);
+  --task-card-secondary-bg: var(--color-neutral-2);
 
   --modal-overlay-bg: var(--color-primary-0-30);
   --modal-bg: var(--color-neutral-0);

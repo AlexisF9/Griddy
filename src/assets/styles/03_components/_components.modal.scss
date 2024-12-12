@@ -20,21 +20,17 @@ body:has(.c-modal) {
   background-color: var(--modal-bg);
   padding: 3rem;
   z-index: 9;
-  animation: fade var(--transition-in-out);
+  transition: opacity var(--transition-in-out);
   border-radius: var(--radius-md);
   width: 50rem;
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
 
   @include max-width(md) {
     width: calc(100% - ($space-16 * 2));
-  }
-}
-
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
 

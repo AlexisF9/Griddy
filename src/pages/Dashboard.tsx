@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import Button from "../components/Button";
 import { useAppStore } from "../store";
 import { TasksContext } from "./Layout";
+import TaskCard from "../components/TaskCard";
 
 function Dashboard() {
-  const [allTasks, setAllTasks] = useState<any>([]);
+  const [allTasksToday, setAllTasksToday] = useState<any>([]);
 
   const { name } = useAppStore();
   const user = name ?? "";
@@ -25,17 +26,22 @@ function Dashboard() {
 
   useEffect(() => {
     tasks.forEach((el: any) => {
-      setAllTasks((arr: any) => [
-        ...arr,
-        {
-          cards: [...el.cards.filter((t: { date: string }) => isToday(t.date))],
-          col: el.id,
-        },
-      ]);
+      el.cards.filter((t: { date: string }) => isToday(t.date)).length > 0 &&
+        setAllTasksToday((arr: any) => [
+          ...arr,
+          {
+            cards: [
+              ...el.cards.filter((t: { date: string }) => isToday(t.date)),
+            ],
+            col: el.id,
+          },
+        ]);
     });
 
-    return () => setAllTasks([]);
+    return () => setAllTasksToday([]);
   }, [tasks]);
+
+  console.log(allTasksToday);
 
   return (
     <div className="c-dashboard">
@@ -44,11 +50,24 @@ function Dashboard() {
       </h2>
       {tasks.length > 0 ? (
         <div>
-          <h3 className="c-text-l u-mb-12">Statistiques :</h3>
-          <p className="c-text-m">Vos tâches d'aujourd'hui</p>
-
-          {allTasks.map((el: { cards: []; col: number }) =>
-            el.cards.map((card: any) => <div key={card.id}>{card.label}</div>)
+          <h3 className="c-text-l u-mb-12">Vos tâches d'aujourd'hui :</h3>
+          {allTasksToday.length > 0 ? (
+            <>
+              <div className="c-dashboard__tasks-today">
+                {allTasksToday.map((el: { cards: []; col: number }) =>
+                  el.cards.map((card: any) => (
+                    <TaskCard
+                      key={card.id}
+                      card={card}
+                      colId={el.col}
+                      color="secondary"
+                    />
+                  ))
+                )}
+              </div>
+            </>
+          ) : (
+            <p>Vous n'avez aucune tâche aujourd'hui</p>
           )}
         </div>
       ) : (

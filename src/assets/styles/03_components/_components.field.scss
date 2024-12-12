@@ -6,11 +6,13 @@
 
 .c-field__input {
   border: 0;
+  width: 100%;
   padding: 1rem;
   border-radius: var(--radius-sm);
   outline: 0;
   box-shadow: inset 0 0 0 1px var(--input-border);
   transition: box-shadow var(--transition-in-out);
+  background-color: var(--input-bg);
 
   &:focus {
     box-shadow: inset 0 0 0 1px var(--input-border-focus);

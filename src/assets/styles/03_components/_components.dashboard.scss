@@ -9,3 +9,9 @@
 .c-dashboard__title span {
   font-style: italic;
 }
+
+.c-dashboard__tasks-today {
+  display: flex;
+  gap: $space-10;
+  flex-wrap: wrap;
+}
