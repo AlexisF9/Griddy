@@ -18,18 +18,19 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    tasks.forEach((el: any) => {
-      el.cards.filter((t: { date: string }) => isToday(t.date)).length > 0 &&
-        setAllTasksToday((arr: any) => [
-          ...arr,
-          {
-            cards: [
-              ...el.cards.filter((t: { date: string }) => isToday(t.date)),
-            ],
-            col: el.id,
-          },
-        ]);
-    });
+    tasks &&
+      tasks.forEach((el: any) => {
+        el.cards.filter((t: { date: string }) => isToday(t.date)).length > 0 &&
+          setAllTasksToday((arr: any) => [
+            ...arr,
+            {
+              cards: [
+                ...el.cards.filter((t: { date: string }) => isToday(t.date)),
+              ],
+              col: el.id,
+            },
+          ]);
+      });
 
     return () => setAllTasksToday([]);
   }, [tasks]);
@@ -39,7 +40,7 @@ function Dashboard() {
       <h2 className="c-dashboard__title c-h-xl u-mb-24">
         Bienvenue sur ton board <span className="u-text-tertiary">{user}</span>
       </h2>
-      {tasks.length > 0 ? (
+      {tasks && tasks.length > 0 ? (
         <div>
           <h3 className="c-text-l u-mb-12">Vos tâches d'aujourd'hui :</h3>
           {allTasksToday.length > 0 ? (
