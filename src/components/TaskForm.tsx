@@ -47,38 +47,40 @@ function TaskForm({
           })
         }
       />
-      <Field
-        label="Date d'échéance"
-        name="task-date"
-        id="date"
-        type="date"
-        value={inputs.date}
-        onChange={(e) =>
-          setInputs({
-            ...inputs,
-            date: e.target.value,
-          })
-        }
-      />
-      <Select
-        required={true}
-        options={[
-          { label: "Faible", value: "low" },
-          { label: "Normal", value: "normal" },
-          { label: "Haute", value: "high" },
-          { label: "Urgent", value: "top" },
-        ]}
-        label="Priorité"
-        id="priority"
-        name="task-priority"
-        defaultValue={inputs.priority}
-        onChange={(e) =>
-          setInputs({
-            ...inputs,
-            priority: e.target.value,
-          })
-        }
-      />
+      <div className="c-field__group">
+        <Field
+          label="Date d'échéance"
+          name="task-date"
+          id="date"
+          type="date"
+          value={inputs.date}
+          onChange={(e) =>
+            setInputs({
+              ...inputs,
+              date: e.target.value,
+            })
+          }
+        />
+        <Select
+          required={true}
+          options={[
+            { label: "Faible", value: "low" },
+            { label: "Normal", value: "normal" },
+            { label: "Haute", value: "high" },
+            { label: "Urgent", value: "top" },
+          ]}
+          label="Priorité"
+          id="priority"
+          name="task-priority"
+          defaultValue={inputs.priority}
+          onChange={(e) =>
+            setInputs({
+              ...inputs,
+              priority: e.target.value,
+            })
+          }
+        />
+      </div>
     </>
   );
 }
