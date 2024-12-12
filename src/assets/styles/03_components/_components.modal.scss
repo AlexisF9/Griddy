@@ -18,7 +18,7 @@ body:has(.c-modal) {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--modal-bg);
-  padding: 3rem;
+  padding: $space-32;
   z-index: 9;
   transition: opacity var(--transition-in-out);
   border-radius: var(--radius-md);
@@ -31,11 +31,18 @@ body:has(.c-modal) {
 
   @include max-width(md) {
     width: calc(100% - ($space-16 * 2));
+    padding: $space-32 $space-16;
   }
 }
 
 .c-modal__close {
   position: absolute;
-  top: $space-8;
-  right: $space-8;
+  top: $space-16;
+  right: $space-16;
+  color: var(--text-default);
+
+  @include max-width(md) {
+    top: $space-10;
+    right: $space-10;
+  }
 }
