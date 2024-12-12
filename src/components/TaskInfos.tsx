@@ -54,9 +54,9 @@ function TaskInfos() {
 
   const getBase64 = async (file: any) => {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+      var reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = function () {
         resolve(reader.result);
       };
       reader.onerror = reject;
@@ -66,11 +66,17 @@ function TaskInfos() {
   const editTask = async (e: any) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+
     let picture = null;
 
     await getBase64(data.get("task-cover"))
       .then((res) => (picture = res))
       .catch((err) => console.log(err));
+
+    const pictureName = (data.get("task-cover") as any).name;
+    const pictureType = (data.get("task-cover") as any).type;
+    const pictureLastModified = (data.get("task-cover") as any).lastModified;
+    const pictureSize = (data.get("task-cover") as any).size;
 
     const editedTask = {
       label: data.get("task-label"),
@@ -78,12 +84,21 @@ function TaskInfos() {
       date: data.get("task-date") ?? "",
       priority: data.get("task-priority"),
       cover:
-        (data.get("task-cover") as any).name !== ""
+        (pictureName === getTask()?.cover?.name &&
+          pictureLastModified === getTask()?.cover?.lastModified) ||
+        (pictureName === "" && pictureSize === 0)
           ? {
-              name: (data.get("task-cover") as any).name,
-              src: picture,
+              url: getTask()?.cover?.url,
+              name: getTask()?.cover?.name,
+              type: getTask()?.cover?.type,
+              lastModified: getTask()?.cover?.lastModified,
             }
-          : {},
+          : {
+              url: picture,
+              name: pictureName,
+              type: pictureType,
+              lastModified: pictureLastModified,
+            },
     };
 
     setOpenDialog(false);
@@ -142,8 +157,8 @@ function TaskInfos() {
           <>
             <div className="c-task-infos__container">
               <div className="c-task-infos__content">
-                {getTask().cover && (
-                  <img src={getTask().cover.src} alt={getTask().cover.name} />
+                {getTask()?.cover && getTask().cover.url && (
+                  <img src={getTask().cover.url} />
                 )}
                 <div className="c-task-infos__intro">
                   <p className="c-h-l">{getTask().label}</p>

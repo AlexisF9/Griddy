@@ -43,9 +43,9 @@ function TasksColumn({
 
   const getBase64 = async (file: any) => {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+      var reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = function () {
         resolve(reader.result);
       };
       reader.onerror = reject;
@@ -81,13 +81,14 @@ function TasksColumn({
         description: data.get("task-desc") ?? "",
         date: data.get("task-date") ?? "",
         priority: data.get("task-priority"),
-        cover:
-          (data.get("task-cover") as any).name !== ""
-            ? {
-                name: (data.get("task-cover") as any).name,
-                src: picture,
-              }
-            : {},
+        cover: picture
+          ? {
+              url: picture,
+              name: (data.get("task-cover") as any).name,
+              type: (data.get("task-cover") as any).type,
+              lastModified: (data.get("task-cover") as any).lastModified,
+            }
+          : {},
         id: Date.now(),
       };
 

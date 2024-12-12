@@ -23,14 +23,30 @@ function TaskForm({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (inputs.cover.name) {
-      const data = new DataTransfer();
-      data.items.add(new File([""], inputs.cover.name ?? "Ajouter un fichier"));
+  const fetchPicture = async (url: string) => {
+    try {
+      fetch(url)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const data = new DataTransfer();
+          data.items.add(
+            new File([blob], inputs.cover.name, {
+              type: inputs.cover.type,
+              lastModified: inputs.cover.lastModified,
+            })
+          );
+          if (inputRef.current !== null) {
+            inputRef.current.files = data.files;
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-      if (inputRef.current !== null) {
-        inputRef.current.files = data.files;
-      }
+  useEffect(() => {
+    if (inputs.cover) {
+      fetchPicture(inputs.cover);
     }
   }, []);
 
@@ -45,7 +61,7 @@ function TaskForm({
     });
   };
 
-  const getUrlPictue = async (file: File, name: string) => {
+  const getPicture = async (file: File) => {
     let picture = null;
 
     try {
@@ -57,10 +73,7 @@ function TaskForm({
 
     setInputs({
       ...inputs,
-      cover: {
-        name: name,
-        src: picture,
-      },
+      cover: picture,
     });
   };
 
@@ -132,10 +145,11 @@ function TaskForm({
         name="task-cover"
         id="cover"
         type="file"
+        accept="image/png, image/jpeg"
         ref={inputRef}
-        onChange={(e) =>
-          getUrlPictue(e.target.files[0], e.target.files[0].name)
-        }
+        onChange={(e) => {
+          getPicture(e.target.files[0]);
+        }}
       />
     </>
   );

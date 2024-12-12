@@ -30,8 +30,11 @@ function TaskCard(props: taskProps) {
 
   const { setTasks } = useAppStore();
 
-  const { setTaskInfo }: { setTaskInfo: ({}) => void } =
-    useContext(TasksContext);
+  const {
+    setTaskInfo,
+  }: {
+    setTaskInfo: (e: any) => void;
+  } = useContext(TasksContext);
 
   const removeTask = (cardId: number, colId: number) => {
     useRemoveTask(cardId, colId);
