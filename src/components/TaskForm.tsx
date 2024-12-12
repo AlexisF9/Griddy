@@ -10,7 +10,7 @@ function TaskForm({
     description: string;
     date: string;
     priority: string;
-    file: any;
+    cover: any;
   };
 }) {
   const [inputs, setInputs] = useState({
@@ -18,15 +18,15 @@ function TaskForm({
     description: task ? task.description : "",
     date: task ? task.date : "",
     priority: task ? task.priority : "",
-    file: task ? task.file : {},
+    cover: task ? task.cover : {},
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (inputs.file.name) {
+    if (inputs.cover.name) {
       const data = new DataTransfer();
-      data.items.add(new File([""], inputs.file.name ?? "Ajouter un fichier"));
+      data.items.add(new File([""], inputs.cover.name ?? "Ajouter un fichier"));
 
       if (inputRef.current !== null) {
         inputRef.current.files = data.files;
@@ -57,7 +57,7 @@ function TaskForm({
 
     setInputs({
       ...inputs,
-      file: {
+      cover: {
         name: name,
         src: picture,
       },
@@ -126,10 +126,11 @@ function TaskForm({
           }
         />
       </div>
+
       <Field
-        label="Fichier"
-        name="task-file"
-        id="file"
+        label="Image de couverture"
+        name="task-cover"
+        id="cover"
         type="file"
         ref={inputRef}
         onChange={(e) =>

@@ -18,6 +18,13 @@
   &:focus {
     border-color: var(--input-border-focus);
   }
+
+  &::file-selector-button {
+    border: 1px solid var(--input-file-button-border);
+    padding: $space-10;
+    border-radius: var(--radius-sm);
+    background-color: var(--input-file-button-bg);
+  }
 }
 
 .c-field__group {

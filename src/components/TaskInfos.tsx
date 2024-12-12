@@ -3,7 +3,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import TaskForm from "./TaskForm";
 import { TasksContext } from "../pages/Layout";
-import { Pen, Trash2, X } from "lucide-react";
+import { Clock9, Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
 import { useAppStore } from "../store";
@@ -52,15 +52,38 @@ function TaskInfos() {
     });
   };
 
-  const editTask = (e: any) => {
-    e.preventDefault();
+  const getBase64 = async (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+    });
+  };
 
+  const editTask = async (e: any) => {
+    e.preventDefault();
     const data = new FormData(e.currentTarget);
+    let picture = null;
+
+    await getBase64(data.get("task-cover"))
+      .then((res) => (picture = res))
+      .catch((err) => console.log(err));
+
     const editedTask = {
       label: data.get("task-label"),
       description: data.get("task-desc") ?? "",
       date: data.get("task-date") ?? "",
       priority: data.get("task-priority"),
+      cover:
+        (data.get("task-cover") as any).name !== ""
+          ? {
+              name: (data.get("task-cover") as any).name,
+              src: picture,
+            }
+          : {},
     };
 
     setOpenDialog(false);
@@ -119,6 +142,9 @@ function TaskInfos() {
           <>
             <div className="c-task-infos__container">
               <div className="c-task-infos__content">
+                {getTask().cover && (
+                  <img src={getTask().cover.src} alt={getTask().cover.name} />
+                )}
                 <div className="c-task-infos__intro">
                   <p className="c-h-l">{getTask().label}</p>
                   <Button
@@ -129,7 +155,12 @@ function TaskInfos() {
                 </div>
                 <div className="c-task-infos__short-infos">
                   <Priority priority={getTask().priority} />
-                  {getTask().date && <p>{changeFormatDate(getTask().date)}</p>}
+                  {getTask().date && (
+                    <p className="c-task-infos__date">
+                      <Clock9 />
+                      {changeFormatDate(getTask().date)}
+                    </p>
+                  )}
                 </div>
                 {getTask().description && <p>{getTask().description}</p>}
               </div>

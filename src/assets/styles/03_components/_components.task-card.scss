@@ -45,3 +45,19 @@
   align-items: center;
   gap: $space-8;  
 }
+
+.c-task-card__cover {
+  width: 2rem;
+  height: 2rem;
+}
+
+.c-task-card__date {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+
+  & svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}

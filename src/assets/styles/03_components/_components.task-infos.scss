@@ -47,6 +47,17 @@
   gap: $space-8;
 }
 
+.c-task-infos__date {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+
+  & svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
 .c-task-infos__remove {
   border-top: 1px solid var(--task-infos-border);
   margin-top: $space-24;

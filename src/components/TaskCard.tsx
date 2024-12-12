@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Clock9, Image, Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
@@ -14,6 +14,10 @@ interface taskProps {
     id: number;
     description: string;
     priority: "normal" | "low" | "high" | "top";
+    cover?: {
+      src: string;
+      name: string;
+    };
   };
   colId: number;
   color?: "primary" | "secondary";
@@ -84,14 +88,18 @@ function TaskCard(props: taskProps) {
           <Priority priority={card.priority} />
           {card.date && (
             <p
-              className={`c-text-s${
+              className={`c-text-s c-task-card__date${
                 dateInfos(card.date) === "past" ? " u-text-tertiary" : ""
               }`}
             >
+              <Clock9 />
               {dateInfos(card.date) === "today"
                 ? "Aujourd'hui"
                 : changeFormatDate(card.date)}
             </p>
+          )}
+          {card.cover && (
+            <Image className="u-text-default c-task-card__cover" />
           )}
         </div>
       </div>

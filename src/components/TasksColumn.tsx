@@ -72,7 +72,7 @@ function TasksColumn({
     ) {
       let picture = null;
 
-      await getBase64(data.get("task-file"))
+      await getBase64(data.get("task-cover"))
         .then((res) => (picture = res))
         .catch((err) => console.log(err));
 
@@ -81,10 +81,10 @@ function TasksColumn({
         description: data.get("task-desc") ?? "",
         date: data.get("task-date") ?? "",
         priority: data.get("task-priority"),
-        file:
-          (data.get("task-file") as any).name !== ""
+        cover:
+          (data.get("task-cover") as any).name !== ""
             ? {
-                name: (data.get("task-file") as any).name,
+                name: (data.get("task-cover") as any).name,
                 src: picture,
               }
             : {},

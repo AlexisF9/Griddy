@@ -10,7 +10,7 @@ export const TasksContext: any = createContext(null);
 function Layout() {
   const { isAuth } = useAppStore();
 
-  const [taskInfo, setTaskInfo] = useState<{
+  const [taskInfos, setTaskInfos] = useState<{
     open: boolean;
     col: number | null;
     card: number | null;
@@ -31,8 +31,14 @@ function Layout() {
       {isAuth ? (
         <TasksContext.Provider
           value={{
-            taskInfo,
-            setTaskInfo,
+            taskInfo: taskInfos,
+            setTaskInfo: (e: {
+              open: boolean;
+              col: number | null;
+              card: number | null;
+            }) => {
+              setTaskInfos(e);
+            },
           }}
         >
           <div className="layout">
