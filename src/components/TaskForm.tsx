@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Field from "./Field";
 import Select from "./Select";
 
@@ -10,6 +10,7 @@ function TaskForm({
     description: string;
     date: string;
     priority: string;
+    file: any;
   };
 }) {
   const [inputs, setInputs] = useState({
@@ -17,7 +18,51 @@ function TaskForm({
     description: task ? task.description : "",
     date: task ? task.date : "",
     priority: task ? task.priority : "",
+    file: task ? task.file : {},
   });
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputs.file.name) {
+      const data = new DataTransfer();
+      data.items.add(new File([""], inputs.file.name ?? "Ajouter un fichier"));
+
+      if (inputRef.current !== null) {
+        inputRef.current.files = data.files;
+      }
+    }
+  }, []);
+
+  const getBase64 = async (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+    });
+  };
+
+  const getUrlPictue = async (file: File, name: string) => {
+    let picture = null;
+
+    try {
+      const res = await getBase64(file);
+      picture = res;
+    } catch (err: any) {
+      console.log(err.toString());
+    }
+
+    setInputs({
+      ...inputs,
+      file: {
+        name: name,
+        src: picture,
+      },
+    });
+  };
 
   return (
     <>
@@ -81,6 +126,16 @@ function TaskForm({
           }
         />
       </div>
+      <Field
+        label="Fichier"
+        name="task-file"
+        id="file"
+        type="file"
+        ref={inputRef}
+        onChange={(e) =>
+          getUrlPictue(e.target.files[0], e.target.files[0].name)
+        }
+      />
     </>
   );
 }

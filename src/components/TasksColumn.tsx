@@ -42,7 +42,21 @@ function TasksColumn({
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const createNewTask = (e: React.FormEvent<HTMLFormElement>, id: number) => {
+  const getBase64 = async (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+    });
+  };
+
+  const createNewTask = async (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const arr = localStorage.getItem("tasks")
@@ -57,11 +71,24 @@ function TasksColumn({
         (el: { label: string }) => el.label === data.get("task-label")
       )
     ) {
+      let picture = null;
+
+      await getBase64(data.get("task-file"))
+        .then((res) => (picture = res))
+        .catch((err) => console.log(err));
+
       const newTask = {
         label: data.get("task-label"),
         description: data.get("task-desc") ?? "",
         date: data.get("task-date") ?? "",
         priority: data.get("task-priority"),
+        file:
+          (data.get("task-file") as any).name !== ""
+            ? {
+                name: (data.get("task-file") as any).name,
+                src: picture,
+              }
+            : {},
         id: Date.now(),
       };
 

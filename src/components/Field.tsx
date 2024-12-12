@@ -1,3 +1,5 @@
+import { forwardRef } from "react";
+
 interface FieldProps extends React.InputHTMLAttributes<any> {
   label?: string;
   type?: string;
@@ -8,7 +10,10 @@ interface FieldProps extends React.InputHTMLAttributes<any> {
   isTextarea?: boolean;
 }
 
-function Field(props: FieldProps) {
+const Field = forwardRef(function MyInput(
+  props: FieldProps,
+  ref: React.ForwardedRef<any>
+) {
   const { label, type, id, name, placeholder, required, isTextarea, ...rest } =
     props;
 
@@ -32,11 +37,11 @@ function Field(props: FieldProps) {
         {isTextarea ? (
           <textarea {...parameters} {...rest} />
         ) : (
-          <input type={type ?? "text"} {...parameters} {...rest} />
+          <input type={type ?? "text"} {...parameters} {...rest} ref={ref} />
         )}
       </div>
     </>
   );
-}
+});
 
 export default Field;
