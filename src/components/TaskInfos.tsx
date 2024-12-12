@@ -6,14 +6,14 @@ import { TasksContext } from "../pages/Layout";
 import { Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
+import { useAppStore } from "../store";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
+  const { tasks, setTasks } = useAppStore();
 
   const {
     taskInfo,
-    tasks,
-    getTasksList,
     setTaskInfo,
   }: {
     taskInfo: {
@@ -21,8 +21,6 @@ function TaskInfos() {
       col: number | null;
       card: number | null;
     };
-    tasks: [];
-    getTasksList: () => void;
     setTaskInfo: (e: any) => void;
   } = useContext(TasksContext);
 
@@ -85,14 +83,14 @@ function TaskInfos() {
       };
 
       localStorage.setItem("tasks", JSON.stringify(arr));
-      getTasksList();
+      setTasks();
     }
   };
 
   const removeTask = () => {
     if (taskInfo) {
       useRemoveTask(taskInfo.card, taskInfo.col);
-      getTasksList();
+      setTasks();
     }
   };
 

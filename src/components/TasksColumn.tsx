@@ -1,12 +1,12 @@
 import { Check, GripVertical, Pen, Plus, Trash2 } from "lucide-react";
 import Modal from "./Modal";
 import Button from "./Button";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import TaskCard from "./TaskCard";
 import Field from "./Field";
-import { TasksContext } from "../pages/Layout";
 import TaskForm from "./TaskForm";
+import { useAppStore } from "../store";
 
 function TasksColumn({
   id,
@@ -26,8 +26,7 @@ function TasksColumn({
   const [editColName, setEditColName] = useState(false);
   const [colName, setColName] = useState(name);
 
-  const { getTasksList }: { getTasksList: () => void } =
-    useContext(TasksContext);
+  const { setTasks } = useAppStore();
 
   const changeNameRef = React.useRef<HTMLFormElement | null>(null);
 
@@ -97,7 +96,7 @@ function TasksColumn({
       localStorage.setItem("tasks", JSON.stringify(arr));
 
       setOpenDialog(false);
-      getTasksList();
+      setTasks();
     } else {
       window.alert("Cette tâche existe déjà");
     }
@@ -123,7 +122,7 @@ function TasksColumn({
       const index = arr.indexOf(col);
       arr[index].name = data.get("col-name");
       localStorage.setItem("tasks", JSON.stringify(arr));
-      getTasksList();
+      setTasks();
     }
 
     setEditColName(false);

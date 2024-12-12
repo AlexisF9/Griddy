@@ -1,23 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import TasksColumn from "../components/TasksColumn";
 import Sortable from "sortablejs";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Field from "../components/Field";
-import { TasksContext } from "./Layout";
+import { useAppStore } from "../store";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
 
-  const {
-    tasks,
-    getTasksList,
-  }: {
-    tasks: [];
-    getTasksList: () => void;
-    setTaskInfo: (e: any) => void;
-  } = useContext(TasksContext);
+  const { setTasks, tasks } = useAppStore();
 
   useEffect(() => {
     const table: any = document.querySelector("#table");
@@ -39,7 +32,7 @@ function Tasks() {
           arr.splice(e.newIndex, numberOfDeletedElm, elm);
 
           localStorage.setItem("tasks", JSON.stringify(arr));
-          getTasksList();
+          setTasks();
         },
       });
     }
@@ -66,7 +59,7 @@ function Tasks() {
       const newTasks = [createCol, ...oldTasks];
       localStorage.setItem("tasks", JSON.stringify(newTasks));
       setNewColumn(false);
-      getTasksList();
+      setTasks();
       toast.success("Une nouvelle colonne à été ajouté", {
         position: "bottom-right",
         autoClose: 5000,
@@ -100,7 +93,7 @@ function Tasks() {
       const index = tasksCopy.indexOf(col);
       tasksCopy.splice(index, 1);
       localStorage.setItem("tasks", JSON.stringify(tasksCopy));
-      getTasksList();
+      setTasks();
     }
   };
 

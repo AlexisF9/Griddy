@@ -5,6 +5,7 @@ import Dropdown from "./Dropdown";
 import Priority from "./Priority";
 import { TasksContext } from "../pages/Layout";
 import { useRemoveTask } from "../hooks/useRemoveTask";
+import { useAppStore } from "../store";
 
 interface taskProps {
   card: {
@@ -20,16 +21,17 @@ interface taskProps {
 
 function TaskCard(props: taskProps) {
   const { card, colId, color = "primary" } = props;
+
   const [openDropdown, setOpenDropdown] = useState(false);
-  const {
-    setTaskInfo,
-    getTasksList,
-  }: { getTasksList: () => void; setTaskInfo: ({}) => void } =
+
+  const { setTasks } = useAppStore();
+
+  const { setTaskInfo }: { setTaskInfo: ({}) => void } =
     useContext(TasksContext);
 
   const removeTask = (cardId: number, colId: number) => {
     useRemoveTask(cardId, colId);
-    getTasksList();
+    setTasks();
   };
 
   const changeFormatDate = (date: string) => {

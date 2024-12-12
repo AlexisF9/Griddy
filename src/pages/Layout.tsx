@@ -19,18 +19,11 @@ function Layout() {
     col: null,
     card: null,
   });
-  const [tasks, setTasks] = useState([]);
 
-  const getTasksList = () => {
-    setTasks(
-      localStorage.getItem("tasks")
-        ? JSON.parse(localStorage.getItem("tasks") ?? "")
-        : []
-    );
-  };
+  const { setTasks } = useAppStore();
 
   useEffect(() => {
-    getTasksList();
+    setTasks();
   }, []);
 
   return (
@@ -39,8 +32,6 @@ function Layout() {
         <TasksContext.Provider
           value={{
             taskInfo,
-            tasks,
-            getTasksList,
             setTaskInfo,
           }}
         >

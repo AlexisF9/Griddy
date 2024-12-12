@@ -1,20 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { useAppStore } from "../store";
-import { TasksContext } from "./Layout";
 import TaskCard from "../components/TaskCard";
 
 function Dashboard() {
   const [allTasksToday, setAllTasksToday] = useState<any>([]);
 
-  const { name } = useAppStore();
+  const { name, tasks } = useAppStore();
   const user = name ?? "";
-
-  const {
-    tasks,
-  }: {
-    tasks: [];
-  } = useContext(TasksContext);
 
   const isToday = (date: string) => {
     const today = new Date();
@@ -40,8 +33,6 @@ function Dashboard() {
 
     return () => setAllTasksToday([]);
   }, [tasks]);
-
-  console.log(allTasksToday);
 
   return (
     <div className="c-dashboard">
