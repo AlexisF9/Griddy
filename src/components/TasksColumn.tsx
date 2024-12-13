@@ -76,11 +76,13 @@ function TasksColumn({
         (data.get("task-cover") as any).name !== "" &&
         (data.get("task-cover") as any).size > 0
       ) {
-        await getBase64(data.get("task-cover"))
-          .then((res) => (picture = res))
-          .catch((err) => console.log(err));
+        try {
+          const res = await getBase64(data.get("task-cover"));
+          picture = res;
+        } catch (err) {
+          console.log(err);
+        }
       }
-      console.log(data.get("task-cover"));
 
       const newTask = {
         label: data.get("task-label"),

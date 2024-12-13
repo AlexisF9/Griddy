@@ -63,9 +63,12 @@ function TaskInfos() {
     const pictureSize = (data.get("task-cover") as any).size;
 
     if (pictureName !== "" && pictureSize > 0) {
-      await useTransformBase64(data.get("task-cover") as File)
-        .then((res) => (picture = res))
-        .catch((err) => console.log(err));
+      try {
+        const res = await useTransformBase64(data.get("task-cover") as File);
+        picture = res;
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     const editedTask = {

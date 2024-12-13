@@ -11,7 +11,7 @@ export interface TaskDetailType {
   card: number | null;
 }
 
-export const TasksContext: any = createContext({
+export const TasksContext: React.Context<TaskDetailType | any> = createContext({
   open: false,
   col: null,
   card: null,
