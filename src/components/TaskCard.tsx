@@ -3,7 +3,7 @@ import Button from "./Button";
 import { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
 import Priority from "./Priority";
-import { TasksContext } from "../pages/Layout";
+import { TaskDetailType, TasksContext } from "../pages/Layout";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import { useAppStore } from "../store";
 
@@ -15,7 +15,7 @@ interface taskProps {
     description: string;
     priority: "normal" | "low" | "high" | "top";
     cover?: {
-      src: string;
+      url: string;
       name: string;
     };
   };
@@ -31,9 +31,11 @@ function TaskCard(props: taskProps) {
   const { setTasks } = useAppStore();
 
   const {
-    setTaskInfo,
+    taskDetail,
+    setTaskDetail,
   }: {
-    setTaskInfo: (e: any) => void;
+    taskDetail: TaskDetailType;
+    setTaskDetail: (e: TaskDetailType) => {};
   } = useContext(TasksContext);
 
   const removeTask = (cardId: number, colId: number) => {
@@ -61,13 +63,15 @@ function TaskCard(props: taskProps) {
         <div className="c-task-card__intro">
           <p
             className="c-task-card__label"
-            onClick={() =>
-              setTaskInfo({
-                open: true,
-                col: colId,
-                card: card.id,
-              })
-            }
+            onClick={() => {
+              taskDetail.col !== colId &&
+                taskDetail.card !== card.id &&
+                setTaskDetail({
+                  open: true,
+                  col: colId,
+                  card: card.id,
+                });
+            }}
           >
             {card.label}
           </p>
@@ -101,7 +105,7 @@ function TaskCard(props: taskProps) {
                 : changeFormatDate(card.date)}
             </p>
           )}
-          {card.cover && (
+          {card?.cover?.url && (
             <Image className="u-text-default c-task-card__cover" />
           )}
         </div>

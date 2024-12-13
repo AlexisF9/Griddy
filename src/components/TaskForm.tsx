@@ -46,7 +46,7 @@ function TaskForm({
   };
 
   useEffect(() => {
-    if (inputs.cover) {
+    if (inputs.cover && inputs.cover.name) {
       fetchPicture(inputs.cover);
     }
   }, []);

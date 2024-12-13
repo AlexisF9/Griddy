@@ -5,16 +5,22 @@ import { useAppStore } from "../store";
 import { createContext, useEffect, useState } from "react";
 import TaskInfos from "../components/TaskInfos";
 
-export const TasksContext: any = createContext(null);
+export interface TaskDetailType {
+  open: boolean;
+  col: number | null;
+  card: number | null;
+}
+
+export const TasksContext: any = createContext({
+  open: false,
+  col: null,
+  card: null,
+});
 
 function Layout() {
   const { isAuth } = useAppStore();
 
-  const [taskInfos, setTaskInfos] = useState<{
-    open: boolean;
-    col: number | null;
-    card: number | null;
-  }>({
+  const [taskDetail, setTaskDetail] = useState<TaskDetailType>({
     open: false,
     col: null,
     card: null,
@@ -31,14 +37,8 @@ function Layout() {
       {isAuth ? (
         <TasksContext.Provider
           value={{
-            taskInfo: taskInfos,
-            setTaskInfo: (e: {
-              open: boolean;
-              col: number | null;
-              card: number | null;
-            }) => {
-              setTaskInfos(e);
-            },
+            taskDetail,
+            setTaskDetail,
           }}
         >
           <div className="layout">

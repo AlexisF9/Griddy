@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
 import TaskForm from "./TaskForm";
-import { TasksContext } from "../pages/Layout";
+import { TaskDetailType, TasksContext } from "../pages/Layout";
 import { Clock9, Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
@@ -14,39 +14,37 @@ function TaskInfos() {
   const { tasks, setTasks } = useAppStore();
 
   const {
-    taskInfo,
-    setTaskInfo,
+    taskDetail,
+    setTaskDetail,
   }: {
-    taskInfo: {
-      open: boolean;
-      col: number | null;
-      card: number | null;
-    };
-    setTaskInfo: (e: any) => void;
+    taskDetail: TaskDetailType;
+    setTaskDetail: (e: TaskDetailType) => {};
   } = useContext(TasksContext);
 
   const getTask = () => {
-    if (tasks && tasks.length > 0 && taskInfo.col && taskInfo.card) {
+    if (tasks && tasks.length > 0 && taskDetail.col && taskDetail.card) {
       const col: any = tasks.find(
-        (el: { id: number }) => el.id === taskInfo.col
+        (el: { id: number }) => el.id === taskDetail.col
       );
 
       if (
         col.cards &&
         col.cards.length > 0 &&
-        col.cards.find((el: { id: number }) => el.id === taskInfo.card)
+        col.cards.find((el: { id: number }) => el.id === taskDetail.card)
       ) {
-        return col.cards.find((el: { id: number }) => el.id === taskInfo.card);
+        return col.cards.find(
+          (el: { id: number }) => el.id === taskDetail.card
+        );
       }
 
-      return setTaskInfo({
+      return setTaskDetail({
         open: false,
         col: null,
         card: null,
       });
     }
 
-    return setTaskInfo({
+    return setTaskDetail({
       open: false,
       col: null,
       card: null,
@@ -59,14 +57,16 @@ function TaskInfos() {
 
     let picture = null;
 
-    await useTransformBase64(data.get("task-cover") as File)
-      .then((res) => (picture = res))
-      .catch((err) => console.log(err));
-
     const pictureName = (data.get("task-cover") as any).name;
     const pictureType = (data.get("task-cover") as any).type;
     const pictureLastModified = (data.get("task-cover") as any).lastModified;
     const pictureSize = (data.get("task-cover") as any).size;
+
+    if (pictureName !== "" && pictureSize > 0) {
+      await useTransformBase64(data.get("task-cover") as File)
+        .then((res) => (picture = res))
+        .catch((err) => console.log(err));
+    }
 
     const editedTask = {
       label: data.get("task-label"),
@@ -93,21 +93,21 @@ function TaskInfos() {
 
     setOpenDialog(false);
 
-    if (taskInfo.col && taskInfo.card) {
+    if (taskDetail.col && taskDetail.card) {
       const arr = localStorage.getItem("tasks")
         ? JSON.parse(localStorage.getItem("tasks") ?? "")
         : [];
 
-      const col = arr.find((el: { id: number }) => el.id === taskInfo.col);
+      const col = arr.find((el: { id: number }) => el.id === taskDetail.col);
       const colIndex = arr.indexOf(col);
       const card = col.cards.find(
-        (el: { id: number }) => el.id === taskInfo.card
+        (el: { id: number }) => el.id === taskDetail.card
       );
       const cardIndex = col.cards.indexOf(card);
 
       arr[colIndex].cards[cardIndex] = {
         ...editedTask,
-        id: taskInfo.card,
+        id: taskDetail.card,
       };
 
       localStorage.setItem("tasks", JSON.stringify(arr));
@@ -116,8 +116,8 @@ function TaskInfos() {
   };
 
   const removeTask = () => {
-    if (taskInfo) {
-      useRemoveTask(taskInfo.card, taskInfo.col);
+    if (taskDetail) {
+      useRemoveTask(taskDetail.card, taskDetail.col);
       setTasks();
     }
   };
@@ -129,27 +129,26 @@ function TaskInfos() {
   return (
     <>
       <div
-        className={`c-task-infos ${taskInfo.open ? "c-task-infos--open" : ""}`}
+        className={`c-task-infos ${
+          taskDetail.open ? "c-task-infos--open" : ""
+        }`}
       >
         <Button
           icon={<X />}
           isLink={true}
           onClick={() =>
-            setTaskInfo({
+            setTaskDetail({
+              ...taskDetail,
               open: false,
-              col: taskInfo.col,
-              card: taskInfo.card,
             })
           }
         />
 
-        {taskInfo.card && taskInfo.col && getTask() && (
+        {taskDetail.card && taskDetail.col && getTask() && (
           <>
             <div className="c-task-infos__container">
               <div className="c-task-infos__content">
-                {getTask()?.cover && getTask().cover.url && (
-                  <img src={getTask().cover.url} />
-                )}
+                {getTask()?.cover?.url && <img src={getTask().cover.url} />}
                 <div className="c-task-infos__intro">
                   <p className="c-h-l">{getTask().label}</p>
                   <Button
