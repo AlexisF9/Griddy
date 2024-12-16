@@ -7,13 +7,14 @@
 
 .c-field__input {
   border: 0;
-  padding: 1rem;
+  padding: $space-10;
   width: 100%;
   border-radius: var(--radius-sm);
   outline: 0;
   border: 1px solid var(--input-border);
   transition: border-color var(--transition-in-out);
   background-color: var(--input-bg);
+  color: var(--text-default);
 
   &:focus {
     border-color: var(--input-border-focus);
@@ -24,6 +25,7 @@
     padding: $space-10;
     border-radius: var(--radius-sm);
     background-color: var(--input-file-button-bg);
+    color: var(--text-default);
   }
 }
 
