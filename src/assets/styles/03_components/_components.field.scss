@@ -15,6 +15,7 @@
   transition: border-color var(--transition-in-out);
   background-color: var(--input-bg);
   color: var(--text-default);
+  text-align: start;
 
   &:focus {
     border-color: var(--input-border-focus);
