@@ -3,11 +3,11 @@
   border-radius: var(--radius-sm);
   position: relative;
   z-index: 0;
-  max-width: 30rem;
   width: 100%;
   height: fit-content;
 
-  @include max-width(md) {
+  @include min-width(md) {
+    max-width: 30rem;
     width: 100%;
   }
 
@@ -24,12 +24,17 @@
   display: flex;
   justify-content: space-between;
   gap: $space-8;
-  margin-bottom: $space-10;
 }
 
 .c-task-card__label {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.c-task-card__status {
+  border: 1px solid black;
+  border-radius: var(--radius-full);
+  padding: .5rem $space-10;
 }
 
 .c-task-card__infos {
@@ -41,6 +46,11 @@
 
   span {
     display: flex;
+  }
+
+  span svg {
+    width: 2rem;
+    height: 2rem;
   }
 }
 

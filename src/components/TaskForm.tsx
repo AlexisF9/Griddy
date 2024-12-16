@@ -5,6 +5,7 @@ import { useTransformBase64 } from "../hooks/useTransformBase64";
 
 function TaskForm({
   task,
+  edit,
 }: {
   task?: {
     label: string;
@@ -14,6 +15,7 @@ function TaskForm({
     status: string;
     cover: any;
   };
+  edit?: boolean;
 }) {
   const [inputs, setInputs] = useState({
     label: task ? task.label : "",
@@ -68,6 +70,12 @@ function TaskForm({
       cover: picture,
     });
   };
+
+  const defaultStatus = [
+    { label: "À faire", value: "to-do" },
+    { label: "En cours", value: "progress" },
+    { label: "En pause", value: "pause" },
+  ];
 
   return (
     <>
@@ -134,11 +142,11 @@ function TaskForm({
       </div>
       <Select
         required={true}
-        options={[
-          { label: "À faire", value: "to-do" },
-          { label: "En cours", value: "progress" },
-          { label: "En pause", value: "pause" },
-        ]}
+        options={
+          edit
+            ? [...defaultStatus, { label: "Terminé", value: "finished" }]
+            : [...defaultStatus]
+        }
         label="Statut"
         id="status"
         name="task-status"

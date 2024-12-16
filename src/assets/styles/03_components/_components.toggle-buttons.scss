@@ -1,5 +1,6 @@
 .c-toggle-buttons {
   display: flex;
+  gap: $space-8;
   flex-wrap: wrap;
 }
 
@@ -8,12 +9,12 @@
   position: relative;
 
   label {
-    border: 1px solid transparent;
+    border: 1px solid var(--toggle-buttons-border);
     border-radius: var(--radius-full);
     width: fit-content;
     padding: .5rem $space-10;
     opacity: .5;
-    transition: border-color var(--transition-in-out), opacity var(--transition-in-out);
+    transition: background-color var(--transition-in-out), color var(--transition-in-out), opacity var(--transition-in-out);
   }
 
   & input {
@@ -25,6 +26,7 @@
 
   &:has(input:checked) label {
     opacity: 1;
-    border-color: var(--toggle-buttons-border);
+    background-color: var(--toggle-buttons-active-bg);
+    color: var(--text-white);
   }
 }

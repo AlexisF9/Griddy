@@ -28,6 +28,7 @@
   height: fit-content;
 
   @include max-width(md) {
+    min-width: auto;
     width: 100%;
   }
 }

@@ -14,6 +14,7 @@ interface taskProps {
     id: number;
     description: string;
     priority: "normal" | "low" | "high" | "top";
+    status: string;
     cover?: {
       url: string;
       name: string;
@@ -55,6 +56,14 @@ function TaskCard(props: taskProps) {
       : "future";
   };
 
+  const status = [
+    { label: "Tous", value: "all", checked: true },
+    { label: "À faire", value: "to-do" },
+    { label: "En cours", value: "progress" },
+    { label: "En pause", value: "pause" },
+    { label: "Terminé", value: "finished" },
+  ];
+
   return (
     <>
       <div className={`c-task-card c-task-card--${color}`}>
@@ -85,14 +94,15 @@ function TaskCard(props: taskProps) {
             </div>
           </Dropdown>
         </div>
-        <Priority priority={card.priority} />
 
         <div className="c-task-card__infos">
-          {card.description && (
-            <span title="Description">
-              <Text />
-            </span>
-          )}
+          <Priority priority={card.priority} />
+          <p className="c-text-s c-task-card__status">
+            {status.find((el) => el.value === card.status)?.label}
+          </p>
+        </div>
+
+        <div className="c-task-card__infos">
           {card.date && (
             <p
               className={`c-text-s c-task-card__date${
@@ -104,6 +114,11 @@ function TaskCard(props: taskProps) {
                 ? "Aujourd'hui"
                 : changeFormatDate(card.date)}
             </p>
+          )}
+          {card.description && (
+            <span title="Description">
+              <Text />
+            </span>
           )}
           {card?.cover?.url && (
             <span title="Image de couverture">

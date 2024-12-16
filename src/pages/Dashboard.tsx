@@ -46,15 +46,18 @@ function Dashboard() {
           {allTasksToday.length > 0 ? (
             <>
               <div className="c-dashboard__tasks-today">
-                {allTasksToday.map((el: { cards: []; col: number }) =>
-                  el.cards.map((card: any) => (
-                    <TaskCard
-                      key={card.id}
-                      card={card}
-                      colId={el.col}
-                      color="secondary"
-                    />
-                  ))
+                {allTasksToday.map(
+                  (el: { cards: { status: string }[]; col: number }) =>
+                    el.cards
+                      .filter((item) => item.status !== "finished")
+                      .map((card: any) => (
+                        <TaskCard
+                          key={card.id}
+                          card={card}
+                          colId={el.col}
+                          color="secondary"
+                        />
+                      ))
                 )}
               </div>
             </>

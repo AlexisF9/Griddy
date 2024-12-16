@@ -190,7 +190,7 @@ function TaskInfos() {
                 className="c-tasks-column__new-task-form"
                 onSubmit={(e) => editTask(e)}
               >
-                <TaskForm task={getTask()} />
+                <TaskForm task={getTask()} edit={true} />
                 <div className="c-tasks-column__new-task-action">
                   <p className="c-text-s u-mb-12">*Champs obligatoire</p>
                   <div>

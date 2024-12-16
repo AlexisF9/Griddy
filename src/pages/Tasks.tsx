@@ -141,13 +141,18 @@ function Tasks() {
 
         {tasks && tasks.length > 0 ? (
           <>
-            <div className="u-mb-24">
-              <ToggleButtons
-                name="tasks-status"
-                list={status}
-                updateState={setStatusFilter}
-              />
-            </div>
+            {tasks.filter((el) => el.cards?.length > 0)?.length > 0 && (
+              <>
+                <p className="c-text-m u-mb-8">Filtrer les statuts</p>
+                <div className="u-mb-24">
+                  <ToggleButtons
+                    name="tasks-status"
+                    list={status}
+                    updateState={setStatusFilter}
+                  />
+                </div>
+              </>
+            )}
 
             <div className="c-tasks-column" id="table">
               {tasks.map((col: any) => (
