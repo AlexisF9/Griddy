@@ -7,6 +7,7 @@
   border-left: 1px solid var(--task-infos-border);
   padding: $space-24;
   padding: $space-16;
+  overflow: auto;
 
   @include min-width(md) {
     height: 100vh;
