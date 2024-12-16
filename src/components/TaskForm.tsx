@@ -103,6 +103,7 @@ function TaskForm({
           name="task-date"
           id="date"
           type="date"
+          required={true}
           value={inputs.date}
           onChange={(e) =>
             setInputs({
@@ -137,7 +138,6 @@ function TaskForm({
           { label: "À faire", value: "to-do" },
           { label: "En cours", value: "progress" },
           { label: "En pause", value: "pause" },
-          { label: "Terminé", value: "finished" },
         ]}
         label="Statut"
         id="status"

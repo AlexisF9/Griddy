@@ -1,4 +1,4 @@
-import { Clock9, Image, Trash2 } from "lucide-react";
+import { Clock9, Image, Text, Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
@@ -85,12 +85,14 @@ function TaskCard(props: taskProps) {
             </div>
           </Dropdown>
         </div>
-        {card.description && (
-          <p className="c-task-card__description">{card.description}</p>
-        )}
+        <Priority priority={card.priority} />
 
         <div className="c-task-card__infos">
-          <Priority priority={card.priority} />
+          {card.description && (
+            <span title="Description">
+              <Text />
+            </span>
+          )}
           {card.date && (
             <p
               className={`c-text-s c-task-card__date${
@@ -104,7 +106,9 @@ function TaskCard(props: taskProps) {
             </p>
           )}
           {card?.cover?.url && (
-            <Image className="u-text-default c-task-card__cover" />
+            <span title="Image de couverture">
+              <Image className="u-text-default c-task-card__cover" />
+            </span>
           )}
         </div>
       </div>

@@ -6,9 +6,11 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Field from "../components/Field";
 import { useAppStore } from "../store";
+import ToggleButtons from "../components/ToggleButtons";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const { setTasks, tasks } = useAppStore();
 
@@ -22,10 +24,8 @@ function Tasks() {
         draggable: ".c-tasks-column__col",
         handle: ".c-tasks-column__col-drag",
         ghostClass: "c-tasks-column__on-drag",
-        onEnd: (e) => {
-          const arr = localStorage.getItem("tasks")
-            ? JSON.parse(localStorage.getItem("tasks") ?? "")
-            : [];
+        onEnd: (e: any) => {
+          const arr = [...tasks];
           let numberOfDeletedElm = 1;
           const elm = arr.splice(e.oldIndex, numberOfDeletedElm)[0];
           numberOfDeletedElm = 0;
@@ -97,6 +97,14 @@ function Tasks() {
     }
   };
 
+  const status = [
+    { label: "Tous", value: "all", checked: true },
+    { label: "À faire", value: "to-do" },
+    { label: "En cours", value: "progress" },
+    { label: "En pause", value: "pause" },
+    { label: "Terminé", value: "finished" },
+  ];
+
   return (
     <div className="c-tasks">
       <div className="c-tasks__content">
@@ -131,25 +139,36 @@ function Tasks() {
           )}
         </div>
 
-        <div className="c-tasks-column" id="table">
-          {tasks && tasks.length > 0 ? (
-            tasks.map((col: any) => (
-              <TasksColumn
-                key={col.id}
-                draggable={tasks.length > 1 ? true : false}
-                id={col.id}
-                name={col.name}
-                cards={col.cards}
-                removeColumn={removeColumn}
+        {tasks && tasks.length > 0 ? (
+          <>
+            <div className="u-mb-24">
+              <ToggleButtons
+                name="tasks-status"
+                list={status}
+                updateState={setStatusFilter}
               />
-            ))
-          ) : (
-            <p>
-              Vous n'avez pas de tâches. Crée une colonne pour ajouter une
-              nouvelle tâche.
-            </p>
-          )}
-        </div>
+            </div>
+
+            <div className="c-tasks-column" id="table">
+              {tasks.map((col: any) => (
+                <TasksColumn
+                  key={col.id}
+                  draggable={tasks.length > 1 ? true : false}
+                  id={col.id}
+                  name={col.name}
+                  cards={col.cards}
+                  removeColumn={removeColumn}
+                  statusFilter={statusFilter}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <p>
+            Vous n'avez pas de tâches. Crée une colonne pour ajouter une
+            nouvelle tâche.
+          </p>
+        )}
       </div>
     </div>
   );

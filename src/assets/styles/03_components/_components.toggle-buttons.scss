@@ -1,0 +1,30 @@
+.c-toggle-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.c-toggle-buttons__button {
+  width: fit-content;
+  position: relative;
+
+  label {
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    width: fit-content;
+    padding: .5rem $space-10;
+    opacity: .5;
+    transition: border-color var(--transition-in-out), opacity var(--transition-in-out);
+  }
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  &:has(input:checked) label {
+    opacity: 1;
+    border-color: var(--toggle-buttons-border);
+  }
+}

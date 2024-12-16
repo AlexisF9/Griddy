@@ -78,6 +78,7 @@ function TaskInfos() {
       description: data.get("task-desc") ?? "",
       date: data.get("task-date") ?? "",
       priority: data.get("task-priority"),
+      status: data.get("task-status"),
       cover:
         (pictureName === getTask()?.cover?.name &&
           pictureLastModified === getTask()?.cover?.lastModified) ||

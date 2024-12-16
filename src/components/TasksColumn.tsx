@@ -14,12 +14,14 @@ function TasksColumn({
   cards,
   draggable,
   removeColumn,
+  statusFilter,
 }: {
   id: number;
   name: string;
-  cards: { label: string }[];
+  cards: { status: string }[];
   draggable: boolean;
   removeColumn: (e: any) => void;
+  statusFilter: string | null;
 }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -87,6 +89,7 @@ function TasksColumn({
         description: data.get("task-desc") ?? "",
         date: data.get("task-date") ?? "",
         priority: data.get("task-priority"),
+        status: data.get("task-status"),
         cover: picture
           ? {
               url: picture,
@@ -160,7 +163,7 @@ function TasksColumn({
               <Button isLink={true} type="submit" icon={<Check />} label="" />
             </form>
           ) : (
-            <p className="c-text-l">{name}</p>
+            <h3 className="c-text-l">{name}</h3>
           )}
         </div>
         <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
@@ -185,9 +188,15 @@ function TasksColumn({
 
       {cards && cards.length > 0 && (
         <div className="c-tasks-column__cards u-mb-24">
-          {cards.map((card: any) => (
-            <TaskCard key={card.id} card={card} colId={id} />
-          ))}
+          {statusFilter !== "" && statusFilter !== "all"
+            ? cards
+                .filter((el: { status: string }) => el.status === statusFilter)
+                .map((card: any) => (
+                  <TaskCard key={card.id} card={card} colId={id} />
+                ))
+            : cards.map((card: any) => (
+                <TaskCard key={card.id} card={card} colId={id} />
+              ))}
         </div>
       )}
 

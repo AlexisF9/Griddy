@@ -32,19 +32,16 @@
   cursor: pointer;
 }
 
-.c-task-card__description {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: $space-16;
-}
-
 .c-task-card__infos {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: $space-8;  
+  gap: $space-8;
+  margin-top: $space-16;
+
+  span {
+    display: flex;
+  }
 }
 
 .c-task-card__cover {
