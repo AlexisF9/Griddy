@@ -24,9 +24,14 @@ body:has(.c-modal) {
   border-radius: var(--radius-md);
   width: 50rem;
   opacity: 1;
+  overflow: auto;
 
   @starting-style {
     opacity: 0;
+  }
+
+  @include min-width(md) {
+    max-height: 90vh;
   }
 
   @include max-width(md) {
