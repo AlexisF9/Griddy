@@ -231,7 +231,7 @@ template {
   display: none;
 }
 
-[type="date"], select {
+input[type='date'], input[type='time'], select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
