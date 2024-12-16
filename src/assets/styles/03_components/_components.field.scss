@@ -7,7 +7,7 @@
 
 .c-field__input {
   border: 0;
-  padding: $space-10!important;
+  padding: $space-10;
   width: 100%;
   border-radius: var(--radius-sm);
   outline: 0;
@@ -16,6 +16,10 @@
   background-color: var(--input-bg);
   color: var(--text-default);
   text-align: start;
+
+  &[type='date'] {
+    height: 4.4rem;
+  }
 
   &:focus {
     border-color: var(--input-border-focus);

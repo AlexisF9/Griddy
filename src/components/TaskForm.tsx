@@ -111,7 +111,6 @@ function TaskForm({
           name="task-date"
           id="date"
           type="date"
-          placeholder="dd/mm/yyyy"
           required={true}
           value={inputs.date}
           onChange={(e) =>
