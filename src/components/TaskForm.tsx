@@ -11,6 +11,7 @@ function TaskForm({
     description: string;
     date: string;
     priority: string;
+    status: string;
     cover: any;
   };
 }) {
@@ -19,6 +20,7 @@ function TaskForm({
     description: task ? task.description : "",
     date: task ? task.date : "",
     priority: task ? task.priority : "",
+    status: task ? task.status : "",
     cover: task ? task.cover : {},
   });
 
@@ -129,7 +131,25 @@ function TaskForm({
           }
         />
       </div>
-
+      <Select
+        required={true}
+        options={[
+          { label: "À faire", value: "to-do" },
+          { label: "En cours", value: "progress" },
+          { label: "En pause", value: "pause" },
+          { label: "Terminé", value: "finished" },
+        ]}
+        label="Statut"
+        id="status"
+        name="task-status"
+        defaultValue={inputs.status}
+        onChange={(e) =>
+          setInputs({
+            ...inputs,
+            status: e.target.value,
+          })
+        }
+      />
       <Field
         label="Image de couverture"
         name="task-cover"

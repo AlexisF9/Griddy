@@ -1,8 +1,10 @@
-export const useRemoveTask = (cardId: number | null, colId: number | null) => {
-  if (cardId && colId) {
-    const arr = localStorage.getItem("tasks")
-      ? JSON.parse(localStorage.getItem("tasks") ?? "")
-      : [];
+export const useRemoveTask = (
+  tasks: any[],
+  cardId: number | null,
+  colId: number | null
+) => {
+  if (tasks && tasks.length > 0 && cardId && colId) {
+    const arr = [...tasks];
     const col = arr.find((el: { id: number }) => el.id === colId);
     const colIndex = arr.indexOf(col);
 

@@ -29,7 +29,7 @@ function TaskInfos() {
 
       if (
         col.cards &&
-        col.cards.length > 0 &&
+        col.cards?.length > 0 &&
         col.cards.find((el: { id: number }) => el.id === taskDetail.card)
       ) {
         return col.cards.find(
@@ -57,10 +57,12 @@ function TaskInfos() {
 
     let picture = null;
 
-    const pictureName = (data.get("task-cover") as any).name;
-    const pictureType = (data.get("task-cover") as any).type;
-    const pictureLastModified = (data.get("task-cover") as any).lastModified;
-    const pictureSize = (data.get("task-cover") as any).size;
+    const pictureName = (data.get("task-cover") as { name: string }).name;
+    const pictureType = (data.get("task-cover") as { type: string }).type;
+    const pictureLastModified = (
+      data.get("task-cover") as { lastModified: number }
+    ).lastModified;
+    const pictureSize = (data.get("task-cover") as { size: number }).size;
 
     if (pictureName !== "" && pictureSize > 0) {
       try {
@@ -97,10 +99,7 @@ function TaskInfos() {
     setOpenDialog(false);
 
     if (taskDetail.col && taskDetail.card) {
-      const arr = localStorage.getItem("tasks")
-        ? JSON.parse(localStorage.getItem("tasks") ?? "")
-        : [];
-
+      const arr = [...tasks];
       const col = arr.find((el: { id: number }) => el.id === taskDetail.col);
       const colIndex = arr.indexOf(col);
       const card = col.cards.find(
@@ -120,7 +119,7 @@ function TaskInfos() {
 
   const removeTask = () => {
     if (taskDetail) {
-      useRemoveTask(taskDetail.card, taskDetail.col);
+      useRemoveTask(tasks, taskDetail.card, taskDetail.col);
       setTasks();
     }
   };

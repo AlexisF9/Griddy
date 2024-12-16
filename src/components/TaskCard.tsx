@@ -28,18 +28,16 @@ function TaskCard(props: taskProps) {
 
   const [openDropdown, setOpenDropdown] = useState(false);
 
-  const { setTasks } = useAppStore();
+  const { tasks, setTasks } = useAppStore();
 
   const {
-    taskDetail,
     setTaskDetail,
   }: {
-    taskDetail: TaskDetailType;
     setTaskDetail: (e: TaskDetailType) => {};
   } = useContext(TasksContext);
 
   const removeTask = (cardId: number, colId: number) => {
-    useRemoveTask(cardId, colId);
+    useRemoveTask(tasks, cardId, colId);
     setTasks();
   };
 
@@ -64,8 +62,8 @@ function TaskCard(props: taskProps) {
           <p
             className="c-task-card__label"
             onClick={() => {
-              taskDetail.col !== colId &&
-                taskDetail.card !== card.id &&
+              colId &&
+                card.id &&
                 setTaskDetail({
                   open: true,
                   col: colId,

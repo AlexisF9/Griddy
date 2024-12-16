@@ -26,7 +26,7 @@ function TasksColumn({
   const [editColName, setEditColName] = useState(false);
   const [colName, setColName] = useState(name);
 
-  const { setTasks } = useAppStore();
+  const { tasks, setTasks } = useAppStore();
 
   const changeNameRef = React.useRef<HTMLFormElement | null>(null);
 
@@ -58,9 +58,7 @@ function TasksColumn({
   ) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const arr = localStorage.getItem("tasks")
-      ? JSON.parse(localStorage.getItem("tasks") ?? "")
-      : [];
+    const arr = [...tasks];
     const col = arr.find((el: { id: number }) => el.id === id);
     const index = arr.indexOf(col);
 
@@ -73,8 +71,8 @@ function TasksColumn({
       let picture = null;
 
       if (
-        (data.get("task-cover") as any).name !== "" &&
-        (data.get("task-cover") as any).size > 0
+        (data.get("task-cover") as { name: string }).name !== "" &&
+        (data.get("task-cover") as { size: number }).size > 0
       ) {
         try {
           const res = await getBase64(data.get("task-cover"));
@@ -92,9 +90,10 @@ function TasksColumn({
         cover: picture
           ? {
               url: picture,
-              name: (data.get("task-cover") as any).name,
-              type: (data.get("task-cover") as any).type,
-              lastModified: (data.get("task-cover") as any).lastModified,
+              name: (data.get("task-cover") as { name: string }).name,
+              type: (data.get("task-cover") as { type: string }).type,
+              lastModified: (data.get("task-cover") as { lastModified: number })
+                .lastModified,
             }
           : {},
         id: Date.now(),

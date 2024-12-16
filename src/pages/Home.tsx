@@ -11,7 +11,7 @@ function Home() {
 
     const data = new FormData(e.currentTarget);
     localStorage.setItem("name", JSON.stringify(data.get("name")));
-    changeName(data.get("name") ? data.get("name") : null);
+    changeName(data.get("name") ? (data.get("name") as string) : null);
     toggleAuth(true);
   };
 
