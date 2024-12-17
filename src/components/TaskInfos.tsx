@@ -28,8 +28,8 @@ function TaskInfos() {
       );
 
       if (
-        col.cards &&
-        col.cards?.length > 0 &&
+        col?.cards &&
+        col?.cards?.length > 0 &&
         col.cards.find((el: { id: number }) => el.id === taskDetail.card)
       ) {
         return col.cards.find(
