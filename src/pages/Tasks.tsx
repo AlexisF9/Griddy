@@ -25,7 +25,9 @@ function Tasks() {
         handle: ".c-tasks-column__col-drag",
         ghostClass: "c-tasks-column__on-drag",
         onEnd: (e: any) => {
-          const arr = [...tasks];
+          const arr = localStorage.getItem("tasks")
+            ? JSON.parse(localStorage.getItem("tasks") ?? "")
+            : [];
           let numberOfDeletedElm = 1;
           const elm = arr.splice(e.oldIndex, numberOfDeletedElm)[0];
           numberOfDeletedElm = 0;
