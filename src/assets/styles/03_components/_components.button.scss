@@ -7,16 +7,18 @@
   width: fit-content;
   border: 0;
   color: var(--button-text);
-  transition: background-color var(--transition-in-out), color var(--transition-in-out);
+  transition: background-color var(--transition-in-out), color var(--transition-in-out), border-color var(--transition-in-out);
 
   &:not(&--link) {
     padding: 1rem;
     border-radius: var(--radius-sm);
     background-color: var(--button-bg);
+    border: 1px solid var(--button-border);
 
     &:hover {
       background-color: var(--button-bg-hover);
       color: var(--button-text-hover); 
+      border-color: var(--button-border-hover);
     }
   }
 

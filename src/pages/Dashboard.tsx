@@ -38,7 +38,7 @@ function Dashboard() {
   return (
     <div className="c-dashboard">
       <h2 className="c-dashboard__title c-h-xl u-mb-24">
-        Bienvenue sur ton board <span className="u-text-tertiary">{user}</span>
+        Bienvenue sur ton board <span className="u-text-primary">{user}</span>
       </h2>
       {tasks && tasks.length > 0 ? (
         <div>
@@ -51,12 +51,7 @@ function Dashboard() {
                     el.cards
                       .filter((item) => item.status !== "finished")
                       .map((card: any) => (
-                        <TaskCard
-                          key={card.id}
-                          card={card}
-                          colId={el.col}
-                          color="secondary"
-                        />
+                        <TaskCard key={card.id} card={card} colId={el.col} />
                       ))
                 )}
               </div>

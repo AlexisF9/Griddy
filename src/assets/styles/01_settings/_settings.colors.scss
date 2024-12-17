@@ -4,33 +4,36 @@
   --color-primary-0-30: rgba(0, 0, 0, .3);
 
   --color-neutral-0: rgba(255, 255, 255, 1);
-  --color-neutral-1: rgb(17 20 25);
-  --color-neutral-2: #ededed;
-  --color-neutral-3: #dbdbdb;
+  --color-neutral-0-50: rgba(255, 255, 255, .5);
+  --color-neutral-1: #252322;
+  --color-neutral-1-30: rgba(37, 35, 34, .3);
+  --color-neutral-2: #fbfaf8;
+  --color-neutral-3: #dfdfdf;
 
-  --color-secondary: rgba(42, 192, 204, 1);
-  --color-secondary-30: rgba(42, 192, 204, .3);
-  --color-secondary-2: rgb(39, 177, 187);
-
-  --color-tertiary: rgba(250, 187, 58, 1);
-  --color-tertiary-30: rgba(250, 187, 58, .3);
-  --color-tertiary-2: rgb(233, 174, 56);
+  --color-primary: #b591ef;
 
   --color-red: rgb(239, 73, 27);
   --color-red-30: rgba(239, 73, 27, .3);
 
+  --color-green: #319a56;
+  --color-green-light: #c4f3e5;
+
   // Assignation (components)
 
+  --home-bg: var(--color-neutral-2);
   --home-card-bg: var(--color-neutral-0);
   --home-card-shadow: var(--color-neutral-3);
 
   --navbar-bg: var(--color-neutral-1);
+  --navbar-link: var(--color-neutral-0-50);
+  --navbar-link-active: var(--text-white);
 
-  --footer-bg: var(--color-neutral-3);
+  --footer-bg: var(--color-neutral-2);
+  --footer-border: var(--color-neutral-3);
 
-  --text-default: var(--color-primary-0);
+  --text-default: var(--color-neutral-1);
   --text-white: var(--color-neutral-0);
-  --text-tertiary: var(--color-tertiary);
+  --text-primary: var(--color-primary);
 
   --input-bg: var(--color-neutral-0);
   --input-border: var(--color-neutral-3);
@@ -42,9 +45,6 @@
   --table-col-border: var(--color-neutral-3);
   --table-col-remove: var(--color-tertiary);
 
-  --task-card-bg: var(--color-neutral-0);
-  --task-card-secondary-bg: var(--color-neutral-2);
-
   --modal-overlay-bg: var(--color-primary-0-30);
   --modal-bg: var(--color-neutral-0);
 
@@ -54,44 +54,73 @@
   --task-infos-shadow: var(--color-neutral-3);
   --task-infos-border: var(--color-neutral-3);
 
-  --toggle-buttons-border: var(--color-neutral-1);
-  --toggle-buttons-active-bg: var(--color-neutral-1);
+  --toggle-buttons-border: var(--color-primary);
+  --toggle-buttons-active-bg: var(--color-primary);
+  --toggle-buttons-active-text: var(--color-primary);
+
+  --task-card-status-bg: var(--color-neutral-2);
+  --task-card-status-border: var(--color-neutral-1);
 
   .c-button--primary {
-    --button-bg: var(--color-neutral-1);
-    --button-bg-hover: var(--color-neutral-0);
-    --button-text: var(--text-white);
-    --button-text-hover: var(--color-neutral-1);
-    --button-link-text: var(--color-neutral-1);
+    --button-bg: var(--color-primary);
+    --button-bg-hover: transparent;
+    --button-text: var(--text-default);
+    --button-text-hover: var(--color-primary);
+    --button-link-text: var(--color-primary);
+    --button-border: transparent;
+    --button-border-hover: #b591ef;
   }
   .c-button--secondary {
-    --button-bg: var(--color-secondary);
-    --button-bg-hover: var(--color-secondary-2);
-    --button-text: var(--color-neutral-1);
-    --button-text-hover: var(--color-neutral-1);
-    --button-link-text: var(--color-secondary);
-  }
-  .c-button--tertiary {
-    --button-bg: var(--color-tertiary);
-    --button-bg-hover: var(--color-tertiary-2);
-    --button-text: var(--color-neutral-1);
-    --button-text-hover: var(--color-neutral-1);
-    --button-link-text: var(--color-tertiary);
+    --button-bg: var(--color-neutral-1);
+    --button-bg-hover: transparent;
+    --button-text: var(--text-white);
+    --button-text-hover: var(--text-default);
+    --button-link-text:var(--text-default);
+    --button-border-hover: var(--color-neutral-1);
+    --button-border: var(--color-neutral-1);
   }
   .c-button--white {
-    --button-link-text: var(--text-white);
+    --button-bg: var(--color-neutral-0);
+    --button-bg-hover: transparent;
+    --button-text: var(--text-default);
+    --button-text-hover: var(--text-white);
+    --button-link-text:var(--text-white);
+    --button-border-hover: var(--color-neutral-0);
+    --button-border: var(--color-neutral-0);
   }
 
-  .c-priority--normal {
-    --priority-bg: var(--color-secondary-30);
-  }
   .c-priority--low {
-    --priority-bg: var(--color-neutral-3);
+    --priority-tag: #416fc2;
+    --priority-tag-text: var(--text-white);
+  }
+  .c-priority--normal {
+    --priority-tag: #269dbc;
+    --priority-tag-text: var(--text-white);
   }
   .c-priority--high {
-    --priority-bg: var(--color-tertiary-30);
+    --priority-tag: #cc6f13;
+    --priority-tag-text: var(--text-white);
   }
   .c-priority--top {
-    --priority-bg: var(--color-red-30);
+    --priority-tag: #dc7173;
+    --priority-tag-text: var(--text-white);
+  }
+
+
+  .c-task-card--low {
+    --task-card-bg: #dde0f6;
+    --task-card-bg-2: #e3edfd;
+  }
+  .c-task-card--normal {
+    --task-card-bg: #cceef9;
+    --task-card-bg-2: #def3f8;
+  }
+  .c-task-card--high {
+    --task-card-bg: #f9e4cc;
+    --task-card-bg-2: #fbeedf;
+  }
+  .c-task-card--top {
+    --task-card-bg: #f9cdcd;
+    --task-card-bg-2: #f8e0de;
   }
 }

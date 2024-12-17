@@ -160,7 +160,13 @@ function TasksColumn({
                 value={colName}
                 onChange={(e) => setColName(e.target.value)}
               />
-              <Button isLink={true} type="submit" icon={<Check />} label="" />
+              <Button
+                color="secondary"
+                isLink={true}
+                type="submit"
+                icon={<Check />}
+                label=""
+              />
             </form>
           ) : (
             <h3 className="c-text-l">{name}</h3>
@@ -171,14 +177,14 @@ function TasksColumn({
             <Button
               isLink={true}
               icon={<Pen />}
-              color="white"
+              color="primary"
               label="Modifier"
               onClick={toggleEditCol}
             />
             <Button
               isLink={true}
               icon={<Trash2 />}
-              color="tertiary"
+              color="white"
               label="Supprimer"
               onClick={() => removeColumn(id)}
             />
@@ -204,7 +210,7 @@ function TasksColumn({
         <Modal open={openDialog} setOpen={setOpenDialog}>
           <p className="c-h-l u-mb-16">
             Création d'une tâche dans{" "}
-            <span className="u-text-tertiary">{name}</span>
+            <span className="u-text-primary">{name}</span>
           </p>
           <form
             className="c-tasks-column__new-task-form"
@@ -220,6 +226,7 @@ function TasksColumn({
                   label="Ajouter une tâche"
                 />
                 <Button
+                  color="secondary"
                   isLink={true}
                   label="Annuler"
                   onClick={() => setOpenDialog(false)}
@@ -230,6 +237,7 @@ function TasksColumn({
         </Modal>
         <Button
           isLink={true}
+          color="secondary"
           icon={<Plus />}
           label="Nouvelle tache"
           onClick={() => setOpenDialog(true)}

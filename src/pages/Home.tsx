@@ -36,7 +36,7 @@ function Home() {
                 />
                 <Button
                   fullWidth={true}
-                  color="secondary"
+                  color="primary"
                   label="Commencer"
                   type="submit"
                 />

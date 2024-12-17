@@ -138,6 +138,7 @@ function TaskInfos() {
       >
         <Button
           icon={<X />}
+          color="secondary"
           isLink={true}
           onClick={() =>
             setTaskDetail({
@@ -156,6 +157,7 @@ function TaskInfos() {
                   <p className="c-h-l">{getTask().label}</p>
                   <Button
                     isLink={true}
+                    color="secondary"
                     icon={<Pen />}
                     onClick={() => setOpenDialog(true)}
                   />
@@ -184,7 +186,7 @@ function TaskInfos() {
             <Modal open={openDialog} setOpen={setOpenDialog}>
               <p className="c-h-l u-mb-16">
                 Modification de{" "}
-                <span className="u-text-tertiary">{getTask().label}</span>
+                <span className="u-text-primary">{getTask().label}</span>
               </p>
               <form
                 className="c-tasks-column__new-task-form"
@@ -200,6 +202,7 @@ function TaskInfos() {
                       label="Ajouter une tâche"
                     />
                     <Button
+                      color="secondary"
                       isLink={true}
                       label="Annuler"
                       onClick={() => setOpenDialog(false)}

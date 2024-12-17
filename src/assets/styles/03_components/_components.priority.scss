@@ -1,6 +1,7 @@
 .c-priority {
-  background-color: var(--priority-bg);
+  background-color: var(--priority-tag);
   border-radius: var(--radius-full);
   padding: .5rem 1rem;
   width: fit-content;
+  color: var(--priority-tag-text);
 }

@@ -4,8 +4,8 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: var(--color-neutral-2);
   padding: 0 $space-16;
+  background-color: var(--home-bg);
 
   h1 {
     @include text('h-2xl', var(--text-default), 600, var(--font-tertiary));
@@ -13,10 +13,9 @@
 }
 
 .c-home__card {
-  box-shadow: 0px 0px 3rem 1rem var(--home-card-shadow);
   background-color: var(--home-card-bg);
-  border: 1px solid var(--color-neutral-3);
-  padding: $space-24;
+  box-shadow: 0px 0px 3rem var(--home-card-shadow);
+  padding: $space-32;
   border-radius: var(--radius-md);
   position: relative;
   overflow: hidden;

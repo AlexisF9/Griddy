@@ -123,6 +123,7 @@ function Tasks() {
                 <div>
                   <Button type="submit" color="secondary" label="Créer" />
                   <Button
+                    color="secondary"
                     isLink={true}
                     label="Annuler"
                     onClick={() => setNewColumn(false)}

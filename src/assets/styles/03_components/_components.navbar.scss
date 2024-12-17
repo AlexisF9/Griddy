@@ -1,7 +1,13 @@
+body:has(.c-navbar--open) {
+  @include max-width(md) {
+    overflow: hidden;
+  }
+}
+
 .c-navbar {
   grid-area: navbar;
   position: relative;
-  padding: $space-32;
+  padding: $space-24;
   background-color: var(--navbar-bg);
   color: white;
   position: sticky;
@@ -22,6 +28,7 @@
       height: 100vh;
       min-width: auto;
       transition: left var(--transition-bezier);
+      border-radius: 0;
       
       &--open {
         left: 0;
@@ -43,7 +50,7 @@
 }
 
 .c-navbar__link {
-  color: gray;
+  color: var(--navbar-link);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -51,7 +58,7 @@
 }
 
 .c-navbar__link--active {
-  color: white;
+  color: var(--navbar-link-active);
 }
 
 .c-navbar__open-navbar {

@@ -71,7 +71,7 @@ function Navbar() {
 
         <Button
           icon={<LogOut />}
-          color="tertiary"
+          color="primary"
           fullWidth={true}
           label="Réinitialiser"
           onClick={handleDeco}

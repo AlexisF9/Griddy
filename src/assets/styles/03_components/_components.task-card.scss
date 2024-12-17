@@ -5,24 +5,24 @@
   z-index: 0;
   width: 100%;
   height: fit-content;
+  background: linear-gradient(var(--task-card-bg), var(--task-card-bg-2));
 
   @include min-width(md) {
     max-width: 30rem;
     width: 100%;
-  }
-
-  &--primary {
-    background-color: var(--task-card-bg);
-  }
-
-  &--secondary {
-    background-color: var(--task-card-secondary-bg);
   }
 }
 
 .c-task-card__intro {
   display: flex;
   justify-content: space-between;
+  gap: $space-8;
+  margin-bottom: $space-16;
+}
+
+.c-task-card__intro-infos {
+  display: flex;
+  align-items: center;
   gap: $space-8;
 }
 
@@ -32,9 +32,10 @@
 }
 
 .c-task-card__status {
-  border: 1px solid black;
+  box-shadow: 0 0 0 1px var(--task-card-status-border);
   border-radius: var(--radius-full);
   padding: .5rem $space-10;
+  background-color: var(--task-card-status-bg);
 }
 
 .c-task-card__infos {
