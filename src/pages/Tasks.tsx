@@ -65,7 +65,7 @@ function Tasks() {
       localStorage.setItem("tasks", JSON.stringify(newTasks));
       setNewColumn(false);
       setTasks();
-      toast.success("Une nouvelle colonne à été ajouté", {
+      toast.success("Une nouvelle colonne à été créé", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -77,7 +77,7 @@ function Tasks() {
         transition: Bounce,
       });
     } else {
-      toast.error("Cette colonne existe déjà", {
+      toast.warning("Une colonne à déjà ce nom", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -99,6 +99,17 @@ function Tasks() {
       tasksCopy.splice(index, 1);
       localStorage.setItem("tasks", JSON.stringify(tasksCopy));
       setTasks();
+      toast.success("Votre colonne a été supprimée", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     }
   };
 

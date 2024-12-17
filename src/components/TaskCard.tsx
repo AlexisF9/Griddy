@@ -6,6 +6,7 @@ import Priority from "./Priority";
 import { TaskDetailType, TasksContext } from "../pages/Layout";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import { useAppStore } from "../store";
+import { Bounce, toast } from "react-toastify";
 
 interface taskProps {
   card: {
@@ -40,6 +41,17 @@ function TaskCard(props: taskProps) {
   const removeTask = (cardId: number, colId: number) => {
     useRemoveTask(tasks, cardId, colId);
     setTasks();
+    toast.success("Votre tâche a été supprimée", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+    });
   };
 
   const changeFormatDate = (date: string) => {

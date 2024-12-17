@@ -7,6 +7,7 @@ import TaskCard from "./TaskCard";
 import Field from "./Field";
 import TaskForm from "./TaskForm";
 import { useAppStore } from "../store";
+import { Bounce, toast } from "react-toastify";
 
 function TasksColumn({
   id,
@@ -62,53 +63,64 @@ function TasksColumn({
     const col = arr.find((el: { id: number }) => el.id === id);
     const index = arr.indexOf(col);
 
+    let picture = null;
+
     if (
-      col.cards.length === 0 ||
-      !col.cards.find(
-        (el: { label: string }) => el.label === data.get("task-label")
-      )
+      (data.get("task-cover") as { name: string }).name !== "" &&
+      (data.get("task-cover") as { size: number }).size > 0
     ) {
-      let picture = null;
-
-      if (
-        (data.get("task-cover") as { name: string }).name !== "" &&
-        (data.get("task-cover") as { size: number }).size > 0
-      ) {
-        try {
-          const res = await getBase64(data.get("task-cover"));
-          picture = res;
-        } catch (err) {
-          console.log(err);
-        }
+      try {
+        const res = await getBase64(data.get("task-cover"));
+        picture = res;
+      } catch (err) {
+        toast.error("Une erreur c'est produite lors du chargement de l'image", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       }
-
-      const newTask = {
-        label: data.get("task-label"),
-        description: data.get("task-desc") ?? "",
-        date: data.get("task-date") ?? "",
-        priority: data.get("task-priority"),
-        status: data.get("task-status"),
-        cover: picture
-          ? {
-              url: picture,
-              name: (data.get("task-cover") as { name: string }).name,
-              type: (data.get("task-cover") as { type: string }).type,
-              lastModified: (data.get("task-cover") as { lastModified: number })
-                .lastModified,
-            }
-          : {},
-        id: Date.now(),
-      };
-
-      const cards = [newTask, ...col.cards];
-      arr[index].cards = cards;
-      localStorage.setItem("tasks", JSON.stringify(arr));
-
-      setOpenDialog(false);
-      setTasks();
-    } else {
-      window.alert("Cette tâche existe déjà");
     }
+
+    const newTask = {
+      label: data.get("task-label"),
+      description: data.get("task-desc") ?? "",
+      date: data.get("task-date") ?? "",
+      priority: data.get("task-priority"),
+      status: data.get("task-status"),
+      cover: picture
+        ? {
+            url: picture,
+            name: (data.get("task-cover") as { name: string }).name,
+            type: (data.get("task-cover") as { type: string }).type,
+            lastModified: (data.get("task-cover") as { lastModified: number })
+              .lastModified,
+          }
+        : {},
+      id: Date.now(),
+    };
+
+    const cards = [newTask, ...col.cards];
+    arr[index].cards = cards;
+    localStorage.setItem("tasks", JSON.stringify(arr));
+    setOpenDialog(false);
+    setTasks();
+    toast.success("Une nouvelle tâche à été créé", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+    });
   };
 
   const toggleEditCol = () => {
