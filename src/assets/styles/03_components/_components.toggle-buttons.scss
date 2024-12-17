@@ -13,8 +13,7 @@
     border-radius: var(--radius-full);
     width: fit-content;
     padding: .5rem $space-10;
-    transition: background-color var(--transition-in-out), color var(--transition-in-out);
-    color: var(--toggle-buttons-active-text);
+    transition: background-color var(--transition-in-out), color var(--transition-in-out), border-color var(--transition-in-out);
   }
 
   & input {
@@ -27,5 +26,6 @@
   &:has(input:checked) label {
     background-color: var(--toggle-buttons-active-bg);
     color: var(--text-default);
+    border-color: var(--toggle-buttons-active-border);
   }
 }
