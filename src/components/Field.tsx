@@ -8,14 +8,24 @@ interface FieldProps extends React.InputHTMLAttributes<any> {
   placeholder?: string;
   required?: boolean;
   isTextarea?: boolean;
+  color?: string;
 }
 
 const Field = forwardRef(function MyInput(
   props: FieldProps,
   ref: React.ForwardedRef<any>
 ) {
-  const { label, type, id, name, placeholder, required, isTextarea, ...rest } =
-    props;
+  const {
+    label,
+    type,
+    id,
+    name,
+    placeholder,
+    required,
+    isTextarea,
+    color,
+    ...rest
+  } = props;
 
   const parameters = {
     required: required,

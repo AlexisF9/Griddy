@@ -7,10 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 import Field from "../components/Field";
 import { useAppStore } from "../store";
 import ToggleButtons from "../components/ToggleButtons";
+import { ChevronDown } from "lucide-react";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [dateFilter, setDateFilter] = useState<string>("");
 
   const { setTasks, tasks } = useAppStore();
 
@@ -100,18 +103,49 @@ function Tasks() {
   };
 
   const status = [
-    { label: "Tous", value: "all", checked: true },
+    { label: "Tous", value: "all" },
     { label: "À faire", value: "to-do" },
     { label: "En cours", value: "progress" },
     { label: "En pause", value: "pause" },
     { label: "Terminé", value: "finished" },
   ];
 
+  const changeFormatDate = (date: string) => {
+    return date.toString().split("-").reverse().join("/");
+  };
+
+  const resetFilters = () => {
+    setStatusFilter("all");
+    setDateFilter("");
+  };
+
+  const filterTasks = (cards: []) => {
+    let filteredCards = [...cards];
+
+    if (cards?.length > 0) {
+      if (statusFilter !== "" && statusFilter !== "all") {
+        filteredCards = filteredCards.filter(
+          (el: { status: string }) => el.status === statusFilter
+        );
+      }
+
+      if (dateFilter !== "") {
+        filteredCards = filteredCards.filter(
+          (el: { date: string }) =>
+            changeFormatDate(el.date) === changeFormatDate(dateFilter)
+        );
+      }
+
+      return filteredCards;
+    }
+    return [];
+  };
+
   return (
     <div className="c-tasks">
       <div className="c-tasks__content">
         <div className="c-tasks__intro">
-          <h2 className="c-h-l u-mb-16">Mes taches</h2>
+          <h2 className="c-h-xl u-mb-16">Mes taches</h2>
           <ToastContainer />
           {newColumn ? (
             <div className="c-tasks__new-col">
@@ -145,16 +179,45 @@ function Tasks() {
         {tasks && tasks.length > 0 ? (
           <>
             {tasks.filter((el) => el.cards?.length > 0)?.length > 0 && (
-              <>
-                <p className="c-text-m u-mb-8">Filtrer les statuts</p>
-                <div className="u-mb-24">
-                  <ToggleButtons
-                    name="tasks-status"
-                    list={status}
-                    updateState={setStatusFilter}
+              <div
+                className={`c-tasks__filters${
+                  openFilters ? " c-tasks__filters--open" : ""
+                }`}
+              >
+                <div
+                  className="c-tasks__filters-intro"
+                  onClick={() => setOpenFilters((el) => !el)}
+                >
+                  <h3 className="c-h-l">Filtres</h3>
+                  <ChevronDown className="u-text-default" />
+                </div>
+                <div className="c-tasks__filters-content">
+                  <div>
+                    <div className="c-field">
+                      <p className="c-text-m">Trier par statut</p>
+                      <ToggleButtons
+                        name="tasks-status"
+                        list={status}
+                        state={statusFilter}
+                        updateState={setStatusFilter}
+                      />
+                    </div>
+                    <Field
+                      id="sortByDate"
+                      name="sortByDate"
+                      label="Trier par date"
+                      type="date"
+                      value={dateFilter}
+                      onChange={(e) => setDateFilter(e.target.value)}
+                    />
+                  </div>
+                  <Button
+                    isLink
+                    label="Réinitialiser les filtres"
+                    onClick={resetFilters}
                   />
                 </div>
-              </>
+              </div>
             )}
 
             <div className="c-tasks-column" id="table">
@@ -164,9 +227,8 @@ function Tasks() {
                   draggable={tasks.length > 1 ? true : false}
                   id={col.id}
                   name={col.name}
-                  cards={col.cards}
+                  cards={filterTasks(col.cards)}
                   removeColumn={removeColumn}
-                  statusFilter={statusFilter}
                 />
               ))}
             </div>

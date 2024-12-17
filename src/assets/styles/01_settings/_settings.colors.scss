@@ -54,11 +54,13 @@
   --task-infos-border: var(--color-neutral-3);
 
   --toggle-buttons-border: var(--color-neutral-1);
-  --toggle-buttons-active-border: var(--color-neutral-3);
-  --toggle-buttons-active-bg: var(--color-neutral-3);
+  --toggle-buttons-active-border: var(--color-primary);
+  --toggle-buttons-active-bg: var(--color-primary);
 
-  --task-card-status-bg: var(--color-neutral-2);
   --task-card-status-border: var(--color-neutral-1);
+
+  --tasks-filters-bg: var(--color-neutral-3);
+  --tasks-filters-border: var(--color-neutral-1);
 
   .c-button--primary {
     --button-bg: var(--color-primary);

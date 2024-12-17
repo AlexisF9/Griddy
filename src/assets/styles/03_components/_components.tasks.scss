@@ -31,3 +31,45 @@
     gap: $space-8;
   }
 }
+
+.c-tasks__filters {
+  border-radius: var(--radius-lg);
+  background-color: var(--tasks-filters-bg);
+  padding: $space-16;
+  max-width: 90rem;
+  margin-bottom: $space-32;
+  display: grid;
+  grid-template-rows: max-content 0px;
+  overflow: hidden;
+
+  &--open {
+    grid-template-rows: max-content 1fr;
+
+    .c-tasks__filters-intro svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.c-tasks__filters-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.c-tasks__filters-content {
+  border-top: 1px solid var(--tasks-filters-border);
+  margin-top: $space-24;
+  padding-top: $space-24;
+
+  & > div {
+    display: flex;
+    margin-bottom: $space-16;
+
+    @include max-width(md) {
+      flex-direction: column;
+      gap: $space-16;
+    }
+  }
+}
