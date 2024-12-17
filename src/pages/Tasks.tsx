@@ -38,7 +38,7 @@ function Tasks() {
         },
       });
     }
-  }, []);
+  }, [document.querySelector("#table")]);
 
   const createColumn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
