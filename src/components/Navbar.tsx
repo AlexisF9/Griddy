@@ -46,7 +46,7 @@ function Navbar() {
           <X />
         </button>
         <div>
-          <h1 className="c-navbar__title">Griddy</h1>
+          <h1 className="c-navbar__title u-align-center">Griddy</h1>
           <nav>
             <ul className="c-navbar__links">
               {routes.map((route, index) => (

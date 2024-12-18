@@ -117,11 +117,7 @@ function TaskCard(props: taskProps) {
 
         <div className="c-task-card__infos">
           {card.date && (
-            <p
-              className={`c-text-s c-task-card__date${
-                dateInfos(card.date) === "past" ? " u-text-tertiary" : ""
-              }`}
-            >
+            <p className="c-text-s c-task-card__date">
               <Clock9 />
               {dateInfos(card.date) === "today"
                 ? "Aujourd'hui"

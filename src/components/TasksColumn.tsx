@@ -239,10 +239,7 @@ function TasksColumn({
 
       <div className="c-tasks-column__new-task">
         <Modal open={openDialog} setOpen={setOpenDialog}>
-          <p className="c-h-l u-mb-16">
-            Création d'une tâche dans{" "}
-            <span className="u-text-primary">{name}</span>
-          </p>
+          <p className="c-h-l u-mb-16">Création d'une tâche dans : {name}</p>
           <form
             className="c-tasks-column__new-task-form"
             onSubmit={(e) => createNewTask(e, id)}

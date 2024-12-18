@@ -38,7 +38,7 @@ function Dashboard() {
   return (
     <div className="c-dashboard">
       <h2 className="c-dashboard__title c-h-xl u-mb-24">
-        Bienvenue sur ton board <span className="u-text-primary">{user}</span>
+        Bienvenue sur ton board <span>{user}</span>
       </h2>
       {tasks && tasks.length > 0 ? (
         <div>

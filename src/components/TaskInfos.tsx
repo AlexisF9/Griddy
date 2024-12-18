@@ -185,8 +185,7 @@ function TaskInfos() {
             </div>
             <Modal open={openDialog} setOpen={setOpenDialog}>
               <p className="c-h-l u-mb-16">
-                Modification de{" "}
-                <span className="u-text-primary">{getTask().label}</span>
+                Modification de : {getTask().label}
               </p>
               <form
                 className="c-tasks-column__new-task-form"

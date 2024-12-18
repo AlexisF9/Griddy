@@ -39,7 +39,6 @@ body:has(.c-navbar--open) {
 .c-navbar__title {
   @include text('h-xl', var(--text-white), 600, var(--font-tertiary));
   margin-bottom: $space-32;
-  text-align: center;
 }
 
 .c-navbar__links {
