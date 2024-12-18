@@ -35,12 +35,13 @@
 .c-tasks__filters {
   border-radius: var(--radius-lg);
   background-color: var(--tasks-filters-bg);
-  padding: $space-16;
+  padding: $space-12;
   max-width: 90rem;
   margin-bottom: $space-32;
   display: grid;
   grid-template-rows: max-content 0px;
   overflow: hidden;
+  border: 1px solid var(--tasks-filters-border);
 
   &--open {
     grid-template-rows: max-content 1fr;
@@ -60,8 +61,8 @@
 
 .c-tasks__filters-content {
   border-top: 1px solid var(--tasks-filters-border);
-  margin-top: $space-24;
-  padding-top: $space-24;
+  margin-top: $space-16;
+  padding-top: $space-16;
 
   & > div {
     display: flex;

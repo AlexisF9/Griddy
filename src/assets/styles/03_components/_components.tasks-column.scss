@@ -24,8 +24,9 @@
   border: 1px solid var(--table-col-border);
   padding: $space-16;
   border-radius: var(--radius-lg);
-  min-width: 30rem;
   height: fit-content;
+  min-width: 33.2rem;
+  width: auto;
 
   @include max-width(md) {
     min-width: auto;

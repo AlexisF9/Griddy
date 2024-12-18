@@ -199,7 +199,7 @@ function Tasks() {
                   className="c-tasks__filters-intro"
                   onClick={() => setOpenFilters((el) => !el)}
                 >
-                  <h3 className="c-h-l">Filtres</h3>
+                  <h3 className="c-text-l">Filtres</h3>
                   <ChevronDown className="u-text-default" />
                 </div>
                 <div className="c-tasks__filters-content">

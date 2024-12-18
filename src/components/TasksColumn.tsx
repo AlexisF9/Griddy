@@ -8,6 +8,7 @@ import Field from "./Field";
 import TaskForm from "./TaskForm";
 import { useAppStore } from "../store";
 import { Bounce, toast } from "react-toastify";
+import Sortable from "sortablejs";
 
 function TasksColumn({
   id,
@@ -149,6 +150,32 @@ function TasksColumn({
     setEditColName(false);
   };
 
+  useEffect(() => {
+    const list: any = document.querySelector("#tasks-list");
+
+    if (list) {
+      new Sortable(list, {
+        animation: 150,
+        swapThreshold: 1,
+        draggable: ".c-task-card",
+        handle: ".c-task-card__card-drag",
+        ghostClass: "c-tasks-column__on-drag",
+        //onEnd: (e: any) => {
+        //  const arr = localStorage.getItem("tasks")
+        //    ? JSON.parse(localStorage.getItem("tasks") ?? "")
+        //    : [];
+        //  let numberOfDeletedElm = 1;
+        //  const elm = arr.splice(e.oldIndex, numberOfDeletedElm)[0];
+        //  numberOfDeletedElm = 0;
+        //  arr.splice(e.newIndex, numberOfDeletedElm, elm);
+
+        //  localStorage.setItem("tasks", JSON.stringify(arr));
+        //  setTasks();
+        //},
+      });
+    }
+  }, [document.querySelector("#tasks-list")]);
+
   return (
     <div className="c-tasks-column__col">
       <div className="c-tasks-column__col-intro u-mb-24">
@@ -203,7 +230,7 @@ function TasksColumn({
       </div>
 
       {cards && cards.length > 0 && (
-        <div className="c-tasks-column__cards u-mb-24">
+        <div className="c-tasks-column__cards u-mb-24" id="tasks-list">
           {cards.map((card: any) => (
             <TaskCard key={card.id} card={card} colId={id} />
           ))}

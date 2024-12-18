@@ -8,8 +8,7 @@
   background: linear-gradient(var(--task-card-bg), var(--task-card-bg-2));
 
   @include min-width(md) {
-    max-width: 30rem;
-    width: 100%;
+    width: 30rem;
   }
 }
 
