@@ -161,28 +161,28 @@ function TasksColumn({
         draggable: ".c-task-card",
         handle: ".c-task-card__card-drag",
         ghostClass: "c-tasks-column__on-drag",
-        onEnd: (e: any) => {
-          const arr = localStorage.getItem("tasks")
-            ? JSON.parse(localStorage.getItem("tasks") ?? "")
-            : [];
-          let numberOfDeletedElm = 1;
+        //onEnd: (e: any) => {
+        //  const arr = localStorage.getItem("tasks")
+        //    ? JSON.parse(localStorage.getItem("tasks") ?? "")
+        //    : [];
+        //  let numberOfDeletedElm = 1;
 
-          const fromColId = e.from.id.match(new RegExp("[0-9]+"))?.[0];
-          const col = arr.find(
-            (el: { id: number }) => el.id === parseInt(fromColId)
-          );
-          const card = col.cards[e.oldIndex];
-          //console.log(arr, col, card);
+        //  const fromColId = e.from.id.match(new RegExp("[0-9]+"))?.[0];
+        //  const col = arr.find(
+        //    (el: { id: number }) => el.id === parseInt(fromColId)
+        //  );
+        //  const card = col.cards[e.oldIndex];
+        //  console.log(arr, col, card);
 
-          if (e.to.id !== `tasks-list-${id}`) {
-            const newColId = e.to.id.match(new RegExp("[0-9]+"))?.[0];
-            //console.log("cc", newColId);
-          } else {
-          }
+        //  if (e.to.id !== `tasks-list-${id}`) {
+        //    const newColId = e.to.id.match(new RegExp("[0-9]+"))?.[0];
+        //    console.log("cc", newColId);
+        //  } else {
+        //  }
 
-          //const newColId = "tasks-list-1734515654237";
-          //console.log(test.match(new RegExp("[0-9]+"))?.[0]);
-        },
+        //  const newColId = "tasks-list-1734515654237";
+        //  console.log(test.match(new RegExp("[0-9]+"))?.[0]);
+        //},
         //onEnd: (e: any) => {
         //  const arr = localStorage.getItem("tasks")
         //    ? JSON.parse(localStorage.getItem("tasks") ?? "")
