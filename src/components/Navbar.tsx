@@ -41,7 +41,7 @@ function Navbar() {
       >
         <Menu />
       </button>
-      <div className={`c-navbar ${open && "c-navbar--open"}`}>
+      <div className={`c-navbar${open ? " c-navbar--open" : ""}`}>
         <button onClick={handleOpen} className="c-navbar__close">
           <X />
         </button>
@@ -71,7 +71,7 @@ function Navbar() {
 
         <Button
           icon={<LogOut />}
-          color="primary"
+          color="warning"
           fullWidth={true}
           label="Réinitialiser"
           onClick={handleDeco}

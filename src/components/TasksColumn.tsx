@@ -214,14 +214,14 @@ function TasksColumn({
             <Button
               isLink={true}
               icon={<Pen />}
-              color="primary"
+              color="light"
               label="Modifier"
               onClick={toggleEditCol}
             />
             <Button
               isLink={true}
               icon={<Trash2 />}
-              color="white"
+              color="warning"
               label="Supprimer"
               onClick={() => removeColumn(id)}
             />
@@ -251,11 +251,7 @@ function TasksColumn({
             <div className="c-tasks-column__new-task-action">
               <p className="c-text-s u-mb-12">*Champs obligatoire</p>
               <div>
-                <Button
-                  color="secondary"
-                  type="submit"
-                  label="Ajouter une tâche"
-                />
+                <Button type="submit" label="Ajouter une tâche" />
                 <Button
                   color="secondary"
                   isLink={true}

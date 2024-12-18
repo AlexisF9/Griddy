@@ -168,9 +168,8 @@ function Tasks() {
                   placeholder="Nom de la colonne"
                 />
                 <div>
-                  <Button type="submit" color="secondary" label="Créer" />
+                  <Button type="submit" label="Créer" />
                   <Button
-                    color="secondary"
                     isLink={true}
                     label="Annuler"
                     onClick={() => setNewColumn(false)}
@@ -180,7 +179,6 @@ function Tasks() {
             </div>
           ) : (
             <Button
-              color="secondary"
               label="Ajouter une colonne"
               onClick={() => setNewColumn(true)}
             />
@@ -223,6 +221,7 @@ function Tasks() {
                     />
                   </div>
                   <Button
+                    color="warning"
                     isLink
                     label="Réinitialiser les filtres"
                     onClick={resetFilters}

@@ -14,7 +14,7 @@ function Button(props: ButtonProps) {
   const {
     label = null,
     fullWidth = false,
-    color = "primary",
+    color = "dark",
     url = null,
     isLink = false,
     icon = null,

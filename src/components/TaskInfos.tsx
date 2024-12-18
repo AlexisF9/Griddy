@@ -177,7 +177,7 @@ function TaskInfos() {
                 <Button
                   isLink={true}
                   icon={<Trash2 />}
-                  color="tertiary"
+                  color="warning"
                   label="Supprimer la tâche"
                   onClick={removeTask}
                 />
@@ -196,11 +196,7 @@ function TaskInfos() {
                 <div className="c-tasks-column__new-task-action">
                   <p className="c-text-s u-mb-12">*Champs obligatoire</p>
                   <div>
-                    <Button
-                      color="secondary"
-                      type="submit"
-                      label="Ajouter une tâche"
-                    />
+                    <Button type="submit" label="Ajouter une tâche" />
                     <Button
                       color="secondary"
                       isLink={true}

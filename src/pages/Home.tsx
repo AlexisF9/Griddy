@@ -34,12 +34,7 @@ function Home() {
                   required={true}
                   placeholder="Entrez votre nom"
                 />
-                <Button
-                  fullWidth={true}
-                  color="primary"
-                  label="Commencer"
-                  type="submit"
-                />
+                <Button fullWidth={true} label="Commencer" type="submit" />
               </form>
             </div>
           </div>

@@ -31,7 +31,7 @@
   &:has(input:checked) label {
     opacity: 1;
     background-color: var(--toggle-buttons-active-bg);
-    color: var(--text-default);
+    color: var(--text-white);
     border-color: var(--toggle-buttons-active-border);
   }
 }

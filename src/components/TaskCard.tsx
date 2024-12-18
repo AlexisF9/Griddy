@@ -92,7 +92,7 @@ function TaskCard(props: taskProps) {
               <Button
                 isLink={true}
                 icon={<Trash2 />}
-                color="white"
+                color="warning"
                 label="Supprimer"
                 onClick={() => removeTask(card.id, colId)}
               />

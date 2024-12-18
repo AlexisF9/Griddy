@@ -10,10 +10,7 @@
   --color-neutral-2: #fbfaf8;
   --color-neutral-3: #dfdfdf;
 
-  --color-primary: #b591ef;
-
-  --color-red: rgb(239, 73, 27);
-  --color-red-30: rgba(239, 73, 27, .3);
+  --color-orange: #fbbb3a;
 
   --color-green: #319a56;
   --color-green-light: #c4f3e5;
@@ -42,7 +39,6 @@
 
   --table-col-bg: var(--color-neutral-2);
   --table-col-border: var(--color-neutral-3);
-  --table-col-remove: var(--color-tertiary);
 
   --modal-overlay-bg: var(--color-primary-0-30);
   --modal-bg: var(--color-neutral-0);
@@ -54,24 +50,15 @@
   --task-infos-border: var(--color-neutral-3);
 
   --toggle-buttons-border: var(--color-neutral-1);
-  --toggle-buttons-active-border: var(--color-primary);
-  --toggle-buttons-active-bg: var(--color-primary);
+  --toggle-buttons-active-border: var(--color-neutral-1);
+  --toggle-buttons-active-bg: var(--color-neutral-1);
 
   --task-card-status-border: var(--color-neutral-1);
 
   --tasks-filters-bg: var(--color-neutral-2);
   --tasks-filters-border: var(--color-neutral-3);
 
-  .c-button--primary {
-    --button-bg: var(--color-primary);
-    --button-bg-hover: transparent;
-    --button-text: var(--text-default);
-    --button-text-hover: var(--color-primary);
-    --button-link-text: var(--color-primary);
-    --button-border: transparent;
-    --button-border-hover: #b591ef;
-  }
-  .c-button--secondary {
+  .c-button--dark {
     --button-bg: var(--color-neutral-1);
     --button-bg-hover: transparent;
     --button-text: var(--text-white);
@@ -80,7 +67,7 @@
     --button-border-hover: var(--color-neutral-1);
     --button-border: var(--color-neutral-1);
   }
-  .c-button--white {
+  .c-button--light {
     --button-bg: var(--color-neutral-0);
     --button-bg-hover: transparent;
     --button-text: var(--text-default);
@@ -88,6 +75,15 @@
     --button-link-text:var(--text-white);
     --button-border-hover: var(--color-neutral-0);
     --button-border: var(--color-neutral-0);
+  }
+  .c-button--warning {
+    --button-bg: var(--color-orange);
+    --button-bg-hover: transparent;
+    --button-text: var(--text-default);
+    --button-text-hover: var(--color-orange);
+    --button-link-text: var(--color-orange);
+    --button-border-hover: var(--color-orange);
+    --button-border: var(--color-orange);
   }
 
   .c-priority--low {

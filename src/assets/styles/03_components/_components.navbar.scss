@@ -16,7 +16,7 @@ body:has(.c-navbar--open) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 22rem;
+  min-width: 20rem;
   
   @include max-width(md) {
       position: fixed;
@@ -39,6 +39,7 @@ body:has(.c-navbar--open) {
 .c-navbar__title {
   @include text('h-xl', var(--text-white), 600, var(--font-tertiary));
   margin-bottom: $space-32;
+  text-align: center;
 }
 
 .c-navbar__links {
