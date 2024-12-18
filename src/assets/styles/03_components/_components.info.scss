@@ -1,0 +1,28 @@
+.c-info {
+  position: absolute;
+  top: $space-24;
+  display: flex;
+  align-items: center;
+  gap: $space-10;
+  background-color: var(--info-bg);
+  padding: $space-16;
+  border-radius: var(--radius-lg);
+
+  @include min-width(md) {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 60rem;
+    width: 100%;
+  }
+
+  @include max-width(md) {
+    left: $space-16;
+    right: $space-16;
+  }
+
+  svg {
+    min-width: $space-24;
+    height: $space-24;
+    color: var(--info-icon);
+  }
+}

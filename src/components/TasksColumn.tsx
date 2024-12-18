@@ -151,15 +151,38 @@ function TasksColumn({
   };
 
   useEffect(() => {
-    const list: any = document.querySelector("#tasks-list");
+    const list: any = document.querySelector("#tasks-list-" + id);
 
     if (list) {
       new Sortable(list, {
+        group: "shared",
         animation: 150,
         swapThreshold: 1,
         draggable: ".c-task-card",
         handle: ".c-task-card__card-drag",
         ghostClass: "c-tasks-column__on-drag",
+        onEnd: (e: any) => {
+          const arr = localStorage.getItem("tasks")
+            ? JSON.parse(localStorage.getItem("tasks") ?? "")
+            : [];
+          let numberOfDeletedElm = 1;
+
+          const fromColId = e.from.id.match(new RegExp("[0-9]+"))?.[0];
+          const col = arr.find(
+            (el: { id: number }) => el.id === parseInt(fromColId)
+          );
+          const card = col.cards[e.oldIndex];
+          //console.log(arr, col, card);
+
+          if (e.to.id !== `tasks-list-${id}`) {
+            const newColId = e.to.id.match(new RegExp("[0-9]+"))?.[0];
+            //console.log("cc", newColId);
+          } else {
+          }
+
+          //const newColId = "tasks-list-1734515654237";
+          //console.log(test.match(new RegExp("[0-9]+"))?.[0]);
+        },
         //onEnd: (e: any) => {
         //  const arr = localStorage.getItem("tasks")
         //    ? JSON.parse(localStorage.getItem("tasks") ?? "")
@@ -174,7 +197,7 @@ function TasksColumn({
         //},
       });
     }
-  }, [document.querySelector("#tasks-list")]);
+  }, [document.querySelector("#tasks-list-" + id)]);
 
   return (
     <div className="c-tasks-column__col">
@@ -230,7 +253,7 @@ function TasksColumn({
       </div>
 
       {cards && cards.length > 0 && (
-        <div className="c-tasks-column__cards u-mb-24" id="tasks-list">
+        <div className="c-tasks-column__cards u-mb-24" id={`tasks-list-${id}`}>
           {cards.map((card: any) => (
             <TaskCard key={card.id} card={card} colId={id} />
           ))}

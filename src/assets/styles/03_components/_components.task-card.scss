@@ -22,6 +22,7 @@
 .c-task-card__intro-infos {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: $space-8;
 }
 
