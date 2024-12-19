@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../components/Button";
 import TasksColumn from "../components/TasksColumn";
-import Sortable from "sortablejs";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Field from "../components/Field";
 import { useAppStore } from "../store";
 import ToggleButtons from "../components/ToggleButtons";
 import { ChevronDown } from "lucide-react";
+import { DragDropContext } from "react-beautiful-dnd";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
@@ -15,33 +15,7 @@ function Tasks() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<string>("");
 
-  const { setTasks, tasks } = useAppStore();
-
-  useEffect(() => {
-    const table: any = document.querySelector("#table");
-
-    if (table) {
-      new Sortable(table, {
-        animation: 150,
-        swapThreshold: 1,
-        draggable: ".c-tasks-column__col",
-        handle: ".c-tasks-column__col-drag",
-        ghostClass: "c-tasks-column__on-drag",
-        onEnd: (e: any) => {
-          const arr = localStorage.getItem("tasks")
-            ? JSON.parse(localStorage.getItem("tasks") ?? "")
-            : [];
-          let numberOfDeletedElm = 1;
-          const elm = arr.splice(e.oldIndex, numberOfDeletedElm)[0];
-          numberOfDeletedElm = 0;
-          arr.splice(e.newIndex, numberOfDeletedElm, elm);
-
-          localStorage.setItem("tasks", JSON.stringify(arr));
-          setTasks();
-        },
-      });
-    }
-  }, [document.querySelector("#table")]);
+  const { setTasks, tasks, moveCard } = useAppStore();
 
   const createColumn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -152,6 +126,19 @@ function Tasks() {
     return [];
   };
 
+  const handleTaskDragEnd = (result: any) => {
+    const { source, destination } = result;
+
+    if (!destination) return;
+
+    const fromColId = parseInt(source.droppableId, 10);
+    const toColId = parseInt(destination.droppableId, 10);
+    const oldIndex = source.index;
+    const newIndex = destination.index;
+
+    moveCard(fromColId, toColId, oldIndex, newIndex);
+  };
+
   return (
     <div className="c-tasks">
       <div className="c-tasks__content">
@@ -230,18 +217,20 @@ function Tasks() {
               </div>
             )}
 
-            <div className="c-tasks-column" id="table">
-              {tasks.map((col: any) => (
-                <TasksColumn
-                  key={col.id}
-                  draggable={tasks.length > 1 ? true : false}
-                  id={col.id}
-                  name={col.name}
-                  cards={filterTasks(col.cards)}
-                  removeColumn={removeColumn}
-                />
-              ))}
-            </div>
+            <DragDropContext onDragEnd={handleTaskDragEnd}>
+              <div className="c-tasks-column">
+                {tasks?.map((col: any) => (
+                  <TasksColumn
+                    key={col.id}
+                    draggable={tasks.length > 1 ? true : false}
+                    id={col.id}
+                    name={col.name}
+                    cards={filterTasks(col.cards)}
+                    removeColumn={removeColumn}
+                  />
+                ))}
+              </div>
+            </DragDropContext>
           </>
         ) : (
           <p>

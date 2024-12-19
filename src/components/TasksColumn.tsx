@@ -8,7 +8,7 @@ import Field from "./Field";
 import TaskForm from "./TaskForm";
 import { useAppStore } from "../store";
 import { Bounce, toast } from "react-toastify";
-import Sortable from "sortablejs";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
 function TasksColumn({
   id,
@@ -150,55 +150,6 @@ function TasksColumn({
     setEditColName(false);
   };
 
-  useEffect(() => {
-    const list: any = document.querySelector("#tasks-list-" + id);
-
-    if (list) {
-      new Sortable(list, {
-        group: "shared",
-        animation: 150,
-        swapThreshold: 1,
-        draggable: ".c-task-card",
-        handle: ".c-task-card__card-drag",
-        ghostClass: "c-tasks-column__on-drag",
-        //onEnd: (e: any) => {
-        //  const arr = localStorage.getItem("tasks")
-        //    ? JSON.parse(localStorage.getItem("tasks") ?? "")
-        //    : [];
-        //  let numberOfDeletedElm = 1;
-
-        //  const fromColId = e.from.id.match(new RegExp("[0-9]+"))?.[0];
-        //  const col = arr.find(
-        //    (el: { id: number }) => el.id === parseInt(fromColId)
-        //  );
-        //  const card = col.cards[e.oldIndex];
-        //  console.log(arr, col, card);
-
-        //  if (e.to.id !== `tasks-list-${id}`) {
-        //    const newColId = e.to.id.match(new RegExp("[0-9]+"))?.[0];
-        //    console.log("cc", newColId);
-        //  } else {
-        //  }
-
-        //  const newColId = "tasks-list-1734515654237";
-        //  console.log(test.match(new RegExp("[0-9]+"))?.[0]);
-        //},
-        //onEnd: (e: any) => {
-        //  const arr = localStorage.getItem("tasks")
-        //    ? JSON.parse(localStorage.getItem("tasks") ?? "")
-        //    : [];
-        //  let numberOfDeletedElm = 1;
-        //  const elm = arr.splice(e.oldIndex, numberOfDeletedElm)[0];
-        //  numberOfDeletedElm = 0;
-        //  arr.splice(e.newIndex, numberOfDeletedElm, elm);
-
-        //  localStorage.setItem("tasks", JSON.stringify(arr));
-        //  setTasks();
-        //},
-      });
-    }
-  }, [document.querySelector("#tasks-list-" + id)]);
-
   return (
     <div className="c-tasks-column__col">
       <div className="c-tasks-column__col-intro u-mb-24">
@@ -251,45 +202,73 @@ function TasksColumn({
           </div>
         </Dropdown>
       </div>
+      <Droppable key={id} droppableId={String(id)}>
+        {(provided: any) => {
+          const { innerRef, droppableProps, placeholder } = provided || {};
 
-      {cards && cards.length > 0 && (
-        <div className="c-tasks-column__cards u-mb-24" id={`tasks-list-${id}`}>
-          {cards.map((card: any) => (
-            <TaskCard key={card.id} card={card} colId={id} />
-          ))}
-        </div>
-      )}
-
-      <div className="c-tasks-column__new-task">
-        <Modal open={openDialog} setOpen={setOpenDialog}>
-          <p className="c-h-l u-mb-16">Création d'une tâche dans : {name}</p>
-          <form
-            className="c-tasks-column__new-task-form"
-            onSubmit={(e) => createNewTask(e, id)}
-          >
-            <TaskForm />
-            <div className="c-tasks-column__new-task-action">
-              <p className="c-text-s u-mb-12">*Champs obligatoire</p>
-              <div>
-                <Button type="submit" label="Ajouter une tâche" />
+          return (
+            <div ref={innerRef} {...droppableProps}>
+              <div className="c-tasks-column__cards u-mb-24">
+                {cards?.length > 0 &&
+                  cards.map((card: any, index: any) => (
+                    <Draggable
+                      key={card.id}
+                      draggableId={String(card.id)}
+                      index={index}
+                    >
+                      {(provided: any) => {
+                        const { innerRef, draggableProps, dragHandleProps } =
+                          provided || {};
+                        return (
+                          <div
+                            ref={innerRef}
+                            {...draggableProps}
+                            {...dragHandleProps}
+                          >
+                            <TaskCard card={card} colId={id} />
+                          </div>
+                        );
+                      }}
+                    </Draggable>
+                  ))}
+                {placeholder}
+              </div>
+              <div className="c-tasks-column__new-task">
+                <Modal open={openDialog} setOpen={setOpenDialog}>
+                  <p className="c-h-l u-mb-16">
+                    Création d'une tâche dans : {name}
+                  </p>
+                  <form
+                    className="c-tasks-column__new-task-form"
+                    onSubmit={(e) => createNewTask(e, id)}
+                  >
+                    <TaskForm />
+                    <div className="c-tasks-column__new-task-action">
+                      <p className="c-text-s u-mb-12">*Champs obligatoire</p>
+                      <div>
+                        <Button type="submit" label="Ajouter une tâche" />
+                        <Button
+                          color="secondary"
+                          isLink={true}
+                          label="Annuler"
+                          onClick={() => setOpenDialog(false)}
+                        />
+                      </div>
+                    </div>
+                  </form>
+                </Modal>
                 <Button
-                  color="secondary"
                   isLink={true}
-                  label="Annuler"
-                  onClick={() => setOpenDialog(false)}
+                  color="secondary"
+                  icon={<Plus />}
+                  label="Nouvelle tache"
+                  onClick={() => setOpenDialog(true)}
                 />
               </div>
             </div>
-          </form>
-        </Modal>
-        <Button
-          isLink={true}
-          color="secondary"
-          icon={<Plus />}
-          label="Nouvelle tache"
-          onClick={() => setOpenDialog(true)}
-        />
-      </div>
+          );
+        }}
+      </Droppable>
     </div>
   );
 }

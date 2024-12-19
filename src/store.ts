@@ -7,11 +7,30 @@ export const useAppStore = create<{
     changeName: (el: string | null) => void;
     tasks: any[];
     setTasks: () => void;
+    moveCard: (e:any, a:any, i:any, r:any) => void
   }>()((set) => ({
     isAuth: localStorage.getItem("name") ? true : false,
     name: localStorage.getItem("name") ? JSON.parse(localStorage.getItem("name") ?? "") : null,
     toggleAuth: (elem: boolean) => set(() => ({ isAuth: elem })),
     changeName: (elem: string | null) => set(() => ({ name: elem })),
-    tasks: localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks") ?? "") : null,
-    setTasks: () => set(() => ({ tasks: localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks") ?? "") : null }))
+    
+    tasks: localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks") ?? "") : [],
+    setTasks: () => set(() => ({ tasks: localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks") ?? "") : null })),
+    moveCard: (fromColId, toColId, oldIndex, newIndex) =>
+      set((state) => {
+        const tasks = [...state.tasks];
+        const fromCol = tasks.find((col) => col.id === fromColId);
+        const toCol = tasks.find((col) => col.id === toColId);
+  
+        if (!fromCol || !toCol) return { tasks };
+  
+        const [movedCard] = fromCol.cards.splice(oldIndex, 1);
+        toCol.cards.splice(newIndex, 0, movedCard);
+
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        console.log('tasks', tasks)
+  
+        return { tasks: tasks };
+      }),
 }));

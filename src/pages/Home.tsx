@@ -5,7 +5,7 @@ import { useAppStore } from "../store";
 import Info from "../components/Info";
 
 function Home() {
-  const { isAuth, toggleAuth, changeName } = useAppStore();
+  const { isAuth, changeName, toggleAuth } = useAppStore();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

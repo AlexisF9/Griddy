@@ -22,7 +22,6 @@ interface taskProps {
     };
   };
   colId: number;
-  color?: "primary" | "secondary";
 }
 
 function TaskCard(props: taskProps) {
@@ -77,66 +76,64 @@ function TaskCard(props: taskProps) {
   ];
 
   return (
-    <>
-      <div className={`c-task-card c-task-card--${card.priority}`}>
-        <div className="c-task-card__intro">
-          <div className="c-task-card__intro-infos">
-            <GripVertical className="c-task-card__card-drag" />
-            <Priority priority={card.priority} />
-            <p className="c-task-card__status c-text-s">
-              {status.find((el) => el.value === card.status)?.label}
-            </p>
+    <div className={`c-task-card c-task-card--${card.priority}`}>
+      <div className="c-task-card__intro">
+        <div className="c-task-card__intro-infos">
+          <GripVertical className="c-task-card__card-drag" />
+          <Priority priority={card.priority} />
+          <p className="c-task-card__status c-text-s">
+            {status.find((el) => el.value === card.status)?.label}
+          </p>
+        </div>
+        <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
+          <div className="c-tasks-column__col-action">
+            <Button
+              isLink={true}
+              icon={<Trash2 />}
+              color="warning"
+              label="Supprimer"
+              onClick={() => removeTask(card.id, colId)}
+            />
           </div>
-          <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
-            <div className="c-tasks-column__col-action">
-              <Button
-                isLink={true}
-                icon={<Trash2 />}
-                color="warning"
-                label="Supprimer"
-                onClick={() => removeTask(card.id, colId)}
-              />
-            </div>
-          </Dropdown>
-        </div>
-
-        <p
-          className="c-task-card__label"
-          onClick={() => {
-            colId &&
-              card.id &&
-              setTaskDetail({
-                open: true,
-                col: colId,
-                card: card.id,
-              });
-          }}
-        >
-          {card.label}
-        </p>
-
-        <div className="c-task-card__infos">
-          {card.date && (
-            <p className="c-text-s c-task-card__date">
-              <Clock9 />
-              {dateInfos(card.date) === "today"
-                ? "Aujourd'hui"
-                : changeFormatDate(card.date)}
-            </p>
-          )}
-          {card.description && (
-            <span title="Description">
-              <Text />
-            </span>
-          )}
-          {card?.cover?.url && (
-            <span title="Image de couverture">
-              <Image className="u-text-default c-task-card__cover" />
-            </span>
-          )}
-        </div>
+        </Dropdown>
       </div>
-    </>
+
+      <p
+        className="c-task-card__label"
+        onClick={() => {
+          colId &&
+            card.id &&
+            setTaskDetail({
+              open: true,
+              col: colId,
+              card: card.id,
+            });
+        }}
+      >
+        {card.label}
+      </p>
+
+      <div className="c-task-card__infos">
+        {card.date && (
+          <p className="c-text-s c-task-card__date">
+            <Clock9 />
+            {dateInfos(card.date) === "today"
+              ? "Aujourd'hui"
+              : changeFormatDate(card.date)}
+          </p>
+        )}
+        {card.description && (
+          <span title="Description">
+            <Text />
+          </span>
+        )}
+        {card?.cover?.url && (
+          <span title="Image de couverture">
+            <Image className="u-text-default c-task-card__cover" />
+          </span>
+        )}
+      </div>
+    </div>
   );
 }
 
