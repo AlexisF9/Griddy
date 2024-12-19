@@ -65,23 +65,20 @@ function TasksColumn({
     const index = arr.indexOf(col);
 
     let picture = null;
+    const taskCover = data.get("task-cover") as {
+      name: string;
+      type: string;
+      size: number;
+      lastModified: number;
+    };
 
-    if (
-      (data.get("task-cover") as { name: string }).name !== "" &&
-      (data.get("task-cover") as { size: number }).size > 0
-    ) {
+    if (taskCover?.name && taskCover.size > 0) {
       try {
-        const res = await getBase64(data.get("task-cover"));
-        picture = res;
+        picture = await getBase64(taskCover);
       } catch (err) {
-        toast.error("Une erreur c'est produite lors du chargement de l'image", {
+        toast.error("Une erreur est survenue lors du chargement de l'image", {
           position: "bottom-right",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "colored",
           transition: Bounce,
         });
@@ -97,28 +94,21 @@ function TasksColumn({
       cover: picture
         ? {
             url: picture,
-            name: (data.get("task-cover") as { name: string }).name,
-            type: (data.get("task-cover") as { type: string }).type,
-            lastModified: (data.get("task-cover") as { lastModified: number })
-              .lastModified,
+            name: taskCover.name,
+            type: taskCover.type,
+            lastModified: taskCover.lastModified,
           }
         : {},
       id: Date.now(),
     };
 
-    const cards = [newTask, ...col.cards];
-    arr[index].cards = cards;
+    arr[index].cards = [newTask, ...col.cards];
     localStorage.setItem("tasks", JSON.stringify(arr));
     setOpenDialog(false);
     setTasks();
-    toast.success("Une nouvelle tâche à été créé", {
+    toast.success("Une nouvelle tâche a été créée", {
       position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
       theme: "colored",
       transition: Bounce,
     });

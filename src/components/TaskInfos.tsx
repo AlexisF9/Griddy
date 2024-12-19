@@ -22,33 +22,22 @@ function TaskInfos() {
   } = useContext(TasksContext);
 
   const getTask = () => {
-    if (tasks && tasks.length > 0 && taskDetail.col && taskDetail.card) {
-      const col: any = tasks.find(
-        (el: { id: number }) => el.id === taskDetail.col
-      );
-
-      if (
-        col?.cards &&
-        col?.cards?.length > 0 &&
-        col.cards.find((el: { id: number }) => el.id === taskDetail.card)
-      ) {
-        return col.cards.find(
-          (el: { id: number }) => el.id === taskDetail.card
-        );
-      }
-
-      return setTaskDetail({
-        open: false,
-        col: null,
-        card: null,
-      });
+    if (!tasks?.length || !taskDetail.col || !taskDetail.card) {
+      setTaskDetail({ open: false, col: null, card: null });
+      return null;
     }
 
-    return setTaskDetail({
-      open: false,
-      col: null,
-      card: null,
-    });
+    const col = tasks.find((el) => el.id === taskDetail.col);
+    const task = col?.cards?.find(
+      (el: { id: number }) => el.id === taskDetail.card
+    );
+
+    if (!task) {
+      setTaskDetail({ open: false, col: null, card: null });
+      return null;
+    }
+
+    return task;
   };
 
   const editTask = async (e: any) => {
@@ -56,63 +45,62 @@ function TaskInfos() {
     const data = new FormData(e.currentTarget);
 
     let picture = null;
+    const taskCover = data.get("task-cover") as {
+      name: string;
+      type: string;
+      size: number;
+      lastModified: number;
+    };
 
-    const pictureName = (data.get("task-cover") as { name: string }).name;
-    const pictureType = (data.get("task-cover") as { type: string }).type;
-    const pictureLastModified = (
-      data.get("task-cover") as { lastModified: number }
-    ).lastModified;
-    const pictureSize = (data.get("task-cover") as { size: number }).size;
+    const pictureName = taskCover.name;
+    const pictureType = taskCover.type;
+    const pictureLastModified = taskCover.lastModified;
+    const pictureSize = taskCover.size;
 
-    if (pictureName !== "" && pictureSize > 0) {
+    if (pictureName && pictureSize > 0) {
       try {
-        const res = await useTransformBase64(data.get("task-cover") as File);
-        picture = res;
+        picture = await useTransformBase64(taskCover as File);
       } catch (err) {
-        console.log(err);
+        console.error("Erreur lors de la transformation de l'image", err);
       }
     }
 
+    const currentCover = getTask()?.cover || {};
+    const isSameCover =
+      pictureName === currentCover.name &&
+      pictureLastModified === currentCover.lastModified;
+
     const editedTask = {
       label: data.get("task-label"),
-      description: data.get("task-desc") ?? "",
-      date: data.get("task-date") ?? "",
+      description: data.get("task-desc") || "",
+      date: data.get("task-date") || "",
       priority: data.get("task-priority"),
       status: data.get("task-status"),
-      cover:
-        (pictureName === getTask()?.cover?.name &&
-          pictureLastModified === getTask()?.cover?.lastModified) ||
-        (pictureName === "" && pictureSize === 0)
-          ? {
-              url: getTask()?.cover?.url,
-              name: getTask()?.cover?.name,
-              type: getTask()?.cover?.type,
-              lastModified: getTask()?.cover?.lastModified,
-            }
-          : {
-              url: picture,
-              name: pictureName,
-              type: pictureType,
-              lastModified: pictureLastModified,
-            },
+      cover: isSameCover
+        ? currentCover
+        : pictureName && pictureSize > 0
+        ? {
+            url: picture,
+            name: pictureName,
+            type: pictureType,
+            lastModified: pictureLastModified,
+          }
+        : {},
     };
 
     setOpenDialog(false);
 
     if (taskDetail.col && taskDetail.card) {
       const arr = [...tasks];
-      const col = arr.find((el: { id: number }) => el.id === taskDetail.col);
-      const colIndex = arr.indexOf(col);
-      const card = col.cards.find(
+      const col = arr.find((el) => el.id === taskDetail.col);
+      if (!col) return;
+
+      const cardIndex = col.cards.findIndex(
         (el: { id: number }) => el.id === taskDetail.card
       );
-      const cardIndex = col.cards.indexOf(card);
+      if (cardIndex === -1) return;
 
-      arr[colIndex].cards[cardIndex] = {
-        ...editedTask,
-        id: taskDetail.card,
-      };
-
+      col.cards[cardIndex] = { ...editedTask, id: taskDetail.card };
       localStorage.setItem("tasks", JSON.stringify(arr));
       setTasks();
     }
