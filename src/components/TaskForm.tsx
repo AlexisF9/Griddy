@@ -17,10 +17,20 @@ function TaskForm({
   };
   edit?: boolean;
 }) {
+  const getTodayDate = () => {
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
   const [inputs, setInputs] = useState({
     label: task ? task.label : "",
     description: task ? task.description : "",
-    date: task ? task.date : "",
+    date: task ? task.date : getTodayDate(),
     priority: task ? task.priority : "",
     status: task ? task.status : "",
     cover: task ? task.cover : {},

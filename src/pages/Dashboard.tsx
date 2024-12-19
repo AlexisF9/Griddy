@@ -4,7 +4,9 @@ import { useAppStore } from "../store";
 import TaskCard from "../components/TaskCard";
 
 function Dashboard() {
-  const [allTasksToday, setAllTasksToday] = useState<any>([]);
+  const [allTasksToday, setAllTasksToday] = useState<
+    { cards: any[]; col: any }[]
+  >([]);
 
   const { name, tasks } = useAppStore();
   const user = name ?? "";
@@ -21,7 +23,7 @@ function Dashboard() {
     tasks &&
       tasks.forEach((el: any) => {
         el.cards.filter((t: { date: string }) => isToday(t.date)).length > 0 &&
-          setAllTasksToday((arr: any) => [
+          setAllTasksToday((arr) => [
             ...arr,
             {
               cards: [
