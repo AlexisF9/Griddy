@@ -222,7 +222,7 @@ function Tasks() {
                 {tasks?.map((col: any) => (
                   <TasksColumn
                     key={col.id}
-                    draggable={tasks.length > 1 ? true : false}
+                    //draggable={tasks.length > 1 ? true : false}
                     id={col.id}
                     name={col.name}
                     cards={filterTasks(col.cards)}

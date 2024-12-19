@@ -14,13 +14,13 @@ function TasksColumn({
   id,
   name,
   cards,
-  draggable,
+  draggable = false,
   removeColumn,
 }: {
   id: number;
   name: string;
   cards: { status: string }[];
-  draggable: boolean;
+  draggable?: boolean;
   removeColumn: (e: any) => void;
 }) {
   const [openDialog, setOpenDialog] = useState(false);
