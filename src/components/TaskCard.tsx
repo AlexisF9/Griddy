@@ -1,4 +1,4 @@
-import { Clock9, GripVertical, Image, Text, Trash2 } from "lucide-react";
+import { Clock9, Image, Text, Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
@@ -79,7 +79,6 @@ function TaskCard(props: taskProps) {
     <div className={`c-task-card c-task-card--${card.priority}`}>
       <div className="c-task-card__intro">
         <div className="c-task-card__intro-infos">
-          <GripVertical className="c-task-card__card-drag" />
           <Priority priority={card.priority} />
           <p className="c-task-card__status c-text-s">
             {status.find((el) => el.value === card.status)?.label}
