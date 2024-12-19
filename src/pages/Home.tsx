@@ -22,7 +22,7 @@ function Home() {
         <Navigate to="/dashboard" replace />
       ) : (
         <div className="c-home">
-          <Info text="Bienvenue sur la v1 de Griddy. Le site est en cours de développement. Certaines fonctionnalités comme le drag and drop des tâches ne sont pas encore terminées." />
+          <Info text="Bienvenue sur la v1 de Griddy. Le site est en cours de développement. Plus de fonctionnalités arriveront bientôt." />
           <div className="c-home__card">
             <div className="c-home__card-content">
               <h1 className="u-mb-16">Griddy</h1>
