@@ -27,8 +27,6 @@ export const useAppStore = create<{
         toCol.cards.splice(newIndex, 0, movedCard);
 
         localStorage.setItem("tasks", JSON.stringify(tasks));
-
-        console.log('tasks', tasks)
   
         return { tasks: tasks };
       }),

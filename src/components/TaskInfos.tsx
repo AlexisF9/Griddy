@@ -110,7 +110,16 @@ function TaskInfos() {
     if (taskDetail) {
       useRemoveTask(tasks, taskDetail.card, taskDetail.col);
       setTasks();
+      closeTaskInfo();
     }
+  };
+
+  const closeTaskInfo = () => {
+    setTaskDetail({
+      open: false,
+      col: null,
+      card: null,
+    });
   };
 
   const changeFormatDate = (date: string) => {
@@ -121,81 +130,79 @@ function TaskInfos() {
     <>
       <div
         className={`c-task-infos ${
-          taskDetail.open ? "c-task-infos--open" : ""
+          taskDetail?.open ? "c-task-infos--open" : ""
         }`}
       >
-        <Button
-          icon={<X />}
-          color="secondary"
-          isLink={true}
-          onClick={() =>
-            setTaskDetail({
-              ...taskDetail,
-              open: false,
-            })
-          }
-        />
+        <div className="c-task-infos__overlay" onClick={closeTaskInfo}></div>
+        <div className="c-task-infos__element">
+          <Button
+            icon={<X />}
+            color="secondary"
+            isLink={true}
+            onClick={closeTaskInfo}
+          />
 
-        {taskDetail.card && taskDetail.col && getTask() && (
-          <>
-            <div className="c-task-infos__container">
-              <div className="c-task-infos__content">
-                {getTask()?.cover?.url && <img src={getTask().cover.url} />}
-                <div className="c-task-infos__intro">
-                  <p className="c-h-l">{getTask().label}</p>
-                  <Button
-                    isLink={true}
-                    color="secondary"
-                    icon={<Pen />}
-                    onClick={() => setOpenDialog(true)}
-                  />
-                </div>
-                <div className="c-task-infos__short-infos">
-                  <Priority priority={getTask().priority} />
-                  {getTask().date && (
-                    <p className="c-task-infos__date">
-                      <Clock9 />
-                      {changeFormatDate(getTask().date)}
-                    </p>
-                  )}
-                </div>
-                {getTask().description && <p>{getTask().description}</p>}
-              </div>
-              <div className="c-task-infos__remove">
-                <Button
-                  isLink={true}
-                  icon={<Trash2 />}
-                  color="warning"
-                  label="Supprimer la tâche"
-                  onClick={removeTask}
-                />
-              </div>
-            </div>
-            <Modal open={openDialog} setOpen={setOpenDialog}>
-              <p className="c-h-l u-mb-16">
-                Modification de : {getTask().label}
-              </p>
-              <form
-                className="c-tasks-column__new-task-form"
-                onSubmit={(e) => editTask(e)}
-              >
-                <TaskForm task={getTask()} edit={true} />
-                <div className="c-tasks-column__new-task-action">
-                  <p className="c-text-s u-mb-12">*Champs obligatoire</p>
-                  <div>
-                    <Button type="submit" label="Ajouter une tâche" />
+          {taskDetail.card && taskDetail.col && getTask() && (
+            <>
+              <div className="c-task-infos__container">
+                <div className="c-task-infos__content">
+                  {getTask()?.cover?.url && <img src={getTask().cover.url} />}
+                  <div className="c-task-infos__intro">
+                    <p className="c-h-l">{getTask().label}</p>
                     <Button
-                      color="secondary"
                       isLink={true}
-                      label="Annuler"
-                      onClick={() => setOpenDialog(false)}
+                      color="secondary"
+                      icon={<Pen />}
+                      onClick={() => setOpenDialog(true)}
                     />
                   </div>
+                  <div className="c-task-infos__short-infos">
+                    <Priority priority={getTask().priority} />
+                    {getTask().date && (
+                      <p className="c-task-infos__date">
+                        <Clock9 />
+                        {changeFormatDate(getTask().date)}
+                      </p>
+                    )}
+                  </div>
+                  {getTask().description && <p>{getTask().description}</p>}
                 </div>
-              </form>
-            </Modal>
-          </>
-        )}
+                <div className="c-task-infos__remove">
+                  <Button
+                    isLink={true}
+                    icon={<Trash2 />}
+                    color="warning"
+                    label="Supprimer la tâche"
+                    onClick={removeTask}
+                  />
+                </div>
+              </div>
+              <Modal open={openDialog} setOpen={setOpenDialog}>
+                <p className="c-h-l u-mb-16">
+                  Modification de : {getTask().label}
+                </p>
+                <form
+                  className="c-tasks-column__new-task-form"
+                  onSubmit={(e) => editTask(e)}
+                >
+                  <TaskForm task={getTask()} edit={true} />
+                  <div className="c-tasks-column__new-task-action">
+                    <p className="c-text-s u-mb-12">*Champs obligatoire</p>
+                    <div>
+                      <Button type="submit" label="Ajouter une tâche" />
+                      <Button
+                        color="secondary"
+                        isLink={true}
+                        label="Annuler"
+                        onClick={() => setOpenDialog(false)}
+                      />
+                    </div>
+                  </div>
+                </form>
+              </Modal>
+            </>
+          )}
+        </div>
       </div>
     </>
   );
