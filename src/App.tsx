@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -13,9 +14,8 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
+          <Route path="/*" element={<NotFound />} />
         </Route>
-
-        <Route path="*" element={<h1>404</h1>} />
       </Routes>
     </BrowserRouter>
   );

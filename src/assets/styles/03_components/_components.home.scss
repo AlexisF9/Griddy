@@ -6,10 +6,6 @@
   height: 100vh;
   padding: 0 $space-16;
   background-color: var(--home-bg);
-
-  h1 {
-    @include text('h-2xl', var(--text-default), 600, var(--font-tertiary));
-  } 
 }
 
 .c-home__card {

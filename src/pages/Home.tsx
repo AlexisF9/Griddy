@@ -25,7 +25,7 @@ function Home() {
           <Info text="Bienvenue sur la v1 de Griddy. Le site est en cours de développement. Plus de fonctionnalités arriveront bientôt." />
           <div className="c-home__card">
             <div className="c-home__card-content">
-              <h1 className="u-mb-16">Griddy</h1>
+              <h1 className="c-h-2xl u-mb-16">Griddy</h1>
               <p className="c-text-l u-mb-32">
                 Entrez votre nom pour continuer
               </p>
