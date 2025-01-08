@@ -3,3 +3,23 @@
   flex-direction: column;
   gap: $space-10;
 }
+
+.c-select__field {
+  position: relative;
+
+  &:has(select:focus) > svg {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  & > svg {
+    position: absolute;
+    top: 50%;
+    right: $space-10;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  select {
+    padding-right: 3.4rem;
+  }
+}
