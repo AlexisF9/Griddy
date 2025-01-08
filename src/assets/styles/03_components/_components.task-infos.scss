@@ -68,6 +68,7 @@
 .c-task-infos__short-infos {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: $space-8;
 }
 

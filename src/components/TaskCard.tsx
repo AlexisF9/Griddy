@@ -7,6 +7,7 @@ import { TaskDetailType, TasksContext } from "../pages/Layout";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import { useAppStore } from "../store";
 import { Bounce, toast } from "react-toastify";
+import Tag from "./Tag";
 
 interface taskProps {
   card: {
@@ -86,9 +87,11 @@ function TaskCard(props: taskProps) {
             </span>
           )}
           <Priority priority={card.priority} />
-          <p className="c-task-card__status c-text-s">
-            {status.find((el) => el.value === card.status)?.label}
-          </p>
+          {status.find((el) => el.value === card.status) && (
+            <Tag
+              label={status.find((el) => el.value === card.status)?.label ?? ""}
+            />
+          )}
         </div>
         <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
           <div className="c-tasks-column__col-action">

@@ -32,12 +32,6 @@
   cursor: pointer;
 }
 
-.c-task-card__status {
-  box-shadow: 0 0 0 1px var(--task-card-status-border);
-  border-radius: var(--radius-full);
-  padding: .5rem $space-10;
-}
-
 .c-task-card__infos {
   display: flex;
   flex-wrap: wrap;

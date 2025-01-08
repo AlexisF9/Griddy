@@ -8,6 +8,7 @@ import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
 import { useAppStore } from "../store";
 import { useTransformBase64 } from "../hooks/useTransformBase64";
+import Tag from "./Tag";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -126,6 +127,14 @@ function TaskInfos() {
     return date.toString().split("-").reverse().join("/");
   };
 
+  const status = [
+    { label: "Tous", value: "all", checked: true },
+    { label: "À faire", value: "to-do" },
+    { label: "En cours", value: "progress" },
+    { label: "En pause", value: "pause" },
+    { label: "Terminé", value: "finished" },
+  ];
+
   return (
     <>
       <div
@@ -158,13 +167,21 @@ function TaskInfos() {
                   </div>
                   <div className="c-task-infos__short-infos">
                     <Priority priority={getTask().priority} />
-                    {getTask().date && (
-                      <p className="c-task-infos__date">
-                        <Clock9 />
-                        {changeFormatDate(getTask().date)}
-                      </p>
+                    {status.find((el) => el.value === getTask().status) && (
+                      <Tag
+                        label={
+                          status.find((el) => el.value === getTask().status)
+                            ?.label ?? ""
+                        }
+                      />
                     )}
                   </div>
+                  {getTask().date && (
+                    <p className="c-task-infos__date">
+                      <Clock9 />
+                      {changeFormatDate(getTask().date)}
+                    </p>
+                  )}
                   {getTask().description && <p>{getTask().description}</p>}
                 </div>
                 <div className="c-task-infos__remove">
