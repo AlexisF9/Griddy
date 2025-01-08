@@ -3,7 +3,6 @@ import Button from "../components/Button";
 
 function NotFound() {
   const location = useLocation();
-  console.log(location);
   return (
     <div className="c-not-found">
       <h2 className="c-h-xl u-mb-8">Page introuvable</h2>

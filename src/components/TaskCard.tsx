@@ -35,8 +35,10 @@ function TaskCard(props: taskProps) {
 
   const {
     setTaskDetail,
+    status,
   }: {
     setTaskDetail: (e: TaskDetailType) => {};
+    status: { label: string; value: string }[];
   } = useContext(TasksContext);
 
   const removeTask = (cardId: number, colId: number) => {
@@ -68,14 +70,6 @@ function TaskCard(props: taskProps) {
       ? "past"
       : "future";
   };
-
-  const status = [
-    { label: "Tous", value: "all", checked: true },
-    { label: "À faire", value: "to-do" },
-    { label: "En cours", value: "progress" },
-    { label: "En pause", value: "pause" },
-    { label: "Terminé", value: "finished" },
-  ];
 
   return (
     <div className={`c-task-card c-task-card--${card.priority}`}>

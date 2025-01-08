@@ -26,6 +26,14 @@ function Layout() {
     card: null,
   });
 
+  const tasksStatus = [
+    { label: "Tous", value: "all", checked: true },
+    { label: "À faire", value: "to-do" },
+    { label: "En cours", value: "progress" },
+    { label: "En pause", value: "pause" },
+    { label: "Terminé", value: "finished" },
+  ];
+
   const { setTasks } = useAppStore();
 
   useEffect(() => {
@@ -37,6 +45,7 @@ function Layout() {
       {isAuth ? (
         <TasksContext.Provider
           value={{
+            status: tasksStatus,
             taskDetail,
             setTaskDetail,
           }}

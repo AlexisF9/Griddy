@@ -17,9 +17,11 @@ function TaskInfos() {
   const {
     taskDetail,
     setTaskDetail,
+    status,
   }: {
     taskDetail: TaskDetailType;
     setTaskDetail: (e: TaskDetailType) => {};
+    status: { label: string; value: string }[];
   } = useContext(TasksContext);
 
   const getTask = () => {
@@ -126,14 +128,6 @@ function TaskInfos() {
   const changeFormatDate = (date: string) => {
     return date.toString().split("-").reverse().join("/");
   };
-
-  const status = [
-    { label: "Tous", value: "all", checked: true },
-    { label: "À faire", value: "to-do" },
-    { label: "En cours", value: "progress" },
-    { label: "En pause", value: "pause" },
-    { label: "Terminé", value: "finished" },
-  ];
 
   return (
     <>
