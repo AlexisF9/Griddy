@@ -8,8 +8,9 @@ function NotFound() {
     <div className="c-not-found">
       <h2 className="c-h-xl u-mb-8">Page introuvable</h2>
       <p className="c-text-l u-mb-24">
-        La page <span className="u-fw-800">{location.pathname}</span> n'existe
-        pas
+        La page{" "}
+        <span className="u-fw-800 u-text-orange">{location.pathname}</span>{" "}
+        n'existe pas
       </p>
       <Button label="Revenir au dashboard" url="/" />
     </div>

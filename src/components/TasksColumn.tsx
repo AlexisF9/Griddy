@@ -1,4 +1,4 @@
-import { Check, GripVertical, Pen, Plus, Trash2 } from "lucide-react";
+import { Check, Pen, Plus, Trash2 } from "lucide-react";
 import Modal from "./Modal";
 import Button from "./Button";
 import React, { useEffect, useState } from "react";
@@ -14,13 +14,11 @@ function TasksColumn({
   id,
   name,
   cards,
-  draggable = false,
   removeColumn,
 }: {
   id: number;
   name: string;
   cards: { status: string }[];
-  draggable?: boolean;
   removeColumn: (e: any) => void;
 }) {
   const [openDialog, setOpenDialog] = useState(false);
@@ -144,11 +142,6 @@ function TasksColumn({
     <div className="c-tasks-column__col">
       <div className="c-tasks-column__col-intro u-mb-24">
         <div className="c-tasks-column__col-intro-content">
-          {draggable && (
-            <span className="c-tasks-column__col-drag">
-              <GripVertical />
-            </span>
-          )}
           {editColName ? (
             <form
               className="c-tasks-column__col-edit-name"
@@ -205,6 +198,7 @@ function TasksColumn({
                       key={card.id}
                       draggableId={String(card.id)}
                       index={index}
+                      isDragDisabled={tasks.length < 2 ? true : false}
                     >
                       {(provided: any) => {
                         const { innerRef, draggableProps, dragHandleProps } =
@@ -215,7 +209,11 @@ function TasksColumn({
                             {...draggableProps}
                             {...dragHandleProps}
                           >
-                            <TaskCard card={card} colId={id} />
+                            <TaskCard
+                              card={card}
+                              colId={id}
+                              disabledDrag={tasks.length < 2 ? true : false}
+                            />
                           </div>
                         );
                       }}

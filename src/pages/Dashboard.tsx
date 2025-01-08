@@ -53,7 +53,12 @@ function Dashboard() {
                     el.cards
                       .filter((item) => item.status !== "finished")
                       .map((card: any) => (
-                        <TaskCard key={card.id} card={card} colId={el.col} />
+                        <TaskCard
+                          key={card.id}
+                          card={card}
+                          colId={el.col}
+                          disabledDrag={true}
+                        />
                       ))
                 )}
               </div>
