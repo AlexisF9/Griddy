@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../components/Button";
 import TasksColumn from "../components/TasksColumn";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -8,6 +8,7 @@ import { useAppStore } from "../store";
 import ToggleButtons from "../components/ToggleButtons";
 import { ChevronDown } from "lucide-react";
 import { DragDropContext } from "react-beautiful-dnd";
+import { TasksContext } from "./Layout";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
@@ -16,6 +17,12 @@ function Tasks() {
   const [dateFilter, setDateFilter] = useState<string>("");
 
   const { setTasks, tasks, moveCard } = useAppStore();
+
+  const {
+    status,
+  }: {
+    status: { label: string; value: string }[];
+  } = useContext(TasksContext);
 
   const createColumn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,14 +93,6 @@ function Tasks() {
       });
     }
   };
-
-  const status = [
-    { label: "Tous", value: "all" },
-    { label: "À faire", value: "to-do" },
-    { label: "En cours", value: "progress" },
-    { label: "En pause", value: "pause" },
-    { label: "Terminé", value: "finished" },
-  ];
 
   const changeFormatDate = (date: string) => {
     return date.toString().split("-").reverse().join("/");

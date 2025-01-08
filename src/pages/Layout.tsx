@@ -27,7 +27,7 @@ function Layout() {
   });
 
   const tasksStatus = [
-    { label: "Tous", value: "all", checked: true },
+    { label: "Tous", value: "all" },
     { label: "À faire", value: "to-do" },
     { label: "En cours", value: "progress" },
     { label: "En pause", value: "pause" },
