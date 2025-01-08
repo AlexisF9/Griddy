@@ -1,0 +1,11 @@
+.c-task-form__cover-picture {
+  display: flex;
+  gap: $space-10;
+  align-items: center;
+  
+  img {
+    width: 8rem;
+    height: auto;
+    object-fit: contain;
+  }
+}

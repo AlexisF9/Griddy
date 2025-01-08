@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Field from "./Field";
 import Select from "./Select";
 import { useTransformBase64 } from "../hooks/useTransformBase64";
+import Button from "./Button";
 
 function TaskForm({
   task,
@@ -50,7 +51,7 @@ function TaskForm({
               lastModified: inputs.cover.lastModified,
             })
           );
-          if (inputRef.current !== null) {
+          if (inputRef.current) {
             inputRef.current.files = data.files;
           }
         });
@@ -77,7 +78,9 @@ function TaskForm({
 
     setInputs({
       ...inputs,
-      cover: picture,
+      cover: {
+        url: picture,
+      },
     });
   };
 
@@ -86,6 +89,17 @@ function TaskForm({
     { label: "En cours", value: "progress" },
     { label: "En pause", value: "pause" },
   ];
+
+  const handleClick = () => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+
+    setInputs({
+      ...inputs,
+      cover: {},
+    });
+  };
 
   return (
     <>
@@ -179,6 +193,19 @@ function TaskForm({
           getPicture(e.target.files[0]);
         }}
       />
+
+      {inputs.cover.url && (
+        <div className="c-task-form__cover-picture">
+          <img src={inputs.cover.url} alt="Image de couverture" />
+          <Button
+            type="button"
+            label="Supprimer l'image"
+            isLink
+            color="warning"
+            onClick={handleClick}
+          />
+        </div>
+      )}
     </>
   );
 }
