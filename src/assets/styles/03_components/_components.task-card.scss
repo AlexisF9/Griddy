@@ -5,6 +5,7 @@
   z-index: 0;
   width: 100%;
   height: fit-content;
+  cursor: pointer;
 
   @include min-width(md) {
     width: 30rem;
@@ -32,8 +33,6 @@
 
 .c-task-card__label {
   width: fit-content;
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 .c-task-card__infos {
