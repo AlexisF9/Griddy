@@ -94,6 +94,7 @@ function TasksColumn({
       date: data.get("task-date") ?? "",
       priority: data.get("task-priority"),
       status: data.get("task-status"),
+      time: 0,
       cover: picture
         ? {
             url: picture,
