@@ -8,7 +8,12 @@ import Field from "./Field";
 import TaskForm from "./TaskForm";
 import { useAppStore } from "../store";
 import { Bounce, toast } from "react-toastify";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  Draggable,
+  DraggableProvided,
+  Droppable,
+  DroppableProvided,
+} from "react-beautiful-dnd";
 
 function TasksColumn({
   id,
@@ -185,22 +190,22 @@ function TasksColumn({
           </div>
         </Dropdown>
       </div>
-      <Droppable key={id} droppableId={String(id)}>
-        {(provided: any) => {
+      <Droppable droppableId={String(id)}>
+        {(provided: DroppableProvided) => {
           const { innerRef, droppableProps, placeholder } = provided || {};
 
           return (
             <div ref={innerRef} {...droppableProps}>
               <div className="c-tasks-column__cards u-mb-24">
                 {cards?.length > 0 &&
-                  cards.map((card: any, index: any) => (
+                  cards.map((card: any, index: number) => (
                     <Draggable
                       key={card.id}
                       draggableId={String(card.id)}
                       index={index}
                       isDragDisabled={tasks.length < 2 ? true : false}
                     >
-                      {(provided: any) => {
+                      {(provided: DraggableProvided) => {
                         const { innerRef, draggableProps, dragHandleProps } =
                           provided || {};
                         return (
