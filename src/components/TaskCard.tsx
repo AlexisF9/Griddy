@@ -73,7 +73,7 @@ function TaskCard(props: taskProps) {
 
   return (
     <div className={`c-task-card c-task-card--${card.priority}`}>
-      {card?.cover && <img src={card.cover.url} alt={card.cover.name} />}
+      {card?.cover?.url && <img src={card.cover.url} alt={card.cover.name} />}
       <div className="c-task-card__content">
         <div className="c-task-card__intro">
           <div className="c-task-card__intro-infos">
