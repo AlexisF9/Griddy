@@ -1,0 +1,13 @@
+.c-chrono {
+  border: 1px solid var(--task-infos-border);
+  padding: $space-10;
+  display: flex;
+  flex-direction: column;
+  gap: $space-10;
+}
+
+.c-chrono__actions {
+  display: flex;
+  gap: $space-8;
+}
+

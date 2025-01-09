@@ -9,6 +9,7 @@ import Priority from "./Priority";
 import { useAppStore } from "../store";
 import { useTransformBase64 } from "../hooks/useTransformBase64";
 import Tag from "./Tag";
+import Chrono from "./Chrono";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -74,6 +75,7 @@ function TaskInfos() {
       pictureLastModified === currentCover.lastModified;
 
     const editedTask = {
+      ...getTask(),
       label: data.get("task-label"),
       description: data.get("task-desc") || "",
       date: data.get("task-date") || "",
@@ -109,6 +111,28 @@ function TaskInfos() {
     }
   };
 
+  const editTaskPastTime = (time: number) => {
+    const editedTask = {
+      ...getTask(),
+      time: time >= 1000 ? time : 0,
+    };
+
+    if (taskDetail.col && taskDetail.card) {
+      const arr = [...tasks];
+      const col = arr.find((el) => el.id === taskDetail.col);
+      if (!col) return;
+
+      const cardIndex = col.cards.findIndex(
+        (el: { id: number }) => el.id === taskDetail.card
+      );
+      if (cardIndex === -1) return;
+
+      col.cards[cardIndex] = { ...editedTask, id: taskDetail.card };
+      localStorage.setItem("tasks", JSON.stringify(arr));
+      setTasks();
+    }
+  };
+
   const removeTask = () => {
     if (taskDetail) {
       useRemoveTask(tasks, taskDetail.card, taskDetail.col);
@@ -127,6 +151,16 @@ function TaskInfos() {
 
   const changeFormatDate = (date: string) => {
     return date.toString().split("-").reverse().join("/");
+  };
+
+  const formatTime = (time: number) => {
+    const seconds = Math.floor((time / 1000) % 60);
+    const minutes = Math.floor((time / 60000) % 60);
+    const hours = Math.floor(time / 3600000);
+    return `${String(hours).padStart(2, "0")}h ${String(minutes).padStart(
+      2,
+      "0"
+    )}m ${String(seconds).padStart(2, "0")}s`;
   };
 
   return (
@@ -176,7 +210,17 @@ function TaskInfos() {
                       {changeFormatDate(getTask().date)}
                     </p>
                   )}
-                  {getTask().description && <p>{getTask().description}</p>}
+                </div>
+                {getTask().description && (
+                  <p className="c-task-infos__description">
+                    {getTask().description}
+                  </p>
+                )}
+                <div className="c-task-infos__past-time">
+                  {getTask().time > 0 && (
+                    <p>Temps passé : {formatTime(getTask().time)}</p>
+                  )}
+                  <Chrono editTaskPastTime={editTaskPastTime} />
                 </div>
                 <div className="c-task-infos__remove">
                   <Button
