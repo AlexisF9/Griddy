@@ -101,6 +101,7 @@ function Tasks() {
 
   const resetFilters = () => {
     setStatusFilter("all");
+    setPrioritiesFilter("all");
     setDateFilter("");
   };
 
