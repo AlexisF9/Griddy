@@ -72,18 +72,7 @@ function TaskCard(props: taskProps) {
   };
 
   return (
-    <div
-      className={`c-task-card c-task-card--${card.priority}`}
-      onClick={() => {
-        colId &&
-          card.id &&
-          setTaskDetail({
-            open: true,
-            col: colId,
-            card: card.id,
-          });
-      }}
-    >
+    <div className={`c-task-card c-task-card--${card.priority}`}>
       {card?.cover?.url && <img src={card.cover.url} alt={card.cover.name} />}
       <div className="c-task-card__content">
         <div className="c-task-card__intro">
@@ -115,7 +104,20 @@ function TaskCard(props: taskProps) {
           </Dropdown>
         </div>
 
-        <p className="c-task-card__label">{card.label}</p>
+        <button
+          className="c-task-card__label"
+          onClick={() => {
+            colId &&
+              card.id &&
+              setTaskDetail({
+                open: true,
+                col: colId,
+                card: card.id,
+              });
+          }}
+        >
+          {card.label}
+        </button>
 
         <div className="c-task-card__infos">
           {card.date && (
