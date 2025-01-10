@@ -12,8 +12,9 @@ import { TasksContext } from "./Layout";
 
 function Tasks() {
   const [newColumn, setNewColumn] = useState(false);
-  const [openFilters, setOpenFilters] = useState(false);
+  const [openFilters, setOpenFilters] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [prioritiesFilter, setPrioritiesFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<string>("");
 
   const { setTasks, tasks, moveCard } = useAppStore();
@@ -104,25 +105,23 @@ function Tasks() {
   };
 
   const filterTasks = (cards: []) => {
-    let filteredCards = [...cards];
+    if (!cards?.length) return [];
 
-    if (cards?.length > 0) {
-      if (statusFilter !== "" && statusFilter !== "all") {
-        filteredCards = filteredCards.filter(
-          (el: { status: string }) => el.status === statusFilter
-        );
+    return cards.filter(
+      (el: { status: string; date: string; priority: string }) => {
+        const matchesStatus =
+          !statusFilter || statusFilter === "all" || el.status === statusFilter;
+        const matchesDate =
+          !dateFilter ||
+          changeFormatDate(el.date) === changeFormatDate(dateFilter);
+        const matchesPriority =
+          !prioritiesFilter ||
+          prioritiesFilter === "all" ||
+          el.priority === prioritiesFilter;
+
+        return matchesStatus && matchesDate && matchesPriority;
       }
-
-      if (dateFilter !== "") {
-        filteredCards = filteredCards.filter(
-          (el: { date: string }) =>
-            changeFormatDate(el.date) === changeFormatDate(dateFilter)
-        );
-      }
-
-      return filteredCards;
-    }
-    return [];
+    );
   };
 
   const handleTaskDragEnd = (result: any) => {
@@ -137,6 +136,29 @@ function Tasks() {
 
     moveCard(fromColId, toColId, oldIndex, newIndex);
   };
+
+  const priorities = [
+    {
+      label: "Tous",
+      value: "all",
+    },
+    {
+      label: "Basse",
+      value: "low",
+    },
+    {
+      label: "Normal",
+      value: "normal",
+    },
+    {
+      label: "Haute",
+      value: "high",
+    },
+    {
+      label: "Urgent",
+      value: "top",
+    },
+  ];
 
   return (
     <div className="c-tasks">
@@ -197,15 +219,24 @@ function Tasks() {
                         updateState={setStatusFilter}
                       />
                     </div>
-                    <Field
-                      id="sortByDate"
-                      name="sortByDate"
-                      label="Trier par date"
-                      type="date"
-                      value={dateFilter}
-                      onChange={(e) => setDateFilter(e.target.value)}
-                    />
+                    <div className="c-field">
+                      <p className="c-text-m">Trier par priorité</p>
+                      <ToggleButtons
+                        name="tasks-priorities"
+                        list={priorities}
+                        state={prioritiesFilter}
+                        updateState={setPrioritiesFilter}
+                      />
+                    </div>
                   </div>
+                  <Field
+                    id="sortByDate"
+                    name="sortByDate"
+                    label="Trier par date"
+                    type="date"
+                    value={dateFilter}
+                    onChange={(e) => setDateFilter(e.target.value)}
+                  />
                   <Button
                     color="warning"
                     isLink
