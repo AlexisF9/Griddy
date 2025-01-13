@@ -12,7 +12,7 @@ function ToggleButtons({
   const parameters = (item: { value: string }) => {
     return {
       type: "radio",
-      id: "item-" + item.value,
+      id: "item-" + name + "-" + item.value,
       name: name,
       value: item.value,
     };
@@ -22,19 +22,12 @@ function ToggleButtons({
     <div className="c-toggle-buttons">
       {list.map((item, index) => (
         <div key={index} className="c-toggle-buttons__button">
-          {item.value === state ? (
-            <input
-              {...parameters(item)}
-              onChange={(e) => updateState(e.target.value)}
-              checked
-            />
-          ) : (
-            <input
-              {...parameters(item)}
-              onChange={(e) => updateState(e.target.value)}
-            />
-          )}
-          <label htmlFor={`item-${item.value}`}>{item.label}</label>
+          <input
+            {...parameters(item)}
+            checked={item.value === state} // Explicitly manage the `checked` prop
+            onChange={(e) => updateState(e.target.value)}
+          />
+          <label htmlFor={`item-${name}-${item.value}`}>{item.label}</label>
         </div>
       ))}
     </div>

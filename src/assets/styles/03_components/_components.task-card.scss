@@ -1,15 +1,19 @@
 .c-task-card {
-  padding: $space-16;
+  overflow: hidden;
   border-radius: var(--radius-sm);
   position: relative;
   z-index: 0;
   width: 100%;
   height: fit-content;
-  background: linear-gradient(var(--task-card-bg), var(--task-card-bg-2));
 
   @include min-width(md) {
     width: 30rem;
   }
+}
+
+.c-task-card__content {
+  background: linear-gradient(var(--task-card-bg), var(--task-card-bg-2));
+  padding: $space-16;
 }
 
 .c-task-card__intro {
@@ -29,7 +33,6 @@
 .c-task-card__label {
   width: fit-content;
   text-decoration: underline;
-  cursor: pointer;
 }
 
 .c-task-card__infos {

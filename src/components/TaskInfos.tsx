@@ -9,9 +9,12 @@ import Priority from "./Priority";
 import { useAppStore } from "../store";
 import { useTransformBase64 } from "../hooks/useTransformBase64";
 import Tag from "./Tag";
+import Chrono from "./Chrono";
+import Field from "./Field";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
+  const [editPastTime, setEditPastTime] = useState(false);
   const { tasks, setTasks } = useAppStore();
 
   const {
@@ -43,7 +46,7 @@ function TaskInfos() {
     return task;
   };
 
-  const editTask = async (e: any) => {
+  const editTask = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
 
@@ -74,6 +77,7 @@ function TaskInfos() {
       pictureLastModified === currentCover.lastModified;
 
     const editedTask = {
+      ...getTask(),
       label: data.get("task-label"),
       description: data.get("task-desc") || "",
       date: data.get("task-date") || "",
@@ -109,6 +113,28 @@ function TaskInfos() {
     }
   };
 
+  const editTaskPastTime = (time: number) => {
+    const editedTask = {
+      ...getTask(),
+      time: time >= 60000 ? time : 0,
+    };
+
+    if (taskDetail.col && taskDetail.card) {
+      const arr = [...tasks];
+      const col = arr.find((el) => el.id === taskDetail.col);
+      if (!col) return;
+
+      const cardIndex = col.cards.findIndex(
+        (el: { id: number }) => el.id === taskDetail.card
+      );
+      if (cardIndex === -1) return;
+
+      col.cards[cardIndex] = { ...editedTask, id: taskDetail.card };
+      localStorage.setItem("tasks", JSON.stringify(arr));
+      setTasks();
+    }
+  };
+
   const removeTask = () => {
     if (taskDetail) {
       useRemoveTask(tasks, taskDetail.card, taskDetail.col);
@@ -127,6 +153,39 @@ function TaskInfos() {
 
   const changeFormatDate = (date: string) => {
     return date.toString().split("-").reverse().join("/");
+  };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor((time / 60000) % 60);
+    const hours = Math.floor(time / 3600000);
+    return `${String(hours).padStart(2, "0")}h ${String(minutes).padStart(
+      2,
+      "0"
+    )}m`;
+  };
+
+  const timeInputToMilliseconds = (timeValue: string) => {
+    if (!timeValue) return 0;
+    const [hours, minutes] = timeValue.split(":").map(Number);
+    return hours * 3600000 + minutes * 60000;
+  };
+
+  const millisecondsToTimeInput = (time: number) => {
+    const minutes = Math.floor((time / 60000) % 60);
+    const hours = Math.floor(time / 3600000);
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}`;
+  };
+
+  const handleSubmitEditPastTime = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    editTaskPastTime(
+      timeInputToMilliseconds(data.get("edit-past-time") as string)
+    );
+    setEditPastTime(false);
   };
 
   return (
@@ -176,7 +235,58 @@ function TaskInfos() {
                       {changeFormatDate(getTask().date)}
                     </p>
                   )}
-                  {getTask().description && <p>{getTask().description}</p>}
+                </div>
+                {getTask().description && (
+                  <p className="c-task-infos__description">
+                    {getTask().description}
+                  </p>
+                )}
+                <div className="c-task-infos__past-time">
+                  {getTask().time > 0 && (
+                    <p>Temps passé : {formatTime(getTask().time)}</p>
+                  )}
+                  {getTask().time === 0 ? (
+                    <Chrono editTaskPastTime={editTaskPastTime} />
+                  ) : (
+                    <>
+                      {editPastTime ? (
+                        <form
+                          onSubmit={(e) => handleSubmitEditPastTime(e)}
+                          className="c-task-infos__past-time-form"
+                        >
+                          <Field
+                            type="time"
+                            id="edit-past-time"
+                            name="edit-past-time"
+                            defaultValue={millisecondsToTimeInput(
+                              getTask().time
+                            )}
+                          />
+                          <div className="c-task-infos__past-time-actions">
+                            <Button type="submit" label="Modifier" />
+                            <Button
+                              onClick={() => setEditPastTime((prev) => !prev)}
+                              isLink
+                              label="Annuler"
+                            />
+                          </div>
+                        </form>
+                      ) : (
+                        <div className="c-task-infos__past-time-actions">
+                          <Button
+                            onClick={() => setEditPastTime((prev) => !prev)}
+                            label="Modifier mon temps"
+                          />
+                          <Button
+                            color="warning"
+                            onClick={() => editTaskPastTime(0)}
+                            isLink
+                            label="Supprimer mon temps"
+                          />
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
                 <div className="c-task-infos__remove">
                   <Button
@@ -200,7 +310,7 @@ function TaskInfos() {
                   <div className="c-tasks-column__new-task-action">
                     <p className="c-text-s u-mb-12">*Champs obligatoire</p>
                     <div>
-                      <Button type="submit" label="Ajouter une tâche" />
+                      <Button type="submit" label="Modifier la tâche" />
                       <Button
                         color="secondary"
                         isLink={true}

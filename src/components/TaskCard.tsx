@@ -1,4 +1,4 @@
-import { Clock9, GripVertical, Image, Text, Trash2 } from "lucide-react";
+import { Clock9, GripVertical, Text, Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
@@ -73,67 +73,67 @@ function TaskCard(props: taskProps) {
 
   return (
     <div className={`c-task-card c-task-card--${card.priority}`}>
-      <div className="c-task-card__intro">
-        <div className="c-task-card__intro-infos">
-          {!props.disabledDrag && (
-            <span className="c-tasks-column__col-drag">
-              <GripVertical />
+      {card?.cover?.url && <img src={card.cover.url} alt={card.cover.name} />}
+      <div className="c-task-card__content">
+        <div className="c-task-card__intro">
+          <div className="c-task-card__intro-infos">
+            {!props.disabledDrag && (
+              <span className="c-tasks-column__col-drag">
+                <GripVertical />
+              </span>
+            )}
+            <Priority priority={card.priority} />
+            {status.find((el) => el.value === card.status) && (
+              <Tag
+                label={
+                  status.find((el) => el.value === card.status)?.label ?? ""
+                }
+              />
+            )}
+          </div>
+          <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
+            <div className="c-tasks-column__col-action">
+              <Button
+                isLink={true}
+                icon={<Trash2 />}
+                color="warning"
+                label="Supprimer"
+                onClick={() => removeTask(card.id, colId)}
+              />
+            </div>
+          </Dropdown>
+        </div>
+
+        <button
+          className="c-task-card__label"
+          onClick={() => {
+            colId &&
+              card.id &&
+              setTaskDetail({
+                open: true,
+                col: colId,
+                card: card.id,
+              });
+          }}
+        >
+          {card.label}
+        </button>
+
+        <div className="c-task-card__infos">
+          {card.date && (
+            <p className="c-text-s c-task-card__date">
+              <Clock9 />
+              {dateInfos(card.date) === "today"
+                ? "Aujourd'hui"
+                : changeFormatDate(card.date)}
+            </p>
+          )}
+          {card.description && (
+            <span title="Description">
+              <Text />
             </span>
           )}
-          <Priority priority={card.priority} />
-          {status.find((el) => el.value === card.status) && (
-            <Tag
-              label={status.find((el) => el.value === card.status)?.label ?? ""}
-            />
-          )}
         </div>
-        <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
-          <div className="c-tasks-column__col-action">
-            <Button
-              isLink={true}
-              icon={<Trash2 />}
-              color="warning"
-              label="Supprimer"
-              onClick={() => removeTask(card.id, colId)}
-            />
-          </div>
-        </Dropdown>
-      </div>
-
-      <p
-        className="c-task-card__label"
-        onClick={() => {
-          colId &&
-            card.id &&
-            setTaskDetail({
-              open: true,
-              col: colId,
-              card: card.id,
-            });
-        }}
-      >
-        {card.label}
-      </p>
-
-      <div className="c-task-card__infos">
-        {card.date && (
-          <p className="c-text-s c-task-card__date">
-            <Clock9 />
-            {dateInfos(card.date) === "today"
-              ? "Aujourd'hui"
-              : changeFormatDate(card.date)}
-          </p>
-        )}
-        {card.description && (
-          <span title="Description">
-            <Text />
-          </span>
-        )}
-        {card?.cover?.url && (
-          <span title="Image de couverture">
-            <Image className="u-text-default c-task-card__cover" />
-          </span>
-        )}
       </div>
     </div>
   );
