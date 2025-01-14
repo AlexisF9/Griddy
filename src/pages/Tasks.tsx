@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "../components/Button";
 import TasksColumn from "../components/TasksColumn";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -7,7 +7,13 @@ import Field from "../components/Field";
 import { useAppStore } from "../store";
 import ToggleButtons from "../components/ToggleButtons";
 import { ChevronDown } from "lucide-react";
-import { DragDropContext } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  DraggableProvided,
+  Droppable,
+  DroppableProvided,
+} from "react-beautiful-dnd";
 import { TasksContext } from "./Layout";
 
 function Tasks() {
@@ -17,13 +23,28 @@ function Tasks() {
   const [prioritiesFilter, setPrioritiesFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<string>("");
 
-  const { setTasks, tasks, moveCard } = useAppStore();
+  const [isMobile, setIsMobile] = useState(false);
+
+  const { setTasks, tasks, moveCard, moveCol } = useAppStore();
 
   const {
     status,
   }: {
     status: { label: string; value: string }[];
   } = useContext(TasksContext);
+
+  const checkIfMobile = () => window.matchMedia("(max-width: 768px)").matches;
+
+  useEffect(() => {
+    setIsMobile(checkIfMobile());
+
+    const handleResize = () => setIsMobile(checkIfMobile());
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const createColumn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -126,7 +147,7 @@ function Tasks() {
   };
 
   const handleTaskDragEnd = (result: any) => {
-    const { source, destination } = result;
+    const { source, destination, type } = result;
 
     if (!destination) return;
 
@@ -135,7 +156,11 @@ function Tasks() {
     const oldIndex = source.index;
     const newIndex = destination.index;
 
-    moveCard(fromColId, toColId, oldIndex, newIndex);
+    if (type === "TASK") {
+      moveCard(fromColId, toColId, oldIndex, newIndex);
+    } else if (type === "COLUMN") {
+      moveCol(oldIndex, newIndex);
+    }
   };
 
   const priorities = [
@@ -249,17 +274,58 @@ function Tasks() {
             )}
 
             <DragDropContext onDragEnd={handleTaskDragEnd}>
-              <div className="c-tasks-column">
-                {tasks?.map((col: any) => (
-                  <TasksColumn
-                    key={col.id}
-                    id={col.id}
-                    name={col.name}
-                    cards={filterTasks(col.cards)}
-                    removeColumn={removeColumn}
-                  />
-                ))}
-              </div>
+              <Droppable
+                droppableId="columns"
+                type="COLUMN"
+                direction="horizontal"
+              >
+                {(provided: DroppableProvided) => {
+                  const { innerRef, droppableProps, placeholder } =
+                    provided || {};
+
+                  return (
+                    <div ref={innerRef} {...droppableProps}>
+                      <div className="c-tasks-column">
+                        {tasks?.map((col: any, index: number) => (
+                          <Draggable
+                            key={col.id}
+                            draggableId={"columns-" + String(col.id)}
+                            index={index}
+                            isDragDisabled={
+                              isMobile || tasks.length < 2 ? true : false
+                            }
+                          >
+                            {(provided: DraggableProvided) => {
+                              const {
+                                innerRef,
+                                draggableProps,
+                                dragHandleProps,
+                              } = provided || {};
+                              return (
+                                <div
+                                  ref={innerRef}
+                                  {...draggableProps}
+                                  {...dragHandleProps}
+                                >
+                                  <TasksColumn
+                                    key={col.id}
+                                    id={col.id}
+                                    name={col.name}
+                                    cards={filterTasks(col.cards)}
+                                    removeColumn={removeColumn}
+                                    isMobile={isMobile}
+                                  />
+                                </div>
+                              );
+                            }}
+                          </Draggable>
+                        ))}
+                        {placeholder}
+                      </div>
+                    </div>
+                  );
+                }}
+              </Droppable>
             </DragDropContext>
           </>
         ) : (
