@@ -8,6 +8,7 @@ export const useAppStore = create<{
     tasks: any[];
     setTasks: () => void;
     moveCard: (fromColId:number, toColId:number, oldIndex:number, newIndex:number) => void
+    moveCol: (oldIndex:number, newIndex:number) => void
   }>()((set) => ({
     isAuth: localStorage.getItem("name") ? true : false,
     name: localStorage.getItem("name") ? JSON.parse(localStorage.getItem("name") ?? "") : null,
@@ -26,6 +27,17 @@ export const useAppStore = create<{
         const [movedCard] = fromCol.cards.splice(oldIndex, 1);
         toCol.cards.splice(newIndex, 0, movedCard);
 
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+  
+        return { tasks: tasks };
+      }),
+    moveCol: (oldIndex, newIndex) =>
+      set((state) => {
+        const tasks = [...state.tasks];
+
+        const [movedCol] = tasks.splice(oldIndex, 1);
+        tasks.splice(newIndex, 0, movedCol);
+  
         localStorage.setItem("tasks", JSON.stringify(tasks));
   
         return { tasks: tasks };
