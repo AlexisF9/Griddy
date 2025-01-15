@@ -83,13 +83,14 @@ function TaskCard(props: taskProps) {
               </span>
             )}
             <Priority priority={card.priority} />
-            {status.find((el) => el.value === card.status) && (
-              <Tag
-                label={
-                  status.find((el) => el.value === card.status)?.label ?? ""
-                }
-              />
-            )}
+            {status?.length > 0 &&
+              status.find((el) => el.value === card.status) && (
+                <Tag
+                  label={
+                    status.find((el) => el.value === card.status)?.label ?? ""
+                  }
+                />
+              )}
           </div>
           <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
             <div className="c-tasks-column__col-action">

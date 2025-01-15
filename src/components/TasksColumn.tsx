@@ -14,6 +14,7 @@ import {
   Droppable,
   DroppableProvided,
 } from "react-beautiful-dnd";
+import { FilesType } from "./FilesInput";
 
 function TasksColumn({
   id,
@@ -32,6 +33,7 @@ function TasksColumn({
   const [openDropdown, setOpenDropdown] = useState(false);
   const [editColName, setEditColName] = useState(false);
   const [colName, setColName] = useState(name);
+  const [getTaskFiles, setGetTaskFiles] = useState<FilesType[]>([]);
 
   const { tasks, setTasks } = useAppStore();
 
@@ -106,6 +108,7 @@ function TasksColumn({
           }
         : {},
       id: Date.now(),
+      files: getTaskFiles ?? [],
     };
 
     arr[index].cards = [newTask, ...col.cards];
@@ -260,7 +263,7 @@ function TasksColumn({
                     className="c-tasks-column__new-task-form"
                     onSubmit={(e) => createNewTask(e, id)}
                   >
-                    <TaskForm />
+                    <TaskForm getFiles={setGetTaskFiles} />
                     <div className="c-tasks-column__new-task-action">
                       <p className="c-text-s u-mb-12">*Champs obligatoire</p>
                       <div>

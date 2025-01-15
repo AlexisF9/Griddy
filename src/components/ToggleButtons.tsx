@@ -20,16 +20,17 @@ function ToggleButtons({
 
   return (
     <div className="c-toggle-buttons">
-      {list.map((item, index) => (
-        <div key={index} className="c-toggle-buttons__button">
-          <input
-            {...parameters(item)}
-            checked={item.value === state} // Explicitly manage the `checked` prop
-            onChange={(e) => updateState(e.target.value)}
-          />
-          <label htmlFor={`item-${name}-${item.value}`}>{item.label}</label>
-        </div>
-      ))}
+      {list?.length > 0 &&
+        list.map((item, index) => (
+          <div key={index} className="c-toggle-buttons__button">
+            <input
+              {...parameters(item)}
+              checked={item.value === state} // Explicitly manage the `checked` prop
+              onChange={(e) => updateState(e.target.value)}
+            />
+            <label htmlFor={`item-${name}-${item.value}`}>{item.label}</label>
+          </div>
+        ))}
     </div>
   );
 }
