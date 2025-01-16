@@ -223,7 +223,13 @@ function TaskForm({
           />
         </div>
       )}
-      <FilesInput files={inputs.files ?? []} setFiles={getTaskFiles} />
+      <FilesInput
+        label="Fichiers"
+        text="Ajouter un fichier"
+        multiple
+        files={inputs.files ?? []}
+        setFiles={getTaskFiles}
+      />
     </>
   );
 }
