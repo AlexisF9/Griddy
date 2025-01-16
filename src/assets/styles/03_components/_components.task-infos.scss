@@ -106,6 +106,29 @@
   gap: $space-8;
 }
 
+.c-task-infos__files {
+  margin-top: $space-24;
+  display: flex;
+  flex-direction: column;
+  gap: $space-8;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: $space-8;
+
+    a {
+      display: flex;
+      text-decoration: underline;
+    }
+
+    svg {
+      width: $space-20;
+      height: $space-20;
+    }
+  }
+}
+
 .c-task-infos__remove {
   border-top: 1px solid var(--task-infos-border);
   margin-top: $space-24;

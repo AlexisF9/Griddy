@@ -3,10 +3,12 @@ import Field from "./Field";
 import Select from "./Select";
 import { useTransformBase64 } from "../hooks/useTransformBase64";
 import Button from "./Button";
+import FilesInput, { FilesType } from "./FilesInput";
 
 function TaskForm({
   task,
   edit,
+  getFiles,
 }: {
   task?: {
     label: string;
@@ -15,8 +17,10 @@ function TaskForm({
     priority: string;
     status: string;
     cover: any;
+    files?: FilesType[];
   };
   edit?: boolean;
+  getFiles?: React.Dispatch<React.SetStateAction<FilesType[]>>;
 }) {
   const getTodayDate = () => {
     const today = new Date();
@@ -35,6 +39,7 @@ function TaskForm({
     priority: task ? task.priority : "",
     status: task ? task.status : "",
     cover: task ? task.cover : {},
+    files: task ? task.files : [],
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -100,6 +105,19 @@ function TaskForm({
       cover: {},
     });
   };
+
+  const getTaskFiles = (files: FilesType[]) => {
+    setInputs({
+      ...inputs,
+      files: files,
+    });
+  };
+
+  useEffect(() => {
+    if (getFiles && inputs.files) {
+      getFiles([...inputs.files]);
+    }
+  }, [inputs.files]);
 
   return (
     <>
@@ -193,7 +211,6 @@ function TaskForm({
           getPicture(e.target.files[0]);
         }}
       />
-
       {inputs.cover.url && (
         <div className="c-task-form__cover-picture">
           <img src={inputs.cover.url} alt="Image de couverture" />
@@ -206,6 +223,7 @@ function TaskForm({
           />
         </div>
       )}
+      <FilesInput files={inputs.files ?? []} setFiles={getTaskFiles} />
     </>
   );
 }

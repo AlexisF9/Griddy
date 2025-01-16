@@ -3,7 +3,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import TaskForm from "./TaskForm";
 import { TaskDetailType, TasksContext } from "../pages/Layout";
-import { Clock9, Pen, Trash2, X } from "lucide-react";
+import { Clock9, File, FileImage, Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
 import { useAppStore } from "../store";
@@ -11,10 +11,13 @@ import { useTransformBase64 } from "../hooks/useTransformBase64";
 import Tag from "./Tag";
 import Chrono from "./Chrono";
 import Field from "./Field";
+import { FilesType } from "./FilesInput";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
   const [editPastTime, setEditPastTime] = useState(false);
+  const [getTaskFiles, setGetTaskFiles] = useState<FilesType[]>([]);
+
   const { tasks, setTasks } = useAppStore();
 
   const {
@@ -83,6 +86,7 @@ function TaskInfos() {
       date: data.get("task-date") || "",
       priority: data.get("task-priority"),
       status: data.get("task-status"),
+      files: getTaskFiles,
       cover: isSameCover
         ? currentCover
         : pictureName && pictureSize > 0
@@ -188,6 +192,22 @@ function TaskInfos() {
     setEditPastTime(false);
   };
 
+  const handleDownload = (file: FilesType) => {
+    const base64ToBlob = (base64: string, contentType: string) => {
+      const byteCharacters = atob(base64);
+      const byteNumbers = Array.from(byteCharacters, (char) =>
+        char.charCodeAt(0)
+      );
+      const byteArray = new Uint8Array(byteNumbers);
+      return new Blob([byteArray], { type: contentType });
+    };
+
+    const base64String = file.src.split(",")[1];
+    const blob = base64ToBlob(base64String, file.type);
+
+    return URL.createObjectURL(blob);
+  };
+
   return (
     <>
       <div
@@ -288,6 +308,28 @@ function TaskInfos() {
                     </>
                   )}
                 </div>
+
+                {getTask().files?.length > 0 && (
+                  <ul className="c-task-infos__files">
+                    {getTask().files.map((el: FilesType, index: number) => (
+                      <li key={index}>
+                        {el.type === "image/jpeg" || el.type === "image/png" ? (
+                          <FileImage />
+                        ) : (
+                          <File />
+                        )}
+                        <a
+                          className="c-text-s"
+                          href={handleDownload(el)}
+                          download={el.name}
+                        >
+                          {el.name} ({(el.size / 1024).toFixed(2)} KB)
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
                 <div className="c-task-infos__remove">
                   <Button
                     isLink={true}
@@ -306,7 +348,11 @@ function TaskInfos() {
                   className="c-tasks-column__new-task-form"
                   onSubmit={(e) => editTask(e)}
                 >
-                  <TaskForm task={getTask()} edit={true} />
+                  <TaskForm
+                    task={getTask()}
+                    edit={true}
+                    getFiles={setGetTaskFiles}
+                  />
                   <div className="c-tasks-column__new-task-action">
                     <p className="c-text-s u-mb-12">*Champs obligatoire</p>
                     <div>
