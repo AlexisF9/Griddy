@@ -14,9 +14,15 @@ export interface FilesType {
 function FilesInput({
   files,
   setFiles,
+  label,
+  text,
+  multiple,
 }: {
   files: FilesType[];
   setFiles: (e: FilesType[]) => void;
+  label: string;
+  text: string;
+  multiple?: boolean;
 }) {
   const [getFiles, setGetFiles] = useState<FilesType[]>([...files]);
 
@@ -24,7 +30,6 @@ function FilesInput({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const selectedFiles = Array.from(event.target.files || []);
-    //setGetFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
 
     try {
       const res = await useTransformBase64(selectedFiles[0]);
@@ -57,16 +62,39 @@ function FilesInput({
     setGetFiles(copyFiles);
   };
 
+  const [isDragOver, setIsDragOver] = useState(false);
+
+  const handleDragOver = (e: any) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: any) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDragDrop = () => {
+    setIsDragOver(false);
+  };
+
   return (
     <div className="c-files-input">
-      <p className="c-files-input__title c-text-m">Fichiers</p>
-      <div className="c-files-input__field">
+      <p className="c-files-input__title c-text-m">{label}</p>
+      <div
+        className={`c-files-input__field ${
+          isDragOver && "c-files-input__field--over"
+        }`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDragDrop}
+      >
         <label htmlFor="files">
-          <CloudUpload /> Ajouter un fichier
+          <CloudUpload /> {text}
         </label>
         <input
           type="file"
-          multiple
+          multiple={multiple ?? false}
           accept=".pdf, .doc, .docx, .png, .jpeg, .jpg"
           name="task-files"
           id="files"

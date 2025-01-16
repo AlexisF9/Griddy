@@ -23,6 +23,10 @@
     inset: 0;
     opacity: 0;
   }
+
+  &--over {
+    background-color: var(--input-file-zone-over);
+  }
 }
 
 .c-files-input__list {
