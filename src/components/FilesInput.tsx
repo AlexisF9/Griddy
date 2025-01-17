@@ -1,5 +1,5 @@
-import { CloudUpload, Paperclip } from "lucide-react";
-import { useEffect, useState } from "react";
+import { CloudUpload, File } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import { useTransformBase64 } from "../hooks/useTransformBase64";
 
@@ -16,35 +16,40 @@ function FilesInput({
   setFiles,
   label,
   text,
-  multiple,
 }: {
   files: FilesType[];
   setFiles: (e: FilesType[]) => void;
   label: string;
   text: string;
-  multiple?: boolean;
 }) {
   const [getFiles, setGetFiles] = useState<FilesType[]>([...files]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files || []);
 
-    try {
-      const res = await useTransformBase64(selectedFiles[0]);
-      if (res) {
-        const file: FilesType = {
-          lastModified: selectedFiles[0].lastModified,
-          name: selectedFiles[0].name,
-          size: selectedFiles[0].size,
-          type: selectedFiles[0].type,
-          src: res as string,
-        };
-        setGetFiles((prevFiles) => [...prevFiles, file]);
+    selectedFiles.map(async (el: File) => {
+      if (!getFiles.find((file) => file.name === el.name)) {
+        try {
+          const res = await useTransformBase64(el);
+          if (res) {
+            const file: FilesType = {
+              lastModified: el.lastModified,
+              name: el.name,
+              size: el.size,
+              type: el.type,
+              src: res as string,
+            };
+            setGetFiles((prevFiles) => [...prevFiles, file]);
+          }
+        } catch (err: any) {
+          console.log(err.toString());
+        }
       }
-    } catch (err: any) {
-      console.log(err.toString());
+    });
+
+    if (inputRef.current) {
+      inputRef.current.value = "";
     }
   };
 
@@ -94,10 +99,11 @@ function FilesInput({
         </label>
         <input
           type="file"
-          multiple={multiple ?? false}
+          multiple
           accept=".pdf, .doc, .docx, .png, .jpeg, .jpg"
           name="task-files"
           id="files"
+          ref={inputRef}
           onChange={(e) => {
             handleFileChange(e);
           }}
@@ -107,7 +113,11 @@ function FilesInput({
       <ul className="c-files-input__list">
         {getFiles.map((file, index) => (
           <li key={index}>
-            <Paperclip />
+            {file.type === "image/jpeg" || file.type === "image/png" ? (
+              <img width={24} height={24} src={file.src} />
+            ) : (
+              <File />
+            )}
             {file.name} ({(file.size / 1024).toFixed(2)} KB)
             <Button
               isLink
