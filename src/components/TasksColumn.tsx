@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import TaskCard from "./TaskCard";
 import Field from "./Field";
-import TaskForm from "./TaskForm";
+import TaskForm, { FilesType } from "./TaskForm";
 import { useAppStore } from "../store";
 import { Bounce, toast } from "react-toastify";
 import {
@@ -14,7 +14,7 @@ import {
   Droppable,
   DroppableProvided,
 } from "react-beautiful-dnd";
-import { FilesType } from "./FilesInput";
+import { useTransformBase64 } from "../hooks/useTransformBase64";
 
 function TasksColumn({
   id,
@@ -33,7 +33,6 @@ function TasksColumn({
   const [openDropdown, setOpenDropdown] = useState(false);
   const [editColName, setEditColName] = useState(false);
   const [colName, setColName] = useState(name);
-  const [getTaskFiles, setGetTaskFiles] = useState<FilesType[]>([]);
 
   const { tasks, setTasks } = useAppStore();
 
@@ -50,15 +49,28 @@ function TasksColumn({
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const getBase64 = async (file: any) => {
-    return new Promise((resolve, reject) => {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
+  const base64 = async (element: File) => {
+    try {
+      const res = await useTransformBase64(element);
+      if (res) {
+        const file: FilesType = {
+          lastModified: element.lastModified,
+          name: element.name,
+          size: element.size,
+          type: element.type,
+          src: res as string,
+        };
+
+        return file;
+      }
+    } catch (err) {
+      toast.error("Une erreur est survenue lors du chargement de l'image", {
+        position: "bottom-right",
+        autoClose: 5000,
+        theme: "colored",
+        transition: Bounce,
+      });
+    }
   };
 
   const createNewTask = async (
@@ -71,26 +83,17 @@ function TasksColumn({
     const col = arr.find((el: { id: number }) => el.id === id);
     const index = arr.indexOf(col);
 
-    let picture = null;
-    const taskCover = data.get("task-cover") as {
-      name: string;
-      type: string;
-      size: number;
-      lastModified: number;
-    };
+    const form = e.target as HTMLFormElement;
+    const taskCover = (
+      form.elements.namedItem("task-cover") as HTMLInputElement
+    ).files?.[0];
 
-    if (taskCover?.name && taskCover.size > 0) {
-      try {
-        picture = await getBase64(taskCover);
-      } catch (err) {
-        toast.error("Une erreur est survenue lors du chargement de l'image", {
-          position: "bottom-right",
-          autoClose: 5000,
-          theme: "colored",
-          transition: Bounce,
-        });
-      }
-    }
+    const taskFilesPromises = Array.from(
+      (form.elements.namedItem("task-files") as HTMLInputElement)
+        .files as FileList
+    ).map((el) => base64(el));
+
+    const taskFiles = await Promise.all(taskFilesPromises);
 
     const newTask = {
       label: data.get("task-label"),
@@ -99,16 +102,9 @@ function TasksColumn({
       priority: data.get("task-priority"),
       status: data.get("task-status"),
       time: 0,
-      cover: picture
-        ? {
-            url: picture,
-            name: taskCover.name,
-            type: taskCover.type,
-            lastModified: taskCover.lastModified,
-          }
-        : {},
+      cover: taskCover ? await base64(taskCover) : null,
       id: Date.now(),
-      files: getTaskFiles ?? [],
+      files: taskFiles,
     };
 
     arr[index].cards = [newTask, ...col.cards];
@@ -263,7 +259,7 @@ function TasksColumn({
                     className="c-tasks-column__new-task-form"
                     onSubmit={(e) => createNewTask(e, id)}
                   >
-                    <TaskForm getFiles={setGetTaskFiles} />
+                    <TaskForm />
                     <div className="c-tasks-column__new-task-action">
                       <p className="c-text-s u-mb-12">*Champs obligatoire</p>
                       <div>
