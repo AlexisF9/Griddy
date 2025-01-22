@@ -58,7 +58,6 @@ function TaskInfos() {
           type: element.type,
           src: res as string,
         };
-        console.log(file);
         return file;
       }
     } catch (err) {
@@ -75,7 +74,7 @@ function TaskInfos() {
       form.elements.namedItem("task-cover") as HTMLInputElement
     ).files?.[0];
 
-    const currentCover = getTask()?.cover || {};
+    const currentCover = getTask()?.cover || null;
     const isSameCover =
       taskCover?.name === currentCover.name &&
       taskCover?.lastModified === currentCover.lastModified;
