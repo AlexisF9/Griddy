@@ -76,6 +76,7 @@ function TaskInfos() {
 
     const currentCover = getTask()?.cover || null;
     const isSameCover =
+      currentCover &&
       taskCover?.name === currentCover.name &&
       taskCover?.lastModified === currentCover.lastModified;
 
