@@ -193,7 +193,7 @@ function TaskForm({
       <FilesField
         label="Image de couverture"
         text="Ajouter une image"
-        accept="image/png, image/jpeg"
+        accept=".jpg, .jpeg, .png"
         name="task-cover"
         id="cover"
         files={task?.cover ? [task.cover] : []}
@@ -203,7 +203,7 @@ function TaskForm({
       <FilesField
         label="Fichiers"
         text="Ajouter un fichier"
-        accept=".pdf, .doc, .docx"
+        accept=".pdf, .doc, .docx, .jpeg, .jpg, .png"
         multiple
         name="task-files"
         id="files"
