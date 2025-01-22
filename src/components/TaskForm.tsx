@@ -1,14 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import Field from "./Field";
 import Select from "./Select";
-import { useTransformBase64 } from "../hooks/useTransformBase64";
-import Button from "./Button";
-import FilesInput, { FilesType } from "./FilesInput";
+import FilesField from "./FilesField";
+
+export interface FilesType {
+  lastModified: number;
+  name: string;
+  size: number;
+  type: string;
+  src: string;
+}
 
 function TaskForm({
   task,
   edit,
-  getFiles,
 }: {
   task?: {
     label: string;
@@ -16,11 +21,10 @@ function TaskForm({
     date: string;
     priority: string;
     status: string;
-    cover: any;
+    cover?: FilesType;
     files?: FilesType[];
   };
   edit?: boolean;
-  getFiles?: React.Dispatch<React.SetStateAction<FilesType[]>>;
 }) {
   const getTodayDate = () => {
     const today = new Date();
@@ -38,86 +42,71 @@ function TaskForm({
     date: task ? task.date : getTodayDate(),
     priority: task ? task.priority : "",
     status: task ? task.status : "",
-    cover: task ? task.cover : {},
+    cover: task ? task.cover : null,
     files: task ? task.files : [],
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const filesRef = useRef<HTMLInputElement>(null);
 
-  const fetchPicture = async (url: string) => {
+  const fetchFile = async (file: FilesType) => {
     try {
-      fetch(url)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const data = new DataTransfer();
-          data.items.add(
-            new File([blob], inputs.cover.name, {
-              type: inputs.cover.type,
-              lastModified: inputs.cover.lastModified,
-            })
-          );
-          if (inputRef.current) {
-            inputRef.current.files = data.files;
-          }
-        });
+      const res = await fetch(file.src);
+      const blob = await res.blob();
+      const data = new DataTransfer();
+      data.items.add(
+        new File([blob], file.name, {
+          type: file.type,
+          lastModified: file.lastModified,
+        })
+      );
+      if (inputRef.current) {
+        inputRef.current.files = data.files;
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
+  const fetchFiles = async (files: FilesType[]) => {
+    try {
+      const filePromises = files.map(async (el: FilesType) => {
+        const res = await fetch(el.src);
+        const blob = await res.blob();
+        return new File([blob], el.name, {
+          type: el.type,
+          lastModified: el.lastModified,
+        });
+      });
+
+      const fileArray = await Promise.all(filePromises);
+
+      const dataTransfer = new DataTransfer();
+      fileArray.forEach((file) => dataTransfer.items.add(file));
+
+      if (filesRef.current) {
+        filesRef.current.files = dataTransfer.files;
+      }
+    } catch (err) {
+      console.error("Erreur lors de la conversion des fichiers :", err);
+    }
+  };
+
   useEffect(() => {
-    if (inputs.cover && inputs.cover.name) {
-      fetchPicture(inputs.cover);
+    if (inputs?.cover && inputs.cover?.name) {
+      fetchFile(inputs.cover);
+    }
+
+    if (inputs.files && inputs.files.length > 0) {
+      fetchFiles(inputs.files);
     }
   }, []);
-
-  const getPicture = async (file: File) => {
-    let picture = null;
-
-    try {
-      const res = await useTransformBase64(file);
-      picture = res;
-    } catch (err: any) {
-      console.log(err.toString());
-    }
-
-    setInputs({
-      ...inputs,
-      cover: {
-        url: picture,
-      },
-    });
-  };
 
   const defaultStatus = [
     { label: "À faire", value: "to-do" },
     { label: "En cours", value: "progress" },
     { label: "En pause", value: "pause" },
   ];
-
-  const handleClick = () => {
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
-
-    setInputs({
-      ...inputs,
-      cover: {},
-    });
-  };
-
-  const getTaskFiles = (files: FilesType[]) => {
-    setInputs({
-      ...inputs,
-      files: files,
-    });
-  };
-
-  useEffect(() => {
-    if (getFiles && inputs.files) {
-      getFiles([...inputs.files]);
-    }
-  }, [inputs.files]);
 
   return (
     <>
@@ -200,35 +189,26 @@ function TaskForm({
           })
         }
       />
-      <Field
+
+      <FilesField
         label="Image de couverture"
+        text="Ajouter une image"
+        accept="image/png, image/jpeg"
         name="task-cover"
         id="cover"
-        type="file"
-        accept="image/png, image/jpeg"
-        ref={inputRef}
-        onChange={(e) => {
-          getPicture(e.target.files[0]);
-        }}
+        files={task?.cover ? [task.cover] : []}
+        inputRef={inputRef}
       />
-      {inputs.cover.url && (
-        <div className="c-task-form__cover-picture">
-          <img src={inputs.cover.url} alt="Image de couverture" />
-          <Button
-            type="button"
-            label="Supprimer l'image"
-            isLink
-            color="warning"
-            onClick={handleClick}
-          />
-        </div>
-      )}
 
-      <FilesInput
+      <FilesField
         label="Fichiers"
         text="Ajouter un fichier"
-        files={inputs.files ?? []}
-        setFiles={getTaskFiles}
+        accept=".pdf, .doc, .docx"
+        multiple
+        name="task-files"
+        id="files"
+        files={task?.files ? [...task.files] : []}
+        inputRef={filesRef}
       />
     </>
   );

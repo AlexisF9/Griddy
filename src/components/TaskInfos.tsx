@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
-import TaskForm from "./TaskForm";
+import TaskForm, { FilesType } from "./TaskForm";
 import { TaskDetailType, TasksContext } from "../pages/Layout";
 import { Clock9, File, FileImage, Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
@@ -11,12 +11,10 @@ import { useTransformBase64 } from "../hooks/useTransformBase64";
 import Tag from "./Tag";
 import Chrono from "./Chrono";
 import Field from "./Field";
-import { FilesType } from "./FilesInput";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
   const [editPastTime, setEditPastTime] = useState(false);
-  const [getTaskFiles, setGetTaskFiles] = useState<FilesType[]>([]);
 
   const { tasks, setTasks } = useAppStore();
 
@@ -49,35 +47,45 @@ function TaskInfos() {
     return task;
   };
 
+  const base64 = async (element: File) => {
+    try {
+      const res = await useTransformBase64(element);
+      if (res) {
+        const file: FilesType = {
+          lastModified: element.lastModified,
+          name: element.name,
+          size: element.size,
+          type: element.type,
+          src: res as string,
+        };
+        console.log(file);
+        return file;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const editTask = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
 
-    let picture = null;
-    const taskCover = data.get("task-cover") as {
-      name: string;
-      type: string;
-      size: number;
-      lastModified: number;
-    };
-
-    const pictureName = taskCover.name;
-    const pictureType = taskCover.type;
-    const pictureLastModified = taskCover.lastModified;
-    const pictureSize = taskCover.size;
-
-    if (pictureName && pictureSize > 0) {
-      try {
-        picture = await useTransformBase64(taskCover as File);
-      } catch (err) {
-        console.error("Erreur lors de la transformation de l'image", err);
-      }
-    }
+    const form = e.target as HTMLFormElement;
+    const taskCover = (
+      form.elements.namedItem("task-cover") as HTMLInputElement
+    ).files?.[0];
 
     const currentCover = getTask()?.cover || {};
     const isSameCover =
-      pictureName === currentCover.name &&
-      pictureLastModified === currentCover.lastModified;
+      taskCover?.name === currentCover.name &&
+      taskCover?.lastModified === currentCover.lastModified;
+
+    const taskFilesPromises = Array.from(
+      (form.elements.namedItem("task-files") as HTMLInputElement)
+        .files as FileList
+    ).map((el) => base64(el));
+
+    const taskFiles = await Promise.all(taskFilesPromises);
 
     const editedTask = {
       ...getTask(),
@@ -86,17 +94,12 @@ function TaskInfos() {
       date: data.get("task-date") || "",
       priority: data.get("task-priority"),
       status: data.get("task-status"),
-      files: getTaskFiles,
+      files: taskFiles,
       cover: isSameCover
         ? currentCover
-        : pictureName && pictureSize > 0
-        ? {
-            url: picture,
-            name: pictureName,
-            type: pictureType,
-            lastModified: pictureLastModified,
-          }
-        : {},
+        : taskCover
+        ? await base64(taskCover)
+        : null,
     };
 
     setOpenDialog(false);
@@ -228,7 +231,7 @@ function TaskInfos() {
             <>
               <div className="c-task-infos__container">
                 <div className="c-task-infos__content">
-                  {getTask()?.cover?.url && <img src={getTask().cover.url} />}
+                  {getTask()?.cover?.src && <img src={getTask().cover.src} />}
                   <div className="c-task-infos__intro">
                     <p className="c-h-l">{getTask().label}</p>
                     <Button
@@ -348,11 +351,7 @@ function TaskInfos() {
                   className="c-tasks-column__new-task-form"
                   onSubmit={(e) => editTask(e)}
                 >
-                  <TaskForm
-                    task={getTask()}
-                    edit={true}
-                    getFiles={setGetTaskFiles}
-                  />
+                  <TaskForm task={getTask()} edit={true} />
                   <div className="c-tasks-column__new-task-action">
                     <p className="c-text-s u-mb-12">*Champs obligatoire</p>
                     <div>

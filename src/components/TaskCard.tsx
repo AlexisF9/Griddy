@@ -18,7 +18,7 @@ interface taskProps {
     priority: "normal" | "low" | "high" | "top";
     status: string;
     cover?: {
-      url: string;
+      src: string;
       name: string;
     };
   };
@@ -73,7 +73,7 @@ function TaskCard(props: taskProps) {
 
   return (
     <div className={`c-task-card c-task-card--${card.priority}`}>
-      {card?.cover?.url && <img src={card.cover.url} alt={card.cover.name} />}
+      {card?.cover?.src && <img src={card.cover.src} alt={card.cover.name} />}
       <div className="c-task-card__content">
         <div className="c-task-card__intro">
           <div className="c-task-card__intro-infos">
