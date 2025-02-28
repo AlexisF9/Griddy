@@ -2,7 +2,6 @@ import { Navigate } from "react-router";
 import Button from "../components/Button";
 import Field from "../components/Field";
 import { useAppStore } from "../store";
-import Info from "../components/Info";
 
 function Home() {
   const { isAuth, changeName, toggleAuth } = useAppStore();
@@ -22,7 +21,7 @@ function Home() {
         <Navigate to="/dashboard" replace />
       ) : (
         <div className="c-home">
-          <Info text="Bienvenue sur la v1 de Griddy. Le site est en cours de développement. Plus de fonctionnalités arriveront bientôt." />
+          {/*<Info text="Bienvenue sur la v1 de Griddy. Le site est en cours de développement. Plus de fonctionnalités arriveront bientôt." />*/}
           <div className="c-home__card">
             <div className="c-home__card-content">
               <h1 className="c-h-2xl u-mb-16">Griddy</h1>
