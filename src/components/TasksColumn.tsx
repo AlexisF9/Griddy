@@ -108,15 +108,25 @@ function TasksColumn({
     };
 
     arr[index].cards = [newTask, ...col.cards];
-    localStorage.setItem("tasks", JSON.stringify(arr));
-    setOpenDialog(false);
-    setTasks();
-    toast.success("Une nouvelle tâche a été créée", {
-      position: "bottom-right",
-      autoClose: 5000,
-      theme: "colored",
-      transition: Bounce,
-    });
+
+    try {
+      localStorage.setItem("tasks", JSON.stringify(arr));
+      setOpenDialog(false);
+      setTasks();
+      toast.success("Une nouvelle tâche a été créée", {
+        position: "bottom-right",
+        autoClose: 5000,
+        theme: "colored",
+        transition: Bounce,
+      });
+    } catch (err) {
+      toast.error("Vous avez atteint la limite de place du local storage", {
+        position: "bottom-right",
+        autoClose: 5000,
+        theme: "colored",
+        transition: Bounce,
+      });
+    }
   };
 
   const toggleEditCol = () => {
