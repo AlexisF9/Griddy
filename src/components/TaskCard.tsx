@@ -1,4 +1,4 @@
-import { Clock9, GripVertical, Text, Trash2 } from "lucide-react";
+import { Check, Clock9, GripVertical, Text, Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
@@ -24,10 +24,11 @@ interface taskProps {
   };
   colId: number;
   disabledDrag: boolean;
+  activeFinishButton?: boolean;
 }
 
 function TaskCard(props: taskProps) {
-  const { card, colId } = props;
+  const { card, colId, activeFinishButton = false } = props;
 
   const [openDropdown, setOpenDropdown] = useState(false);
 
@@ -71,6 +72,24 @@ function TaskCard(props: taskProps) {
       : "future";
   };
 
+  const finishTask = (id: number) => {
+    const arr = [...tasks];
+    const col = arr.find((el: { id: number }) => el.id === colId);
+    if (!col) return;
+
+    const cardIndex = col.cards.findIndex((el: { id: number }) => el.id === id);
+    if (cardIndex === -1) return;
+
+    const editTask = {
+      ...card,
+      status: "finished",
+    };
+
+    col.cards[cardIndex] = { ...editTask, id };
+    localStorage.setItem("tasks", JSON.stringify(arr));
+    setTasks();
+  };
+
   return (
     <div className={`c-task-card c-task-card--${card.priority}`}>
       {card?.cover?.src && <img src={card.cover.src} alt={card.cover.name} />}
@@ -92,17 +111,26 @@ function TaskCard(props: taskProps) {
                 />
               )}
           </div>
-          <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
-            <div className="c-tasks-column__col-action">
+          <div className="c-task-card__intro-actions">
+            {card.status !== "finished" && activeFinishButton && (
               <Button
+                onClick={() => finishTask(card.id)}
                 isLink={true}
-                icon={<Trash2 />}
-                color="warning"
-                label="Supprimer"
-                onClick={() => removeTask(card.id, colId)}
+                icon={<Check />}
               />
-            </div>
-          </Dropdown>
+            )}
+            <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
+              <div className="c-tasks-column__col-action">
+                <Button
+                  isLink={true}
+                  icon={<Trash2 />}
+                  color="warning"
+                  label="Supprimer"
+                  onClick={() => removeTask(card.id, colId)}
+                />
+              </div>
+            </Dropdown>
+          </div>
         </div>
 
         <button

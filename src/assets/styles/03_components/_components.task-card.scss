@@ -30,6 +30,12 @@
   gap: $space-8;
 }
 
+.c-task-card__intro-actions {
+  display: flex;
+  align-items: center;
+  gap: $space-8;
+}
+
 .c-task-card__label {
   width: fit-content;
   text-decoration: underline;
