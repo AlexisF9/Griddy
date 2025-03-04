@@ -22,7 +22,10 @@ function Dashboard() {
   useEffect(() => {
     tasks &&
       tasks.forEach((el: any) => {
-        el.cards.filter((t: { date: string }) => isToday(t.date)).length > 0 &&
+        el.cards.filter(
+          (t: { date: string; status: string }) =>
+            isToday(t.date) && t.status !== "finished"
+        ).length > 0 &&
           setAllTasksToday((arr) => [
             ...arr,
             {
@@ -36,6 +39,8 @@ function Dashboard() {
 
     return () => setAllTasksToday([]);
   }, [tasks]);
+
+  console.log(allTasksToday);
 
   return (
     <div className="c-dashboard">
@@ -58,6 +63,7 @@ function Dashboard() {
                           card={card}
                           colId={el.col}
                           disabledDrag={true}
+                          activeFinishButton={true}
                         />
                       ))
                 )}
