@@ -1,3 +1,5 @@
+import { Bounce, toast } from "react-toastify";
+
 export const useRemoveTask = (
   tasks: any[],
   cardId: number | null,
@@ -16,5 +18,17 @@ export const useRemoveTask = (
     arr[colIndex].cards = [...col.cards];
 
     localStorage.setItem("tasks", JSON.stringify(arr));
+
+    toast.success("Votre tâche a été supprimée", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+    });
   }
 };
