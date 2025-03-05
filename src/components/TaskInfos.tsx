@@ -7,10 +7,10 @@ import { Clock9, File, FileImage, Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
 import { useAppStore } from "../store";
-import { useTransformBase64 } from "../hooks/useTransformBase64";
 import Tag from "./Tag";
 import Chrono from "./Chrono";
 import Field from "./Field";
+import { useEditTask } from "../hooks/useEditTask";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -47,75 +47,10 @@ function TaskInfos() {
     return task;
   };
 
-  const base64 = async (element: File) => {
-    try {
-      const res = await useTransformBase64(element);
-      if (res) {
-        const file: FilesType = {
-          lastModified: element.lastModified,
-          name: element.name,
-          size: element.size,
-          type: element.type,
-          src: res as string,
-        };
-        return file;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const editTask = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-
-    const form = e.target as HTMLFormElement;
-    const taskCover = (
-      form.elements.namedItem("task-cover") as HTMLInputElement
-    ).files?.[0];
-
-    const currentCover = getTask()?.cover || null;
-    const isSameCover =
-      currentCover &&
-      taskCover?.name === currentCover.name &&
-      taskCover?.lastModified === currentCover.lastModified;
-
-    const taskFilesPromises = Array.from(
-      (form.elements.namedItem("task-files") as HTMLInputElement)
-        .files as FileList
-    ).map((el) => base64(el));
-
-    const taskFiles = await Promise.all(taskFilesPromises);
-
-    const editedTask = {
-      ...getTask(),
-      label: data.get("task-label"),
-      description: data.get("task-desc") || "",
-      date: data.get("task-date") || "",
-      priority: data.get("task-priority"),
-      status: data.get("task-status"),
-      files: taskFiles,
-      cover: isSameCover
-        ? currentCover
-        : taskCover
-        ? await base64(taskCover)
-        : null,
-    };
-
-    setOpenDialog(false);
-
-    if (taskDetail.col && taskDetail.card) {
-      const arr = [...tasks];
-      const col = arr.find((el) => el.id === taskDetail.col);
-      if (!col) return;
-
-      const cardIndex = col.cards.findIndex(
-        (el: { id: number }) => el.id === taskDetail.card
-      );
-      if (cardIndex === -1) return;
-
-      col.cards[cardIndex] = { ...editedTask, id: taskDetail.card };
-      localStorage.setItem("tasks", JSON.stringify(arr));
+    if (taskDetail?.col) {
+      setOpenDialog(false);
+      await useEditTask(e, getTask(), taskDetail.col, tasks);
       setTasks();
     }
   };

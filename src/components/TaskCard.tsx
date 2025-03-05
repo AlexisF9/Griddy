@@ -1,4 +1,4 @@
-import { Check, Clock9, GripVertical, Text, Trash2 } from "lucide-react";
+import { Check, Clock9, GripVertical, Pen, Text, Trash2 } from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
@@ -8,20 +8,12 @@ import { useRemoveTask } from "../hooks/useRemoveTask";
 import { useAppStore } from "../store";
 import { Bounce, toast } from "react-toastify";
 import Tag from "./Tag";
+import Modal from "./Modal";
+import TaskForm from "./TaskForm";
+import { useEditTask } from "../hooks/useEditTask";
 
 interface taskProps {
-  card: {
-    label: string;
-    date?: string;
-    id: number;
-    description: string;
-    priority: "normal" | "low" | "high" | "top";
-    status: string;
-    cover?: {
-      src: string;
-      name: string;
-    };
-  };
+  card: any;
   colId: number;
   disabledDrag: boolean;
   activeFinishButton?: boolean;
@@ -31,6 +23,7 @@ function TaskCard(props: taskProps) {
   const { card, colId, activeFinishButton = false } = props;
 
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const { tasks, setTasks } = useAppStore();
 
@@ -90,6 +83,12 @@ function TaskCard(props: taskProps) {
     setTasks();
   };
 
+  const editTask = async (e: React.FormEvent<HTMLFormElement>) => {
+    setOpenDialog(false);
+    await useEditTask(e, card, colId, tasks);
+    setTasks();
+  };
+
   return (
     <div className={`c-task-card c-task-card--${card.priority}`}>
       {card?.cover?.src && <img src={card.cover.src} alt={card.cover.name} />}
@@ -121,6 +120,13 @@ function TaskCard(props: taskProps) {
             )}
             <Dropdown setOpen={setOpenDropdown} open={openDropdown}>
               <div className="c-tasks-column__col-action">
+                <Button
+                  isLink={true}
+                  color="light"
+                  icon={<Pen />}
+                  label="Modifier"
+                  onClick={() => setOpenDialog(true)}
+                />
                 <Button
                   isLink={true}
                   icon={<Trash2 />}
@@ -164,6 +170,27 @@ function TaskCard(props: taskProps) {
           )}
         </div>
       </div>
+      <Modal open={openDialog} setOpen={setOpenDialog}>
+        <p className="c-h-l u-mb-16">Modification de : {card.label}</p>
+        <form
+          className="c-tasks-column__new-task-form"
+          onSubmit={(e) => editTask(e)}
+        >
+          <TaskForm task={card} edit={true} />
+          <div className="c-tasks-column__new-task-action">
+            <p className="c-text-s u-mb-12">*Champs obligatoire</p>
+            <div>
+              <Button type="submit" label="Modifier la tâche" />
+              <Button
+                color="secondary"
+                isLink={true}
+                label="Annuler"
+                onClick={() => setOpenDialog(false)}
+              />
+            </div>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 }
