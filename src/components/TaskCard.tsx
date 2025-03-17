@@ -113,7 +113,10 @@ function TaskCard(props: taskProps) {
                   color="light"
                   icon={<Pen />}
                   label="Modifier"
-                  onClick={() => setOpenDialog(true)}
+                  onClick={() => {
+                    setOpenDialog(true);
+                    setOpenDropdown(false);
+                  }}
                 />
                 <Button
                   isLink={true}
