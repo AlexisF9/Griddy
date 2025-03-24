@@ -5,7 +5,7 @@ import TaskCard from "../components/TaskCard";
 
 function Dashboard() {
   const [allTasksToday, setAllTasksToday] = useState<
-    { cards: any[]; col: any }[]
+    { cards: { status: string; id: number }[]; col: number }[]
   >([]);
 
   const { name, tasks } = useAppStore();
@@ -22,9 +22,8 @@ function Dashboard() {
   useEffect(() => {
     tasks &&
       tasks.forEach((el: any) => {
-        el.cards.filter(
-          (t: { date: string; status: string }) =>
-            isToday(t.date) && t.status !== "finished"
+        el.cards.filter((t: { date: string; status: string }) =>
+          isToday(t.date)
         ).length > 0 &&
           setAllTasksToday((arr) => [
             ...arr,
@@ -40,8 +39,6 @@ function Dashboard() {
     return () => setAllTasksToday([]);
   }, [tasks]);
 
-  console.log(allTasksToday);
-
   return (
     <div className="c-dashboard">
       <h2 className="c-dashboard__title c-h-xl u-mb-24">
@@ -54,10 +51,13 @@ function Dashboard() {
             <>
               <div className="c-dashboard__tasks-today">
                 {allTasksToday.map(
-                  (el: { cards: { status: string }[]; col: number }) =>
+                  (el: {
+                    cards: { status: string; id: number }[];
+                    col: number;
+                  }) =>
                     el.cards
                       .filter((item) => item.status !== "finished")
-                      .map((card: any) => (
+                      .map((card) => (
                         <TaskCard
                           key={card.id}
                           card={card}
