@@ -26,7 +26,7 @@ function TasksColumn({
   id: number;
   name: string;
   cards: { status: string }[];
-  removeColumn: (e: any) => void;
+  removeColumn: (id: number) => void;
   isMobile?: boolean;
 }) {
   const [openDialog, setOpenDialog] = useState(false);
