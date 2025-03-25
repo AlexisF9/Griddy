@@ -1,5 +1,7 @@
 # Griddy
 
+Version node : 18.17.1
+
 Installation :
 
 - Cloner le projet
