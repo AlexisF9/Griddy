@@ -3,9 +3,11 @@ import { useState } from "react";
 import { NavLink } from "react-router";
 import Button from "./Button";
 import { useAppStore } from "../store";
+import Modal from "./Modal";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpen = () => {
     if (window.innerWidth < 768) {
@@ -74,8 +76,29 @@ function Navbar() {
           color="warning"
           fullWidth={true}
           label="Réinitialiser"
-          onClick={handleDeco}
+          onClick={() => setOpenDialog(true)}
         />
+
+        <Modal open={openDialog} setOpen={setOpenDialog}>
+          <p className="c-h-l u-mb-16">Attention !</p>
+          <p className="u-mb-24">
+            Toutes vos données vont être supprimé du local storage.
+          </p>
+          <div className="c-navbar__modal-links">
+            <Button
+              icon={<LogOut />}
+              color="warning"
+              label="Réinitialiser"
+              onClick={handleDeco}
+            />
+            <Button
+              color="secondary"
+              isLink={true}
+              label="Annuler"
+              onClick={() => setOpenDialog(false)}
+            />
+          </div>
+        </Modal>
       </div>
     </>
   );

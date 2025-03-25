@@ -82,3 +82,9 @@ body:has(.c-navbar--open) {
     display: none;
   }
 }
+
+.c-navbar__modal-links {
+  display: flex;
+  align-items: center;
+  gap: $space-16;
+}
