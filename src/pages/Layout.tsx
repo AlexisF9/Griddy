@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import { useAppStore } from "../store";
 import { createContext, useEffect, useState } from "react";
 import TaskInfos from "../components/TaskInfos";
+import { ToastContainer } from "react-toastify";
 
 export interface TaskDetailType {
   open: boolean;
@@ -62,6 +63,7 @@ function Layout() {
       ) : (
         <Navigate to="/" replace />
       )}
+      <ToastContainer />
     </>
   );
 }

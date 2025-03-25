@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Button from "../components/Button";
 import TasksColumn from "../components/TasksColumn";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Field from "../components/Field";
 import { useAppStore } from "../store";
@@ -191,7 +191,6 @@ function Tasks() {
       <div className="c-tasks__content">
         <div className="c-tasks__intro">
           <h2 className="c-h-xl u-mb-16">Mes taches</h2>
-          <ToastContainer />
           {newColumn ? (
             <div className="c-tasks__new-col">
               <form onSubmit={(e) => createColumn(e)}>
