@@ -146,7 +146,11 @@ function Tasks() {
     );
   };
 
-  const handleTaskDragEnd = (result: any) => {
+  const handleTaskDragEnd = (result: {
+    source: any;
+    destination: any;
+    type: string;
+  }) => {
     const { source, destination, type } = result;
 
     if (!destination) return;
