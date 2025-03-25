@@ -8,6 +8,10 @@ function Dashboard() {
     { cards: { status: string; id: number }[]; col: number }[]
   >([]);
 
+  const [allCompletedTasksToday, setAllCompletedTasksToday] = useState<
+    { cards: { status: string; id: number }[]; col: number }[]
+  >([]);
+
   const { name, tasks } = useAppStore();
   const user = name ?? "";
 
@@ -20,23 +24,42 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    tasks &&
-      tasks.forEach((el: any) => {
-        el.cards.filter((t: { date: string; status: string }) =>
-          isToday(t.date)
+    tasks?.forEach((el: { id: number; cards: any }) => {
+      el.cards.filter(
+        (t: { date: string; status: string }) =>
+          isToday(t.date) && t.status !== "finished"
+      ).length > 0 &&
+        setAllTasksToday((arr) => [
+          ...arr,
+          {
+            cards: [
+              ...el.cards.filter(
+                (t: { date: string; status: string }) =>
+                  isToday(t.date) && t.status !== "finished"
+              ),
+            ],
+            col: el.id,
+          },
+        ]),
+        el.cards.filter(
+          (t: { date: string; status: string }) =>
+            isToday(t.date) && t.status === "finished"
         ).length > 0 &&
-          setAllTasksToday((arr) => [
+          setAllCompletedTasksToday((arr) => [
             ...arr,
             {
               cards: [
-                ...el.cards.filter((t: { date: string }) => isToday(t.date)),
+                ...el.cards.filter(
+                  (t: { date: string; status: string }) =>
+                    isToday(t.date) && t.status === "finished"
+                ),
               ],
               col: el.id,
             },
           ]);
-      });
+    });
 
-    return () => setAllTasksToday([]);
+    return () => (setAllTasksToday([]), setAllCompletedTasksToday([]));
   }, [tasks]);
 
   return (
@@ -45,19 +68,15 @@ function Dashboard() {
         Bienvenue sur ton board <span>{user}</span>
       </h2>
       {tasks && tasks.length > 0 ? (
-        <div>
-          <h3 className="c-text-l u-mb-12">Vos tâches d'aujourd'hui :</h3>
-          {allTasksToday.length > 0 ? (
-            <>
-              <div className="c-dashboard__tasks-today">
-                {allTasksToday.map(
-                  (el: {
-                    cards: { status: string; id: number }[];
-                    col: number;
-                  }) =>
-                    el.cards
-                      .filter((item) => item.status !== "finished")
-                      .map((card) => (
+        <>
+          <div className="u-mb-32">
+            <h3 className="c-text-l u-mb-12">Vos tâches d'aujourd'hui :</h3>
+            {allTasksToday.length > 0 ? (
+              <>
+                <div className="c-dashboard__tasks-today">
+                  {allTasksToday.map(
+                    (el: { cards: { id: number }[]; col: number }) =>
+                      el.cards.map((card) => (
                         <TaskCard
                           key={card.id}
                           card={card}
@@ -66,13 +85,34 @@ function Dashboard() {
                           activeFinishButton={true}
                         />
                       ))
+                  )}
+                </div>
+              </>
+            ) : (
+              <p>Vous n'avez aucune tâche aujourd'hui</p>
+            )}
+          </div>
+
+          {allCompletedTasksToday.length > 0 && (
+            <div>
+              <h3 className="c-text-l u-mb-12">Tâches terminés :</h3>
+              <div className="c-dashboard__tasks-today">
+                {allCompletedTasksToday.map(
+                  (el: { cards: { id: number }[]; col: number }) =>
+                    el.cards.map((card) => (
+                      <TaskCard
+                        key={card.id}
+                        card={card}
+                        colId={el.col}
+                        disabledDrag={true}
+                        activeFinishButton={true}
+                      />
+                    ))
                 )}
               </div>
-            </>
-          ) : (
-            <p>Vous n'avez aucune tâche aujourd'hui</p>
+            </div>
           )}
-        </div>
+        </>
       ) : (
         <div>
           <p className="c-text-m u-mb-16">
