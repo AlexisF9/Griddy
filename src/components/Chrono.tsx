@@ -8,7 +8,7 @@ const Chrono = ({
 }) => {
   const [time, setTime] = useState(0); // Temps en millisecondes
   const [isRunning, setIsRunning] = useState(false);
-  const startTimeRef = useRef<any>(null);
+  const startTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     let timer = 0;
