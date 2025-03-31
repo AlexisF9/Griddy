@@ -19,6 +19,7 @@ function TaskForm({
     label: string;
     description: string;
     date: string;
+    maxTime: number;
     priority: string;
     status: string;
     cover?: FilesType;
@@ -40,11 +41,14 @@ function TaskForm({
     label: task ? task.label : "",
     description: task ? task.description : "",
     date: task ? task.date : getTodayDate(),
+    maxTime: task ? task.maxTime : "",
     priority: task ? task.priority : "",
     status: task ? task.status : "",
     cover: task ? task.cover : null,
     files: task ? task.files : [],
   });
+
+  console.log(inputs.maxTime);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const filesRef = useRef<HTMLInputElement>(null);
@@ -151,6 +155,21 @@ function TaskForm({
             })
           }
         />
+        <Field
+          label="Temps à passer (h)"
+          name="task-max-time"
+          id="time"
+          type="number"
+          value={inputs.maxTime}
+          onChange={(e) =>
+            setInputs({
+              ...inputs,
+              maxTime: e.target.value,
+            })
+          }
+        />
+      </div>
+      <div className="c-field__group">
         <Select
           required={true}
           options={[
@@ -170,25 +189,25 @@ function TaskForm({
             })
           }
         />
+        <Select
+          required={true}
+          options={
+            edit
+              ? [...defaultStatus, { label: "Terminé", value: "finished" }]
+              : [...defaultStatus]
+          }
+          label="Statut"
+          id="status"
+          name="task-status"
+          defaultValue={inputs.status}
+          onChange={(e) =>
+            setInputs({
+              ...inputs,
+              status: e.target.value,
+            })
+          }
+        />
       </div>
-      <Select
-        required={true}
-        options={
-          edit
-            ? [...defaultStatus, { label: "Terminé", value: "finished" }]
-            : [...defaultStatus]
-        }
-        label="Statut"
-        id="status"
-        name="task-status"
-        defaultValue={inputs.status}
-        onChange={(e) =>
-          setInputs({
-            ...inputs,
-            status: e.target.value,
-          })
-        }
-      />
 
       <FilesField
         label="Image de couverture"

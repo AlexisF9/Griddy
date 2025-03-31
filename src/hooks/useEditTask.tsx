@@ -50,6 +50,7 @@ export const useEditTask = async (
     label: data.get("task-label"),
     description: data.get("task-desc") || "",
     date: data.get("task-date") || "",
+    maxTime: data.get("task-max-time") || "",
     priority: data.get("task-priority"),
     status: data.get("task-status"),
     files: taskFiles,

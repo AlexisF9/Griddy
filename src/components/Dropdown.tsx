@@ -7,7 +7,7 @@ function Dropdown({
   open,
   children,
 }: {
-  setOpen: any;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   open: boolean;
   children: React.ReactNode;
 }) {
