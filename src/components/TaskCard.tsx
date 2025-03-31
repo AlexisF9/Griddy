@@ -1,4 +1,12 @@
-import { Check, Clock9, GripVertical, Pen, Text, Trash2 } from "lucide-react";
+import {
+  Calendar,
+  Check,
+  Clock9,
+  GripVertical,
+  Pen,
+  Text,
+  Trash2,
+} from "lucide-react";
 import Button from "./Button";
 import { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
@@ -77,6 +85,16 @@ function TaskCard(props: taskProps) {
     setTasks();
   };
 
+  const formatTime = (time: number) => {
+    const minutes = Math.floor((time / 60000) % 60);
+    const hours = Math.floor(time / 3600000);
+
+    console.log(minutes);
+    return `${String(hours).padStart(2, "0")}h ${
+      minutes > 0 ? String(minutes).padStart(2, "0") + "m" : ""
+    }`;
+  };
+
   return (
     <div className={`c-task-card c-task-card--${card.priority}`}>
       {card?.cover?.src && <img src={card.cover.src} alt={card.cover.name} />}
@@ -148,11 +166,17 @@ function TaskCard(props: taskProps) {
         <div className="c-task-card__infos">
           {card.date && (
             <p className="c-text-s c-task-card__date">
-              <Clock9 />
+              <Calendar />
               {dateInfos(card.date) === "today"
                 ? "Aujourd'hui"
                 : changeFormatDate(card.date)}
             </p>
+          )}
+          {card.maxTime && (
+            <span title="Temps max">
+              <Clock9 />
+              {formatTime(card.maxTime * 3600000)}
+            </span>
           )}
           {card.description && (
             <span title="Description">

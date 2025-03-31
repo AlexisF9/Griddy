@@ -146,6 +146,12 @@ function TaskInfos() {
     return URL.createObjectURL(blob);
   };
 
+  console.log(
+    taskDetail.card &&
+      taskDetail.col &&
+      millisecondsToTimeInput(getTask().maxTime * 3600000)
+  );
+
   return (
     <>
       <div
@@ -201,10 +207,22 @@ function TaskInfos() {
                 )}
                 <div className="c-task-infos__past-time">
                   {getTask().time > 0 && (
-                    <p>Temps passé : {formatTime(getTask().time)}</p>
+                    <p>
+                      Temps passé : {formatTime(getTask().time)}
+                      {getTask().maxTime &&
+                        " / " + formatTime(getTask().maxTime * 3600000)}
+                    </p>
                   )}
                   {getTask().time === 0 ? (
-                    <Chrono editTaskPastTime={editTaskPastTime} />
+                    <>
+                      {getTask().maxTime && (
+                        <p>
+                          Temps restant :{" "}
+                          {formatTime(getTask().maxTime * 3600000)}
+                        </p>
+                      )}
+                      <Chrono editTaskPastTime={editTaskPastTime} />
+                    </>
                   ) : (
                     <>
                       {editPastTime ? (

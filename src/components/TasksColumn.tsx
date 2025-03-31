@@ -101,6 +101,7 @@ function TasksColumn({
       date: data.get("task-date") ?? "",
       priority: data.get("task-priority"),
       status: data.get("task-status"),
+      maxTime: data.get("task-max-time"),
       time: 0,
       cover: taskCover ? await base64(taskCover) : null,
       id: Date.now(),
