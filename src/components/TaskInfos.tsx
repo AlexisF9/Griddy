@@ -3,7 +3,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import TaskForm, { FilesType } from "./TaskForm";
 import { TaskDetailType, TasksContext } from "../pages/Layout";
-import { Clock9, File, FileImage, Pen, Trash2, X } from "lucide-react";
+import { Calendar, File, FileImage, Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
 import { useAppStore } from "../store";
@@ -146,12 +146,6 @@ function TaskInfos() {
     return URL.createObjectURL(blob);
   };
 
-  console.log(
-    taskDetail.card &&
-      taskDetail.col &&
-      millisecondsToTimeInput(getTask().maxTime * 3600000)
-  );
-
   return (
     <>
       <div
@@ -195,7 +189,7 @@ function TaskInfos() {
                   </div>
                   {getTask().date && (
                     <p className="c-task-infos__date">
-                      <Clock9 />
+                      <Calendar />
                       {changeFormatDate(getTask().date)}
                     </p>
                   )}

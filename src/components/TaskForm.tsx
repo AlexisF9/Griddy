@@ -128,7 +128,7 @@ function TaskForm({
         }
       />
       <Field
-        label="Déscription"
+        label="Description"
         name="task-desc"
         id="desc"
         isTextarea={true}
