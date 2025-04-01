@@ -186,7 +186,12 @@ function TasksColumn({
               />
             </form>
           ) : (
-            <h3 className="c-text-l">{name}</h3>
+            <h3 className="c-text-l">
+              {name}
+              {cards.length > 0 && (
+                <span className="c-text-m"> ({cards.length})</span>
+              )}
+            </h3>
           )}
         </div>
         <Dropdown setOpen={setOpenDropdown} open={openDropdown}>

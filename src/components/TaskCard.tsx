@@ -89,7 +89,6 @@ function TaskCard(props: taskProps) {
     const minutes = Math.floor((time / 60000) % 60);
     const hours = Math.floor(time / 3600000);
 
-    console.log(minutes);
     return `${String(hours).padStart(2, "0")}h ${
       minutes > 0 ? String(minutes).padStart(2, "0") + "m" : ""
     }`;

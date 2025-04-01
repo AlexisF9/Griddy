@@ -48,8 +48,6 @@ function TaskForm({
     files: task ? task.files : [],
   });
 
-  console.log(inputs.maxTime);
-
   const inputRef = useRef<HTMLInputElement>(null);
   const filesRef = useRef<HTMLInputElement>(null);
 
