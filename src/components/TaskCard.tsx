@@ -173,10 +173,10 @@ function TaskCard(props: taskProps) {
             </p>
           )}
           {card.maxTime && (
-            <span title="Temps max">
+            <p className="c-text-s c-task-card__date">
               <Clock9 />
               {formatTime(card.maxTime * 3600000)}
-            </span>
+            </p>
           )}
           {card.description && (
             <span title="Description">
