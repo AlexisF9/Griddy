@@ -108,21 +108,27 @@
 
 .c-task-infos__files {
   margin-top: $space-24;
-  display: flex;
-  flex-direction: column;
-  gap: $space-8;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: $space-12;
+  }
+
+  li, a, button {
+    display: flex;
+  }
 
   li {
-    display: flex;
-    align-items: center;
     gap: $space-8;
 
     a {
-      display: flex;
       text-decoration: underline;
+      word-break: break-all;
     }
 
     svg {
+      min-width: $space-20;
       width: $space-20;
       height: $space-20;
     }

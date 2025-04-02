@@ -3,7 +3,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import TaskForm, { FilesType } from "./TaskForm";
 import { TaskDetailType, TasksContext } from "../pages/Layout";
-import { Calendar, File, FileImage, Pen, Trash2, X } from "lucide-react";
+import { Calendar, Eye, File, FileImage, Pen, Trash2, X } from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
 import { useAppStore } from "../store";
@@ -11,9 +11,15 @@ import Tag from "./Tag";
 import Chrono from "./Chrono";
 import Field from "./Field";
 import { useEditTask } from "../hooks/useEditTask";
+import { Document, Page } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
+import PdfModal from "./PdfModal";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openPdfDialog, setOpenPdfDialog] = useState(false);
+  const [pdfDialog, setPdfDialog] = useState<string | null>(null);
   const [editPastTime, setEditPastTime] = useState(false);
 
   const { tasks, setTasks } = useAppStore();
@@ -146,6 +152,12 @@ function TaskInfos() {
     return URL.createObjectURL(blob);
   };
 
+  const [numPages, setNumPages] = useState<number>();
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+  };
+
   return (
     <>
       <div
@@ -258,26 +270,60 @@ function TaskInfos() {
                     </>
                   )}
                 </div>
-
                 {getTask().files?.length > 0 && (
-                  <ul className="c-task-infos__files">
-                    {getTask().files.map((el: FilesType, index: number) => (
-                      <li key={index}>
-                        {el.type === "image/jpeg" || el.type === "image/png" ? (
-                          <FileImage />
-                        ) : (
-                          <File />
-                        )}
-                        <a
-                          className="c-text-s"
-                          href={handleDownload(el)}
-                          download={el.name}
-                        >
-                          {el.name} ({(el.size / 1024).toFixed(2)} KB)
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="c-task-infos__files">
+                    <p className="u-mb-16">Fichiers :</p>
+                    <ul>
+                      {getTask().files.map((el: FilesType, index: number) => (
+                        <li key={index}>
+                          {el.type === "image/jpeg" ||
+                          el.type === "image/png" ? (
+                            <>
+                              <FileImage />
+                              <a
+                                className="c-text-s"
+                                href={handleDownload(el)}
+                                download={el.name}
+                              >
+                                {el.name} ({(el.size / 1024).toFixed(2)} KB)
+                              </a>
+                            </>
+                          ) : el.type === "application/pdf" ? (
+                            <>
+                              <File />
+                              <button
+                                onClick={() => (
+                                  setOpenPdfDialog(true),
+                                  setPdfDialog(handleDownload(el))
+                                )}
+                                className="c-text-s"
+                              >
+                                <Eye />
+                              </button>
+                              <a
+                                className="c-text-s"
+                                href={handleDownload(el)}
+                                download={el.name}
+                              >
+                                {el.name} ({(el.size / 1024).toFixed(2)} KB)
+                              </a>
+                            </>
+                          ) : (
+                            <>
+                              <File />
+                              <a
+                                className="c-text-s"
+                                href={handleDownload(el)}
+                                download={el.name}
+                              >
+                                {el.name} ({(el.size / 1024).toFixed(2)} KB)
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
 
                 <div className="c-task-infos__remove">
@@ -313,6 +359,28 @@ function TaskInfos() {
                   </div>
                 </form>
               </Modal>
+
+              <PdfModal open={openPdfDialog} setOpen={setOpenPdfDialog}>
+                {pdfDialog && (
+                  <>
+                    <Document
+                      file={pdfDialog}
+                      key={pdfDialog}
+                      onLoadSuccess={onDocumentLoadSuccess}
+                    >
+                      {Array.from(new Array(numPages), (_, index) => (
+                        <Page
+                          renderAnnotationLayer={false}
+                          renderTextLayer={false}
+                          width={585}
+                          key={index}
+                          pageNumber={index + 1}
+                        />
+                      ))}
+                    </Document>
+                  </>
+                )}
+              </PdfModal>
             </>
           )}
         </div>

@@ -51,7 +51,12 @@
     object-fit: contain;
   }
 
+  p {
+    word-break: break-all;
+  }
+
   svg {
+    min-width: $space-16;
     width: $space-16;
     height: $space-16;
   }
