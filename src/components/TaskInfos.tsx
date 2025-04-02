@@ -270,57 +270,60 @@ function TaskInfos() {
                     </>
                   )}
                 </div>
-
                 {getTask().files?.length > 0 && (
-                  <ul className="c-task-infos__files">
-                    {getTask().files.map((el: FilesType, index: number) => (
-                      <li key={index}>
-                        {el.type === "image/jpeg" || el.type === "image/png" ? (
-                          <>
-                            <FileImage />
-                            <a
-                              className="c-text-s"
-                              href={handleDownload(el)}
-                              download={el.name}
-                            >
-                              {el.name} ({(el.size / 1024).toFixed(2)} KB)
-                            </a>
-                          </>
-                        ) : el.type === "application/pdf" ? (
-                          <>
-                            <File />
-                            <button
-                              onClick={() => (
-                                setOpenPdfDialog(true),
-                                setPdfDialog(handleDownload(el))
-                              )}
-                              className="c-text-s"
-                            >
-                              <Eye />
-                            </button>
-                            <a
-                              className="c-text-s"
-                              href={handleDownload(el)}
-                              download={el.name}
-                            >
-                              {el.name} ({(el.size / 1024).toFixed(2)} KB)
-                            </a>
-                          </>
-                        ) : (
-                          <>
-                            <File />
-                            <a
-                              className="c-text-s"
-                              href={handleDownload(el)}
-                              download={el.name}
-                            >
-                              {el.name} ({(el.size / 1024).toFixed(2)} KB)
-                            </a>
-                          </>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="c-task-infos__files">
+                    <p className="u-mb-16">Fichiers :</p>
+                    <ul>
+                      {getTask().files.map((el: FilesType, index: number) => (
+                        <li key={index}>
+                          {el.type === "image/jpeg" ||
+                          el.type === "image/png" ? (
+                            <>
+                              <FileImage />
+                              <a
+                                className="c-text-s"
+                                href={handleDownload(el)}
+                                download={el.name}
+                              >
+                                {el.name} ({(el.size / 1024).toFixed(2)} KB)
+                              </a>
+                            </>
+                          ) : el.type === "application/pdf" ? (
+                            <>
+                              <File />
+                              <button
+                                onClick={() => (
+                                  setOpenPdfDialog(true),
+                                  setPdfDialog(handleDownload(el))
+                                )}
+                                className="c-text-s"
+                              >
+                                <Eye />
+                              </button>
+                              <a
+                                className="c-text-s"
+                                href={handleDownload(el)}
+                                download={el.name}
+                              >
+                                {el.name} ({(el.size / 1024).toFixed(2)} KB)
+                              </a>
+                            </>
+                          ) : (
+                            <>
+                              <File />
+                              <a
+                                className="c-text-s"
+                                href={handleDownload(el)}
+                                download={el.name}
+                              >
+                                {el.name} ({(el.size / 1024).toFixed(2)} KB)
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
 
                 <div className="c-task-infos__remove">
