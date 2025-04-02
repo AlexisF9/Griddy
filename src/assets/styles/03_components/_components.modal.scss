@@ -18,7 +18,7 @@ body:has(.c-modal) {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--modal-bg);
-  padding: $space-32;
+  padding: $space-40 $space-32;
   z-index: 9;
   transition: opacity var(--transition-in-out);
   border-radius: var(--radius-md);

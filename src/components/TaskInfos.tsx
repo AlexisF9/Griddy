@@ -18,8 +18,13 @@ import PdfModal from "./PdfModal";
 
 function TaskInfos() {
   const [openDialog, setOpenDialog] = useState(false);
+
   const [openPdfDialog, setOpenPdfDialog] = useState(false);
   const [pdfDialog, setPdfDialog] = useState<string | null>(null);
+
+  const [openPictureDialog, setOpenPictureDialog] = useState(false);
+  const [pictureDialog, setPictureDialog] = useState<string | null>(null);
+
   const [editPastTime, setEditPastTime] = useState(false);
 
   const { tasks, setTasks } = useAppStore();
@@ -280,6 +285,15 @@ function TaskInfos() {
                           el.type === "image/png" ? (
                             <>
                               <FileImage />
+                              <button
+                                onClick={() => (
+                                  setOpenPictureDialog(true),
+                                  setPictureDialog(handleDownload(el))
+                                )}
+                                className="c-text-s"
+                              >
+                                <Eye />
+                              </button>
                               <a
                                 className="c-text-s"
                                 href={handleDownload(el)}
@@ -358,6 +372,10 @@ function TaskInfos() {
                     </div>
                   </div>
                 </form>
+              </Modal>
+
+              <Modal open={openPictureDialog} setOpen={setOpenPictureDialog}>
+                <img src={`${pictureDialog}`} />
               </Modal>
 
               <PdfModal open={openPdfDialog} setOpen={setOpenPdfDialog}>
