@@ -18,6 +18,8 @@ body:has(.c-pdf-modal) {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9;
+  background-color: var(--modal-bg);
+  padding: $space-40 $space-32;
   transition: opacity var(--transition-in-out);
   width: 60rem;
   opacity: 1;
@@ -42,6 +44,7 @@ body:has(.c-pdf-modal) {
     border-radius: 0;
     width: 100%;
     max-height: 100%;
+    padding: $space-40 $space-16 $space-16 $space-16;
   }
 }
 
