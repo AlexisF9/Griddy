@@ -189,7 +189,9 @@ function TasksColumn({
             <h3 className="c-text-l">
               {name}
               {cards.length > 0 && (
-                <span className="c-text-m"> ({cards.length})</span>
+                <span className="c-text-m c-tasks-column__tag">
+                  {cards.length}
+                </span>
               )}
             </h3>
           )}
