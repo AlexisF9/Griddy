@@ -93,3 +93,10 @@
     gap: $space-8;
   }
 }
+
+.c-tasks-column__tag {
+  background-color: var(--task-column-tag);
+  padding: 0 $space-4;
+  margin-left: $space-8;
+  border-radius: var(--radius-sm);
+}
