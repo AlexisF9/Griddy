@@ -81,6 +81,15 @@
     --button-border-hover: var(--color-neutral-0);
     --button-border: var(--color-neutral-0);
   }
+  .c-button--ghost {
+    --button-bg: var(--color-neutral-0);
+    --button-bg-hover: var(--color-neutral-1);
+    --button-text: var(--text-default);
+    --button-text-hover: var(--text-white);
+    --button-link-text:var(--text-default);
+    --button-border-hover: var(--color-neutral-1);
+    --button-border: var(--color-neutral-1);
+  }
   .c-button--warning {
     --button-bg: var(--color-orange);
     --button-bg-hover: transparent;

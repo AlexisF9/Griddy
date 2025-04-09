@@ -3,7 +3,16 @@ import Button from "./Button";
 import Modal from "./Modal";
 import TaskForm, { FilesType } from "./TaskForm";
 import { TaskDetailType, TasksContext } from "../pages/Layout";
-import { Calendar, Eye, File, FileImage, Pen, Trash2, X } from "lucide-react";
+import {
+  Calendar,
+  Clock3,
+  Eye,
+  File,
+  FileImage,
+  Pen,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import Priority from "./Priority";
 import { useAppStore } from "../store";
@@ -204,11 +213,20 @@ function TaskInfos() {
                       />
                     )}
                   </div>
-                  {getTask().date && (
-                    <p className="c-task-infos__date">
-                      <Calendar />
-                      {changeFormatDate(getTask().date)}
-                    </p>
+                  {(getTask().date || getTask().maxTime) && (
+                    <div className="c-task-infos__time-container">
+                      {getTask().date && (
+                        <p className="c-task-infos__date">
+                          <Calendar />
+                          {changeFormatDate(getTask().date)}
+                        </p>
+                      )}
+                      {getTask().maxTime && (
+                        <p className="c-task-infos__date">
+                          <Clock3 /> {formatTime(getTask().maxTime * 3600000)}
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
                 {getTask().description && (
@@ -226,53 +244,51 @@ function TaskInfos() {
                   )}
                   {getTask().time === 0 ? (
                     <>
-                      {getTask().maxTime && (
-                        <p>
-                          Temps restant :{" "}
-                          {formatTime(getTask().maxTime * 3600000)}
-                        </p>
-                      )}
                       <Chrono editTaskPastTime={editTaskPastTime} />
+                      {!editPastTime && (
+                        <Button
+                          onClick={() => setEditPastTime((prev) => !prev)}
+                          color="ghost"
+                          label="Ajouter un temps"
+                          icon={<Clock3 />}
+                        />
+                      )}
                     </>
                   ) : (
-                    <>
-                      {editPastTime ? (
-                        <form
-                          onSubmit={(e) => handleSubmitEditPastTime(e)}
-                          className="c-task-infos__past-time-form"
-                        >
-                          <Field
-                            type="time"
-                            id="edit-past-time"
-                            name="edit-past-time"
-                            defaultValue={millisecondsToTimeInput(
-                              getTask().time
-                            )}
-                          />
-                          <div className="c-task-infos__past-time-actions">
-                            <Button type="submit" label="Modifier" />
-                            <Button
-                              onClick={() => setEditPastTime((prev) => !prev)}
-                              isLink
-                              label="Annuler"
-                            />
-                          </div>
-                        </form>
-                      ) : (
-                        <div className="c-task-infos__past-time-actions">
-                          <Button
-                            onClick={() => setEditPastTime((prev) => !prev)}
-                            label="Modifier mon temps"
-                          />
-                          <Button
-                            color="warning"
-                            onClick={() => editTaskPastTime(0)}
-                            isLink
-                            label="Supprimer mon temps"
-                          />
-                        </div>
-                      )}
-                    </>
+                    <div className="c-task-infos__past-time-actions">
+                      <Button
+                        onClick={() => setEditPastTime((prev) => !prev)}
+                        label="Modifier mon temps"
+                      />
+                      <Button
+                        color="warning"
+                        onClick={() => editTaskPastTime(0)}
+                        isLink
+                        label="Supprimer mon temps"
+                      />
+                    </div>
+                  )}
+
+                  {editPastTime && (
+                    <form
+                      onSubmit={(e) => handleSubmitEditPastTime(e)}
+                      className="c-task-infos__past-time-form"
+                    >
+                      <Field
+                        type="time"
+                        id="edit-past-time"
+                        name="edit-past-time"
+                        defaultValue={millisecondsToTimeInput(getTask().time)}
+                      />
+                      <div className="c-task-infos__past-time-actions">
+                        <Button type="submit" label="Modifier" />
+                        <Button
+                          onClick={() => setEditPastTime((prev) => !prev)}
+                          isLink
+                          label="Annuler"
+                        />
+                      </div>
+                    </form>
                   )}
                 </div>
                 {getTask().files?.length > 0 && (
