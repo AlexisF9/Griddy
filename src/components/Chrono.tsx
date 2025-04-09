@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Button from "./Button";
+import { Pause, Play } from "lucide-react";
 
 const Chrono = ({
   editTaskPastTime,
@@ -63,9 +64,9 @@ const Chrono = ({
       {time > 0 && <p className="c-text-l">{formatTime(time)}</p>}
       <div className="c-chrono__actions">
         {!isRunning ? (
-          <Button onClick={handleStart} label="Démarrer" />
+          <Button onClick={handleStart} label="Démarrer" icon={<Play />} />
         ) : (
-          <Button onClick={handlePause} label="Pause" />
+          <Button onClick={handlePause} label="Pause" icon={<Pause />} />
         )}
         {time > 0 && (
           <>
