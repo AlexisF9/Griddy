@@ -264,7 +264,8 @@ function TaskInfos() {
                         color="warning"
                         onClick={() => editTaskPastTime(0)}
                         isLink
-                        label="Supprimer mon temps"
+                        icon={<Trash2 />}
+                        label="Supprimer"
                       />
                     </div>
                   )}
