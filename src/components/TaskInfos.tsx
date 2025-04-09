@@ -213,11 +213,20 @@ function TaskInfos() {
                       />
                     )}
                   </div>
-                  {getTask().date && (
-                    <p className="c-task-infos__date">
-                      <Calendar />
-                      {changeFormatDate(getTask().date)}
-                    </p>
+                  {(getTask().date || getTask().maxTime) && (
+                    <div className="c-task-infos__time-container">
+                      {getTask().date && (
+                        <p className="c-task-infos__date">
+                          <Calendar />
+                          {changeFormatDate(getTask().date)}
+                        </p>
+                      )}
+                      {getTask().maxTime && (
+                        <p className="c-task-infos__date">
+                          <Clock3 /> {formatTime(getTask().maxTime * 3600000)}
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
                 {getTask().description && (
@@ -235,12 +244,6 @@ function TaskInfos() {
                   )}
                   {getTask().time === 0 ? (
                     <>
-                      {getTask().maxTime && (
-                        <p>
-                          Temps restant :{" "}
-                          {formatTime(getTask().maxTime * 3600000)}
-                        </p>
-                      )}
                       <Chrono editTaskPastTime={editTaskPastTime} />
                       {!editPastTime && (
                         <Button

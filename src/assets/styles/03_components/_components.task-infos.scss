@@ -72,6 +72,12 @@
   gap: $space-8;
 }
 
+.c-task-infos__time-container {
+  display: flex;
+  align-items: center;
+  gap: $space-8;
+}
+
 .c-task-infos__date {
   display: flex;
   align-items: center;
